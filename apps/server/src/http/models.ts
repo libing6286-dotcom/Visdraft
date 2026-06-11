@@ -25,11 +25,19 @@ const GOOGLE_MODELS: ModelInfo[] = [
   { id: "google:gemini-2.5-flash-lite", name: "Gemini 2.5 Flash Lite", provider: "google" },
 ];
 
+const DEEPSEEK_MODELS: ModelInfo[] = [
+  { id: "deepseek:deepseek-v4-pro", name: "DeepSeek v4 Pro", provider: "deepseek" },
+  { id: "deepseek:deepseek-v4-flash", name: "DeepSeek v4 Flash", provider: "deepseek" },
+];
+
+
+
 export async function registerModelRoutes(app: FastifyInstance, env: ServerEnv) {
   app.get("/api/models", async (_request, reply) => {
     const models: ModelInfo[] = [];
     if (env.openAIApiKey) models.push(...OPENAI_MODELS);
     if (env.googleApiKey || env.googleVertexProject) models.push(...GOOGLE_MODELS);
+    if (env.deepseekApiKey) models.push(...DEEPSEEK_MODELS);
     return reply.code(200).send(modelListResponseSchema.parse({ models }));
   });
 }

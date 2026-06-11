@@ -30,7 +30,10 @@ export type WebSocketHandle = {
 export function useWebSocket(
   getToken: () => string | null,
 ): WebSocketHandle {
+  // 当前webSocket实例
   const wsRef = useRef<WebSocket | null>(null);
+  // 避免浏览器刷新后彻底丢失上下文
+  // 后端可以用它识别同一个客户端会话
   const connectionIdRef = useRef(
     (() => {
       if (typeof sessionStorage !== "undefined") {
@@ -47,15 +50,21 @@ export function useWebSocket(
         : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     })(),
   );
+  // 当前是否已连接
   const [connected, setConnected] = useState(false);
+  // 当前重连次数
   const reconnectAttempt = useRef(0);
+  // 重连定时器句柄
   const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 组件卸载标识，用于停止重连
   const disposed = useRef(false);
-
+  // Set<EventCallback> 监听服务器事件的回调函数集合
   const eventListeners = useRef<Set<EventCallback>>(new Set());
+  // Map<action, callback> 发送命令后等待服务器ack的回调函数集合
   const ackListeners = useRef<
     Map<string, (ack: WsCommandAck) => void>
   >(new Map());
+  // Map<method, handler> RPC方法及其处理函数集合
   const rpcHandlers = useRef<Map<string, RPCHandler>>(new Map());
 
   const connect = useCallback(() => {
@@ -85,13 +94,17 @@ export function useWebSocket(
 
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
-
+    // 连接建立成功
     ws.onopen = () => {
       console.log("[ws] connected, connectionId:", connectionIdRef.current);
       setConnected(true);
       reconnectAttempt.current = 0;
     };
-
+    // 解析JSON消息
+    // 支持三种类型
+    // type === 'event'：分发给eventListeners
+    // type === 'command.ack'：分发给对应ackListeners
+    // type === 'rpc.request'：分发给对应rpcHandlers，并回复结果
     ws.onmessage = (event) => {
       let msg: Record<string, unknown>;
       try {
@@ -165,6 +178,7 @@ export function useWebSocket(
     };
   }, [getToken]);
 
+  // 处理来自服务器的RPC请求，并返回结果给服务器
   async function handleRpcRequest(ws: WebSocket, req: WsRpcRequest) {
     const handler = rpcHandlers.current.get(req.method);
     if (!handler) {
@@ -211,7 +225,7 @@ export function useWebSocket(
       wsRef.current = null;
     };
   }, [connect]);
-
+  // 发送命令封装
   const sendCommand = useCallback(
     (action: string, payload: Record<string, unknown>): boolean => {
       const ws = wsRef.current;
@@ -230,7 +244,8 @@ export function useWebSocket(
     },
     [],
   );
-
+  // 注册ack listener
+  // 发送命令:agent.run
   const startRun = useCallback(
     (
       payload: RunCreateRequest,
@@ -250,14 +265,15 @@ export function useWebSocket(
     },
     [sendCommand],
   );
-
+  // 发送命令agent.cancel
   const cancelRun = useCallback(
     (runId: string) => {
       sendCommand("agent.cancel", { runId });
     },
     [sendCommand],
   );
-
+  // 注册ack listener
+  // 发送命令:canvas.resume
   const resumeCanvas = useCallback(
     (canvasId: string, onAck?: (ack: WsCommandAck) => void) => {
       if (onAck) {

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-export const DEFAULT_AGENT_BACKEND_MODE = "state";
+export const DEFAULT_AGENT_BACKEND_MODE = "filesystem";
 export const DEFAULT_AGENT_MODEL = "gpt-4.1";
 export const DEFAULT_GOOGLE_AGENT_MODEL = "gemini-2.5-flash";
 export const DEFAULT_SERVER_PORT = 3001;
@@ -26,6 +26,7 @@ export type ServerEnv = {
   agentBackendMode: AgentBackendMode;
   agentFilesRoot?: string;
   agentModel: string;
+  deepseekApiKey?: string;
   googleApiKey?: string;
   googleApplicationCredentials?: string;
   googleFontsApiKey?: string;
@@ -34,6 +35,7 @@ export type ServerEnv = {
   googleVertexVideoLocation?: string;
   openAIApiBase?: string;
   openAIApiKey?: string;
+  openRouterApiKey?: string;
   port: number;
   replicateApiToken?: string;
   supabaseAnonKey?: string;
@@ -77,6 +79,8 @@ export function loadServerEnv(
     overrides.openAIApiBase ?? normalizeOptionalString(source.OPENAI_API_BASE);
   const openAIApiKey =
     overrides.openAIApiKey ?? normalizeOptionalString(source.OPENAI_API_KEY);
+  const openRouterApiKey =
+    overrides.openRouterApiKey ?? normalizeOptionalString(source.OPENROUTER_API_KEY);
   const supabaseUrl =
     overrides.supabaseUrl ?? normalizeOptionalString(source.SUPABASE_URL);
   const supabaseAnonKey =
@@ -92,6 +96,8 @@ export function loadServerEnv(
   const supabaseProjectId =
     overrides.supabaseProjectId ??
     normalizeOptionalString(source.SUPABASE_PROJECT_ID);
+  const deepseekApiKey =
+    overrides.deepseekApiKey ?? normalizeOptionalString(source.DEEPSEEK_API_KEY);
   const googleApiKey =
     overrides.googleApiKey ?? normalizeOptionalString(source.GOOGLE_API_KEY);
   const googleApplicationCredentials =
@@ -175,10 +181,12 @@ export function loadServerEnv(
     webOrigin:
       overrides.webOrigin ?? source.LOOMIC_WEB_ORIGIN ?? DEFAULT_WEB_ORIGIN,
     ...(agentFilesRoot ? { agentFilesRoot } : {}),
+    ...(deepseekApiKey ? { deepseekApiKey } : {}),
     ...(googleApiKey ? { googleApiKey } : {}),
     ...(googleApplicationCredentials ? { googleApplicationCredentials } : {}),
     ...(openAIApiBase ? { openAIApiBase } : {}),
     ...(openAIApiKey ? { openAIApiKey } : {}),
+    ...(openRouterApiKey ? { openRouterApiKey } : {}),
     ...(supabaseUrl ? { supabaseUrl } : {}),
     ...(supabaseAnonKey ? { supabaseAnonKey } : {}),
     ...(supabaseDbUrl ? { supabaseDbUrl } : {}),

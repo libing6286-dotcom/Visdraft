@@ -106,6 +106,22 @@ export function createCreditService(options: {
             .maybeSingle(),
         ]);
 
+      // Log detailed error information for debugging
+      if (balanceResult.error) {
+        console.error("[CreditService] balance query error:", {
+          workspaceId,
+          error: balanceResult.error.message,
+          code: balanceResult.error.code,
+        });
+      }
+      if (subscriptionResult.error) {
+        console.error("[CreditService] subscription query error:", {
+          workspaceId,
+          error: subscriptionResult.error.message,
+          code: subscriptionResult.error.code,
+        });
+      }
+
       if (balanceResult.error || subscriptionResult.error) {
         throw new CreditServiceError(
           "credit_query_failed",

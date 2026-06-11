@@ -86,6 +86,8 @@ export function ChatSidebar({
   const isOverlay = breakpoint !== "desktop";
 
   // ── Session & message management (extracted hook with LRU cache) ──
+  // 会话与消息管理
+  // 负责本地缓存、LRU、消息持久化与UI状态（loading、streaming）
   const {
     sessions,
     activeSessionId,
@@ -112,6 +114,7 @@ export function ChatSidebar({
   });
 
   // ── Stream event handler (extracted hook, shared between send & reconnect) ──
+  // 将服务器事件流映射到消息数组
   const { applyStreamEvent } = useChatStream(updateSessionMessages);
 
   // ── Mention & attachment state ──
@@ -144,6 +147,7 @@ export function ChatSidebar({
   selectedCanvasElementsRef.current = selectedCanvasElements;
   const prevConnectedRef = useRef(false);
 
+  // 管理图片附件上传、重试、就绪附件列表等
   const {
     attachments: imageAttachments,
     addFiles,
@@ -155,6 +159,7 @@ export function ChatSidebar({
     readyAttachments,
   } = useImageAttachments(accessToken);
 
+  // 模型偏好
   const { activeImageGenerationPreference } = useImageModelPreference();
   const activeImageGenerationPreferenceRef = useRef(
     activeImageGenerationPreference,
@@ -366,6 +371,7 @@ export function ChatSidebar({
       imageGenerationPreferenceOverride?: ImageGenerationPreference,
       mentionsOverride?: MessageMention[],
     ) => {
+      // 读取当前activeSessionId，若正在streaming或无session则退出
       const currentSessionId = activeSessionIdRef.current;
       if (streaming || !currentSessionId) return;
 

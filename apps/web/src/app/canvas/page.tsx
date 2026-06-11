@@ -306,21 +306,21 @@ function CanvasPageContent() {
         />
       </div>
       <ChatSidebar
-        accessToken={accessToken}
-        canvasId={canvasData.id}
-        open={chatOpen}
-        onToggle={handleToggleChat}
-        onImageGenerated={handleImageGenerated}
-        onVideoGenerated={handleVideoGenerated}
-        onCanvasSync={handleCanvasSync}
-        onStreamEvent={checkForTimedOutJobs}
-        initialPrompt={initialPrompt}
-        initialSessionId={initialSessionId}
-        onSessionChange={handleSessionChange}
-        onRequestCanvasImages={handleRequestCanvasImages}
-        currentBrandKitId={brandKitId}
-        ws={ws}
-        selectedCanvasElements={selectedCanvasElements}
+        accessToken={accessToken} // API鉴权令牌
+        canvasId={canvasData.id} // 当前画布ID，用于会话关联
+        open={chatOpen} // 是否展开聊天侧边栏
+        onToggle={handleToggleChat} // 切换展开/收起
+        onImageGenerated={handleImageGenerated} // 生成图片后的回调
+        onVideoGenerated={handleVideoGenerated} // 生成视频后的回调
+        onCanvasSync={handleCanvasSync} // 画布同步回调
+        onStreamEvent={checkForTimedOutJobs} // 监听生成事件流，用于外部fallbak处理
+        initialPrompt={initialPrompt} // 组件首次挂载时自动发送初始命令
+        initialSessionId={initialSessionId} // 初始会话id
+        onSessionChange={handleSessionChange} // 会话切换回调
+        onRequestCanvasImages={handleRequestCanvasImages} // 从画布请求图片项
+        currentBrandKitId={brandKitId} // 当前品牌素材库ID
+        ws={ws} // WebSocket实例，用于实时通信
+        selectedCanvasElements={selectedCanvasElements} // 当前选中的画布元素列表
       />
     </div>
   );

@@ -11,6 +11,7 @@ import { GoogleVertexImageProvider } from "./google-vertex-image.js";
 import { GoogleVertexVideoProvider } from "./google-vertex-video.js";
 import { GoogleVideoProvider } from "./google-video.js";
 import { OpenAIImageProvider } from "./openai-image.js";
+import { OpenRouterImageProvider } from "./openrouter-image.js";
 import { registerImageProvider, registerVideoProvider } from "./registry.js";
 import { ReplicateImageProvider } from "./replicate-image.js";
 import { ReplicateVideoProvider } from "./replicate-video.js";
@@ -58,6 +59,11 @@ export function registerAllProviders(env: ServerEnv): void {
     registerImageProvider(
       new OpenAIImageProvider(env.openAIApiKey, env.openAIApiBase),
     );
+  }
+
+  // OpenRouter — image only
+  if (env.openRouterApiKey) {
+    registerImageProvider(new OpenRouterImageProvider(env.openRouterApiKey));
   }
 
   // Volces — image only

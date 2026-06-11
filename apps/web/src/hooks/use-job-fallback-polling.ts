@@ -46,6 +46,15 @@ type ActivePoll = {
  * Since the backend now inserts elements into the canvas directly, this hook
  * simply notifies the caller so it can trigger a canvas re-fetch (canvas.sync).
  */
+/**
+ * 当后端agent的生成工具（如图像/视频生成）返回一个tool.completed事件，并且其中的output.error包含“timed out”字样时，说明后端的轮询超时了，但worker可能仍在继续处理这个任务，这是后端会保留jobId。
+ * useJobFallbackPolling会
+ * 1. 识别这样的超时事件
+ * 2. 开始轮询后端fetchJob(token, jobId)
+ * 3. 如果job结果变成succedded，通知调用者重新刷新画布
+ * 4. 如果job进入了终态失败，则停止轮询
+ * 这避免了任务超时但结果其实已经生成的用户体验问题
+ */
 export function useJobFallbackPolling({
   onJobSucceeded,
   accessTokenRef,

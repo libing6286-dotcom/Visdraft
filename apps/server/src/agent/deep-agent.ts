@@ -3,6 +3,7 @@ import type { BaseLanguageModel } from "@langchain/core/language_models/base";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatVertexAI } from "@langchain/google-vertexai";
 import { ChatOpenAI } from "@langchain/openai";
+import { ChatDeepSeek } from "@langchain/deepseek";
 import { createDeepAgent } from "deepagents";
 
 import { DEFAULT_AGENT_MODEL, DEFAULT_GOOGLE_AGENT_MODEL, type ServerEnv } from "../config/env.js";
@@ -139,10 +140,16 @@ function createStreamingChatModel(specifier: string): BaseLanguageModel {
   const hasGoogleApiKey = !!process.env.GOOGLE_API_KEY;
   const hasVertexAI = !!(process.env.GOOGLE_VERTEX_PROJECT && process.env.GOOGLE_VERTEX_LOCATION);
   const hasGoogle = hasGoogleApiKey || hasVertexAI;
+  const hasDeepseekApiKey = !!process.env.DEEPSEEK_API_KEY;
 
   // Provider availability fallback
   if (provider === "google" && !hasGoogle) {
     console.warn(`[model] Google unavailable (no GOOGLE_API_KEY or Vertex AI config), falling back to OpenAI for: ${specifier}`);
+    provider = "openai";
+    modelName = DEFAULT_AGENT_MODEL;
+  }
+  if (provider === "deepseek" && !hasDeepseekApiKey) {
+    console.warn(`[model] Deepseek unavailable (no DEEPSEEK_API_KEY), falling back to OpenAI for: ${specifier}`);
     provider = "openai";
     modelName = DEFAULT_AGENT_MODEL;
   }
@@ -175,6 +182,12 @@ function createStreamingChatModel(specifier: string): BaseLanguageModel {
           thinkingBudget: -1, // dynamic — let the model decide
         },
       });
+    case "deepseek":
+      return new ChatDeepSeek({
+        apiKey: process.env.DEEPSEEK_API_KEY!,
+        model: modelName,
+        streaming: true,
+      });
     case "openai":
     default:
       return new ChatOpenAI({
@@ -187,6 +200,7 @@ function createStreamingChatModel(specifier: string): BaseLanguageModel {
 
 /** Known model-name prefixes that map to Google Gemini. */
 const GOOGLE_MODEL_PREFIXES = ["gemini-"];
+const DEEPSEEK_MODEL_PREFIXES = ["deepseek-"];
 
 export function createDefaultModelSpecifier(
   env: Pick<ServerEnv, "agentModel">,
@@ -197,6 +211,8 @@ export function createDefaultModelSpecifier(
   // Auto-detect Google models by name prefix.
   if (GOOGLE_MODEL_PREFIXES.some((p) => model.startsWith(p)))
     return `google:${model}`;
+  if (DEEPSEEK_MODEL_PREFIXES.some((p) => model.startsWith(p)))
+    return `deepseek:${model}`;
   return `openai:${model}`;
 }
 
