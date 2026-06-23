@@ -3,29 +3,30 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader2, Zap } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { CreditTransaction } from "@loomic/shared";
 
 import { useAuth } from "@/lib/auth-context";
 import { fetchCreditTransactions } from "@/lib/credits-api";
 
-// ── Transaction type labels ──────────────────────────────────
+// ── Transaction types with localized labels (settings.usage.types.*) ──
 
-const TYPE_LABELS: Record<string, string> = {
-  subscription_grant: "Subscription Grant",
-  daily_grant: "Daily Grant",
-  purchase: "Purchase",
-  generation_deduct: "Generation",
-  generation_refund: "Refund",
-  admin_adjustment: "Adjustment",
-  bonus: "Bonus",
-};
+const KNOWN_TYPES = new Set([
+  "subscription_grant",
+  "daily_grant",
+  "purchase",
+  "generation_deduct",
+  "generation_refund",
+  "admin_adjustment",
+  "bonus",
+]);
 
 type FilterMode = "all" | "deducted" | "granted";
 
-const FILTER_OPTIONS: Array<{ value: FilterMode; label: string }> = [
-  { value: "all", label: "All" },
-  { value: "deducted", label: "Deducted" },
-  { value: "granted", label: "Granted" },
+const FILTER_OPTIONS: Array<{ value: FilterMode; labelKey: string }> = [
+  { value: "all", labelKey: "filterAll" },
+  { value: "deducted", labelKey: "filterDeducted" },
+  { value: "granted", labelKey: "filterGranted" },
 ];
 
 const DEDUCT_TYPES = new Set(["generation_deduct"]);
@@ -58,6 +59,9 @@ function formatDate(iso: string): string {
 // ── Main component ───────────────────────────────────────────
 
 export function CreditUsageHistory() {
+  const t = useTranslations("settings.usage");
+  const typeLabel = (type: string) =>
+    KNOWN_TYPES.has(type) ? t(`types.${type}`) : type;
   const { session } = useAuth();
   const accessTokenRef = useRef(session?.access_token);
   accessTokenRef.current = session?.access_token;
@@ -94,9 +98,9 @@ export function CreditUsageHistory() {
   };
 
   // Filter transactions
-  const filtered = transactions.filter((t) => {
-    if (filter === "deducted") return DEDUCT_TYPES.has(t.transaction_type);
-    if (filter === "granted") return GRANT_TYPES.has(t.transaction_type);
+  const filtered = transactions.filter((tx) => {
+    if (filter === "deducted") return DEDUCT_TYPES.has(tx.transaction_type);
+    if (filter === "granted") return GRANT_TYPES.has(tx.transaction_type);
     return true;
   });
 
@@ -104,7 +108,7 @@ export function CreditUsageHistory() {
     return (
       <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
-        Loading usage history...
+        {t("loading")}
       </div>
     );
   }
@@ -112,9 +116,9 @@ export function CreditUsageHistory() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-base font-semibold">Usage</h2>
+        <h2 className="text-base font-semibold">{t("heading")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          View your credit usage history and transactions.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -131,7 +135,7 @@ export function CreditUsageHistory() {
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {opt.label}
+            {t(opt.labelKey)}
           </button>
         ))}
       </div>
@@ -141,7 +145,7 @@ export function CreditUsageHistory() {
         <div className="flex flex-col items-center gap-2 py-12 text-center">
           <Zap className="h-8 w-8 text-muted-foreground" />
           <p className="text-sm text-muted-foreground">
-            No transactions found.
+            {t("empty")}
           </p>
         </div>
       ) : (
@@ -149,30 +153,30 @@ export function CreditUsageHistory() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-secondary text-left text-xs font-medium text-muted-foreground">
-                <th className="px-4 py-2.5">Description</th>
-                <th className="px-4 py-2.5">Type</th>
-                <th className="px-4 py-2.5">Date</th>
-                <th className="px-4 py-2.5 text-right">Credits</th>
+                <th className="px-4 py-2.5">{t("colDescription")}</th>
+                <th className="px-4 py-2.5">{t("colType")}</th>
+                <th className="px-4 py-2.5">{t("colDate")}</th>
+                <th className="px-4 py-2.5 text-right">{t("colCredits")}</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map((t, idx) => {
-                const isGrant = !DEDUCT_TYPES.has(t.transaction_type);
+              {filtered.map((tx, idx) => {
+                const isGrant = !DEDUCT_TYPES.has(tx.transaction_type);
                 return (
                   <tr
-                    key={t.id}
+                    key={tx.id}
                     className={`border-b last:border-b-0 transition-colors hover:bg-secondary ${
                       idx % 2 === 1 ? "bg-secondary/50" : ""
                     }`}
                   >
                     <td className="px-4 py-2.5 text-foreground">
-                      {t.description ?? TYPE_LABELS[t.transaction_type] ?? t.transaction_type}
+                      {tx.description ?? typeLabel(tx.transaction_type)}
                     </td>
                     <td className="px-4 py-2.5 text-muted-foreground">
-                      {TYPE_LABELS[t.transaction_type] ?? t.transaction_type}
+                      {typeLabel(tx.transaction_type)}
                     </td>
                     <td className="px-4 py-2.5 tabular-nums text-muted-foreground">
-                      {formatDate(t.created_at)}
+                      {formatDate(tx.created_at)}
                     </td>
                     <td className="px-4 py-2.5 text-right tabular-nums">
                       <span
@@ -183,7 +187,7 @@ export function CreditUsageHistory() {
                         }
                       >
                         {isGrant ? "+" : ""}
-                        {t.amount}
+                        {tx.amount}
                       </span>
                     </td>
                   </tr>
@@ -204,7 +208,7 @@ export function CreditUsageHistory() {
             className="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary disabled:opacity-50"
           >
             {loadingMore && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-            {loadingMore ? "Loading..." : "Load More"}
+            {loadingMore ? t("loadingMore") : t("loadMore")}
           </button>
         </div>
       )}

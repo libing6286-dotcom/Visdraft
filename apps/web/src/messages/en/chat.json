@@ -1,0 +1,31 @@
+{
+  "collapsedTitle": "Chat",
+  "reconnecting": "Connection lost, reconnecting...",
+  "previewModelUnstable": "The current Preview model is unstable. Try switching models and retry.",
+  "inputAria": "Type a message",
+  "skills": {
+    "tryThese": "Try these Loomic Skills",
+    "socialCarouselLabel": "Social Carousel",
+    "socialCarouselPrompt": "Design a set of social media carousel slides with a cover and several inner pages in a consistent style",
+    "socialPosterLabel": "Social Media",
+    "socialPosterPrompt": "Design a social media poster in a modern, minimalist style",
+    "logoBrandLabel": "Logo & Brand",
+    "logoBrandPrompt": "Design a logo and brand visual identity for me",
+    "storyboardLabel": "Storyboard",
+    "storyboardPrompt": "Create a set of storyboards to present a creative concept",
+    "brochureLabel": "Brochure",
+    "brochurePrompt": "Design a marketing brochure with a cover and inner pages",
+    "productShotLabel": "Product Shots",
+    "productShotPrompt": "Design a set of product shots suitable for e-commerce platforms"
+  },
+  "tool": {
+    "viewDetails": "View details",
+    "inputParams": "Input",
+    "output": "Output",
+    "attachments": "Attachments"
+  },
+  "error": {
+    "renderFailed": "Failed to render message",
+    "retry": "Retry"
+  }
+}

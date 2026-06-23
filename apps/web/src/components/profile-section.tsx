@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -17,6 +18,7 @@ export function ProfileSection({
   email,
   onSave,
 }: ProfileSectionProps) {
+  const t = useTranslations("settings.profile");
   const [displayName, setDisplayName] = useState(initialName);
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState<{
@@ -36,11 +38,11 @@ export function ProfileSection({
 
     try {
       await onSave(trimmed);
-      setFeedback({ type: "success", message: "Profile updated." });
+      setFeedback({ type: "success", message: t("updated") });
     } catch {
       setFeedback({
         type: "error",
-        message: "Failed to update profile. Please try again.",
+        message: t("updateFailed"),
       });
     } finally {
       setSaving(false);
@@ -49,27 +51,27 @@ export function ProfileSection({
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-1">Profile</h2>
+      <h2 className="text-lg font-semibold mb-1">{t("heading")}</h2>
       <p className="text-sm text-muted-foreground mb-6">
-        Manage your personal information.
+        {t("subtitle")}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
         <div className="space-y-2">
-          <Label htmlFor="displayName">Display Name</Label>
+          <Label htmlFor="displayName">{t("displayName")}</Label>
           <Input
             id="displayName"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            placeholder="Your name"
+            placeholder={t("namePlaceholder")}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("email")}</Label>
           <Input id="email" value={email} disabled className="opacity-60" />
           <p className="text-xs text-muted-foreground">
-            Email cannot be changed.
+            {t("emailNote")}
           </p>
         </div>
 
@@ -82,7 +84,7 @@ export function ProfileSection({
         )}
 
         <Button type="submit" disabled={saving || !hasChanges} size="sm">
-          {saving ? "Saving..." : "Save"}
+          {saving ? t("saving") : t("save")}
         </Button>
       </form>
     </div>

@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 
@@ -43,6 +44,7 @@ export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(function Ch
   onRemoveMention,
   selectedCanvasElements,
 }, ref) {
+  const t = useTranslations("chat");
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -262,7 +264,7 @@ export const ChatInput = forwardRef<ChatInputHandle, ChatInputProps>(function Ch
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
           placeholder='Start with an idea, or type "@" to mention'
-          aria-label="输入消息"
+          aria-label={t("inputAria")}
           rows={1}
           style={{ scrollbarWidth: "none" }}
           className="min-h-[48px] max-h-60 resize-none bg-transparent px-1 text-sm leading-[1.8] text-foreground placeholder:text-muted-foreground focus:outline-none [&::-webkit-scrollbar]:hidden"

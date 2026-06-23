@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { Lock, Plus, Zap } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -36,6 +37,7 @@ export function VideoGeneratorPanel({
   canvasScrollZoom,
   onClose,
 }: VideoGeneratorPanelProps) {
+  const t = useTranslations("canvas.generator");
   const [prompt, setPrompt] = useState(data.prompt);
   const [model, setModel] = useState(data.model);
   const [aspectRatio, setAspectRatio] = useState(data.aspectRatio);
@@ -245,12 +247,12 @@ export function VideoGeneratorPanel({
       console.error("[video-gen] Generation error:", err);
       const handled = handleGenerationError(err);
       if (!handled) {
-        setError("视频生成失败，请重试或更换模型。");
+        setError(t("videoFailed"));
       }
       setLoading(false);
       updateVideoGeneratorElement(excalidrawApi, elementId, {
         status: "error",
-        errorMessage: "生成失败",
+        errorMessage: t("genFailed"),
       });
     }
   }, [
@@ -297,14 +299,14 @@ export function VideoGeneratorPanel({
           {firstFrame ? (
             <img
               src={firstFrame.dataUrl}
-              alt="首帧"
+              alt={t("firstFrame")}
               className="h-full w-full rounded-2xl object-cover"
             />
           ) : (
             <>
               <Plus className="h-4 w-4 text-muted-foreground" />
               <span className="text-[10px] text-muted-foreground">
-                首帧
+                {t("firstFrame")}
               </span>
             </>
           )}
@@ -326,14 +328,14 @@ export function VideoGeneratorPanel({
           {lastFrame ? (
             <img
               src={lastFrame.dataUrl}
-              alt="尾帧"
+              alt={t("lastFrame")}
               className="h-full w-full rounded-2xl object-cover"
             />
           ) : (
             <>
               <Plus className="h-4 w-4 text-muted-foreground" />
               <span className="text-[10px] text-muted-foreground">
-                尾帧
+                {t("lastFrame")}
               </span>
             </>
           )}
@@ -352,7 +354,7 @@ export function VideoGeneratorPanel({
               void handleGenerate();
             }
           }}
-          placeholder="今天我们要创作什么"
+          placeholder={t("promptPlaceholder")}
           disabled={loading}
           style={{ scrollbarWidth: "none" }}
           className="min-h-[44px] max-h-[140px] w-full resize-none border-none bg-transparent text-[14px] leading-[22px] text-foreground placeholder:text-muted-foreground focus:outline-none [&::-webkit-scrollbar]:hidden"

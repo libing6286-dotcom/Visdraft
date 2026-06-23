@@ -1,0 +1,65 @@
+{
+  "sidebar": {
+    "home": "首页",
+    "projects": "项目",
+    "brandKit": "品牌套件",
+    "skills": "技能",
+    "settings": "设置",
+    "signOut": "退出登录"
+  },
+  "a11y": {
+    "skipToContent": "跳到主内容"
+  },
+  "home": {
+    "heroTitle": "让创意设计更简单",
+    "heroSubtitle": "你的 AI 设计助手，从想法到作品",
+    "recentProjects": "最近项目",
+    "viewAll": "查看全部",
+    "newProject": "新建项目",
+    "updatedAt": "更新于 {date}"
+  },
+  "projects": {
+    "title": "项目",
+    "newProject": "新建项目",
+    "updatedAt": "更新于 {date}"
+  },
+  "skills": {
+    "title": "技能",
+    "tabInstalled": "已安装",
+    "tabMarketplace": "市场",
+    "tabImport": "导入",
+    "subtitle": "为您的智能体提供预封装且可重复的最佳实践与工具",
+    "filter": "筛选",
+    "searchPlaceholder": "搜索技能...",
+    "searchAria": "搜索技能",
+    "official": "官方",
+    "addCustomTitle": "添加自定义技能",
+    "addCustomDesc": "添加技能以解锁您智能体的新功能",
+    "add": "添加",
+    "emptyNoMatch": "未找到匹配的技能",
+    "emptyNone": "暂无技能",
+    "emptyHintFilter": "尝试调整搜索或筛选条件",
+    "emptyHintCreate": "创建自定义技能来扩展您智能体的能力"
+  },
+  "discovery": {
+    "title": "灵感发现",
+    "desc": "点击卡片后会直接按这条案例思路新建 Loomic 项目，并进入 agent 对话流。",
+    "all": "全部",
+    "hintClick": "点击后直接作为 Loomic 的起始需求",
+    "views": "浏览",
+    "likes": "赞"
+  },
+  "createDialog": {
+    "successToast": "项目创建成功",
+    "errorToast": "项目创建失败"
+  },
+  "deleteDialog": {
+    "confirm": "确定删除此项目？此操作无法撤销。",
+    "cancel": "取消",
+    "delete": "永久删除"
+  },
+  "prompt": {
+    "clear": "清除",
+    "placeholder": "让 Loomic 帮你设计..."
+  }
+}

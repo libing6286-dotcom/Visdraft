@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LocaleSelector } from "@/components/locale-selector";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -47,9 +49,9 @@ function LoomicLogo({ className }: { className?: string }) {
 // ---------------------------------------------------------------------------
 
 const NAV_LINKS = [
-  { label: "功能", href: "#features" },
-  { label: "案例", href: "#showcase" },
-  { label: "定价", href: "#pricing" },
+  { labelKey: "features", href: "#features" },
+  { labelKey: "showcase", href: "#showcase" },
+  { labelKey: "pricing", href: "#pricing" },
 ] as const;
 
 function handleAnchorClick(
@@ -97,6 +99,7 @@ function ThemeToggle() {
 // ---------------------------------------------------------------------------
 
 function NavCTA() {
+  const t = useTranslations("landing.nav");
   const [glowActive, setGlowActive] = useState(true);
 
   useEffect(() => {
@@ -112,7 +115,7 @@ function NavCTA() {
         glowActive && "landing-nav-cta-glow",
       )}
     >
-      开始创作
+      {t("ctaStart")}
     </Link>
   );
 }
@@ -122,6 +125,7 @@ function NavCTA() {
 // ---------------------------------------------------------------------------
 
 export function FloatingNav() {
+  const t = useTranslations("landing.nav");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -156,7 +160,7 @@ export function FloatingNav() {
 
           {/* Desktop Nav Links with underline animation */}
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
-            {NAV_LINKS.map(({ label, href }) => (
+            {NAV_LINKS.map(({ labelKey, href }) => (
               <a
                 key={href}
                 href={href}
@@ -167,13 +171,14 @@ export function FloatingNav() {
                   "hover:after:w-[calc(100%-2rem)]",
                 )}
               >
-                {label}
+                {t(labelKey)}
               </a>
             ))}
           </nav>
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
+            <LocaleSelector />
             <ThemeToggle />
             <NavCTA />
             {/* Hamburger */}
@@ -206,7 +211,7 @@ export function FloatingNav() {
             className="md:hidden overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl"
           >
             <nav className="px-4 py-3 flex flex-col gap-1" aria-label="Mobile navigation">
-              {NAV_LINKS.map(({ label, href }) => (
+              {NAV_LINKS.map(({ labelKey, href }) => (
                 <a
                   key={href}
                   href={href}
@@ -215,7 +220,7 @@ export function FloatingNav() {
                   }
                   className="px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
                 >
-                  {label}
+                  {t(labelKey)}
                 </a>
               ))}
               <div className="pt-2 pb-1">
@@ -224,7 +229,7 @@ export function FloatingNav() {
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center justify-center h-9 w-full rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/80 transition-colors"
                 >
-                  开始创作
+                  {t("ctaStart")}
                 </Link>
               </div>
             </nav>

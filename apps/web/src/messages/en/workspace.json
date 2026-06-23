@@ -1,0 +1,65 @@
+{
+  "sidebar": {
+    "home": "Home",
+    "projects": "Projects",
+    "brandKit": "Brand Kit",
+    "skills": "Skills",
+    "settings": "Settings",
+    "signOut": "Sign out"
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content"
+  },
+  "home": {
+    "heroTitle": "Design made simple",
+    "heroSubtitle": "Your AI design assistant, from idea to finished work",
+    "recentProjects": "Recent projects",
+    "viewAll": "View all",
+    "newProject": "New project",
+    "updatedAt": "Updated {date}"
+  },
+  "projects": {
+    "title": "Projects",
+    "newProject": "New project",
+    "updatedAt": "Updated {date}"
+  },
+  "skills": {
+    "title": "Skills",
+    "tabInstalled": "Installed",
+    "tabMarketplace": "Marketplace",
+    "tabImport": "Import",
+    "subtitle": "Give your agent pre-packaged, repeatable best practices and tools",
+    "filter": "Filter",
+    "searchPlaceholder": "Search skills...",
+    "searchAria": "Search skills",
+    "official": "Official",
+    "addCustomTitle": "Add a custom skill",
+    "addCustomDesc": "Add skills to unlock new capabilities for your agent",
+    "add": "Add",
+    "emptyNoMatch": "No matching skills found",
+    "emptyNone": "No skills yet",
+    "emptyHintFilter": "Try adjusting your search or filters",
+    "emptyHintCreate": "Create a custom skill to extend your agent's capabilities"
+  },
+  "discovery": {
+    "title": "Discover",
+    "desc": "Click a card to start a new Loomic project from that example and jump straight into the agent chat.",
+    "all": "All",
+    "hintClick": "Click to use directly as Loomic's starting brief",
+    "views": "views",
+    "likes": "likes"
+  },
+  "createDialog": {
+    "successToast": "Project created",
+    "errorToast": "Failed to create project"
+  },
+  "deleteDialog": {
+    "confirm": "Delete this project? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete permanently"
+  },
+  "prompt": {
+    "clear": "Clear",
+    "placeholder": "Let Loomic design for you..."
+  }
+}

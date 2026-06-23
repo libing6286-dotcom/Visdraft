@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -24,6 +25,7 @@ export function VideoPlayerPanel({
   canvasScrollZoom,
   onClose,
 }: VideoPlayerPanelProps) {
+  const t = useTranslations("canvas.video");
   const panelRef = useRef<HTMLDivElement>(null);
   const [screenX, setScreenX] = useState(0);
   const [screenY, setScreenY] = useState(0);
@@ -116,7 +118,7 @@ export function VideoPlayerPanel({
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          下载
+          {t("download")}
         </a>
       </div>
     </div>,

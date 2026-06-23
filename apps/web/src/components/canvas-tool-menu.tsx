@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useCallback, useEffect, useRef, useState, memo } from "react";
 import { createPortal } from "react-dom";
@@ -70,18 +71,6 @@ const TOOL_ICONS: Record<ToolType, React.ComponentType<{ className?: string }>> 
   image: ImageUp,
 };
 
-const TOOL_LABELS: Record<ToolType, string> = {
-  hand: "拖拽画布 (H)",
-  selection: "选择 (V)",
-  rectangle: "矩形 (R)",
-  ellipse: "椭圆 (O)",
-  arrow: "箭头 (A)",
-  line: "直线 (L)",
-  freedraw: "画笔 (P)",
-  text: "文字 (T)",
-  image: "图片 (9)",
-};
-
 type CanvasToolMenuProps = {
   accessToken: string;
   excalidrawApi: any;
@@ -147,6 +136,7 @@ const GeneratingOverlay = memo(function GeneratingOverlay({
 });
 
 export function CanvasToolMenu({ accessToken, excalidrawApi, leftPanelOpen }: CanvasToolMenuProps) {
+  const t = useTranslations("canvas.tools");
   const [activeTool, setActiveTool] = useState<string>("selection");
 
   // Image generator state
@@ -448,8 +438,8 @@ export function CanvasToolMenu({ accessToken, excalidrawApi, leftPanelOpen }: Ca
             <button
               key={tool}
               type="button"
-              title={TOOL_LABELS[tool]}
-              aria-label={TOOL_LABELS[tool]}
+              title={t(tool)}
+              aria-label={t(tool)}
               onMouseDown={(e) => {
                 e.preventDefault();
                 handleToolChange(tool);
@@ -471,8 +461,8 @@ export function CanvasToolMenu({ accessToken, excalidrawApi, leftPanelOpen }: Ca
         {/* AI Image -- creates a placeholder on canvas */}
         <button
           type="button"
-          title="AI 生成图片"
-          aria-label="AI 生成图片"
+          title={t("aiImage")}
+          aria-label={t("aiImage")}
           onClick={handleCreateImageGenerator}
           className={`flex items-center justify-center h-8 w-8 rounded-lg transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 outline-none ${
             activeGeneratorId
@@ -486,8 +476,8 @@ export function CanvasToolMenu({ accessToken, excalidrawApi, leftPanelOpen }: Ca
         {/* AI Video -- creates a placeholder on canvas */}
         <button
           type="button"
-          title="AI 生成视频"
-          aria-label="AI 生成视频"
+          title={t("aiVideo")}
+          aria-label={t("aiVideo")}
           onClick={handleCreateVideoGenerator}
           className={`flex items-center justify-center h-8 w-8 rounded-lg transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 outline-none ${
             activeVideoGenId

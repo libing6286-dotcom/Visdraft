@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
@@ -20,6 +21,7 @@ export function BrandKitSelector({
   currentBrandKitId,
   onBrandKitChange,
 }: BrandKitSelectorProps) {
+  const t = useTranslations("canvas.brandKit");
   const [kits, setKits] = useState<BrandKitSummary[]>([]);
   const [open, setOpen] = useState(false);
   const [updating, setUpdating] = useState(false);
@@ -60,7 +62,7 @@ export function BrandKitSelector({
   }, [open]);
 
   const currentKit = kits.find((k) => k.id === currentBrandKitId);
-  const label = currentKit ? currentKit.name : "品牌套件: 无";
+  const label = currentKit ? currentKit.name : t("labelNone");
 
   const handleSelect = useCallback(
     async (kitId: string | null) => {
@@ -109,7 +111,7 @@ export function BrandKitSelector({
                 <Check className="h-4 w-4" />
               )}
             </span>
-            <span>无</span>
+            <span>{t("none")}</span>
           </button>
 
           {/* Kit list */}
@@ -131,7 +133,7 @@ export function BrandKitSelector({
 
           {kits.length === 0 && (
             <p className="px-3 py-2 text-sm text-muted-foreground">
-              暂无品牌套件
+              {t("empty")}
             </p>
           )}
         </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useState, type FormEvent } from "react";
 
 import { Button } from "./ui/button";
@@ -27,6 +28,7 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
+  const t = useTranslations("auth.loginForm");
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +42,7 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
       await fetchViewer(accessToken);
       router.replace("/home");
     } catch {
-      setError("Could not load your workspace. Please try again.");
+      setError(t("errorWorkspace"));
     }
   }
 
@@ -88,7 +90,7 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
       const accessToken = data.session?.access_token;
       if (!accessToken) {
         setLoading(false);
-        setError("Could not finish signing in. Please try again.");
+        setError(t("errorFinish"));
         return;
       }
 
@@ -140,9 +142,12 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
                 />
               </svg>
             </motion.div>
-            <h2 className="text-lg font-semibold">Check your email</h2>
+            <h2 className="text-lg font-semibold">{t("checkEmail")}</h2>
             <p className="text-sm text-muted-foreground">
-              We sent a login link to <strong>{email}</strong>
+              {t.rich("sentLink", {
+                email,
+                strong: (chunks) => <strong>{chunks}</strong>,
+              })}
             </p>
           </motion.div>
         ) : (
@@ -155,9 +160,9 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
             className="space-y-6"
           >
             <motion.div variants={fadeIn} className="space-y-2 text-center">
-              <h2 className="text-2xl font-semibold tracking-tight">Welcome back</h2>
+              <h2 className="text-2xl font-semibold tracking-tight">{t("welcomeBack")}</h2>
               <p className="text-sm text-muted-foreground">
-                Sign in to your workspace
+                {t("subtitle")}
               </p>
             </motion.div>
 
@@ -182,7 +187,7 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
               className="space-y-4"
             >
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("email")}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -194,7 +199,7 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
               </div>
               {mode === "password" && (
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t("password")}</Label>
                   <Input
                     id="password"
                     type="password"
@@ -207,8 +212,8 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
               )}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading
-                  ? mode === "password" ? "Signing in..." : "Sending..."
-                  : mode === "password" ? "Sign in" : "Send login link"}
+                  ? mode === "password" ? t("signingIn") : t("sending")
+                  : mode === "password" ? t("signIn") : t("sendLink")}
               </Button>
               <button
                 type="button"
@@ -218,13 +223,13 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
                 }}
                 className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
-                {mode === "password" ? "Use login link instead" : "Use password instead"}
+                {mode === "password" ? t("useMagic") : t("usePassword")}
               </button>
             </motion.form>
 
             <motion.div variants={fadeIn} className="flex items-center gap-4">
               <Separator className="flex-1" />
-              <span className="text-xs text-muted-foreground uppercase">or</span>
+              <span className="text-xs text-muted-foreground uppercase">{t("or")}</span>
               <Separator className="flex-1" />
             </motion.div>
 
@@ -235,14 +240,14 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
                 onClick={handleGoogle}
                 type="button"
               >
-                Continue with Google
+                {t("continueGoogle")}
               </Button>
             </motion.div>
 
             <motion.p variants={fadeIn} className="text-center text-sm text-muted-foreground">
-              Need an account?{" "}
+              {t("needAccount")}{" "}
               <Link href="/register" className="font-medium text-foreground underline underline-offset-4">
-                Create one
+                {t("createOne")}
               </Link>
             </motion.p>
           </motion.div>

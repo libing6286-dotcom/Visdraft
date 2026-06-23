@@ -1,0 +1,121 @@
+{
+  "hero": {
+    "headline": "Where Ideas Grow Freely",
+    "description": "From spark to finished work, Loomic is your AI design partner. It understands your creative intent and generates professional-grade designs — turning every idea into reality.",
+    "ctaStart": "Start Creating",
+    "ctaShowcase": "View Showcase"
+  },
+  "nav": {
+    "features": "Features",
+    "showcase": "Showcase",
+    "pricing": "Pricing",
+    "ctaStart": "Start Creating"
+  },
+  "trustBar": {
+    "creators": "Creators",
+    "artworks": "Designs Created",
+    "models": "AI Models",
+    "uptime": "Uptime"
+  },
+  "howItWorks": {
+    "title": "Three Steps to Create",
+    "subtitle": "From idea to artwork — simpler than you imagined",
+    "step1Title": "Describe Your Idea",
+    "step1Desc": "Describe the design you want in natural language, or upload reference images. The AI understands what you really mean.",
+    "step2Title": "AI Creates",
+    "step2Desc": "Loomic analyzes your needs and generates multiple professional design options. Every detail — from color to layout — is carefully considered.",
+    "step3Title": "Refine to Perfection",
+    "step3Desc": "Freely edit any element on the canvas. Once you're happy, export in one click with support for multiple formats."
+  },
+  "features": {
+    "title": "Design, Beyond Generation",
+    "subtitle": "Loomic isn't just a generator — it's your intelligent design partner",
+    "canvasTitle": "AI Canvas -- Canvas-Level Creation",
+    "canvasDesc": "Collaborate with AI on an infinite canvas. Start from a simple idea and let AI build a complete design system — layout, color, typography — all WYSIWYG.",
+    "chatTitle": "Smart Chat -- Understands Intent",
+    "chatDesc": "Not cold command execution. Loomic understands your design needs, proactively offers suggestions, and iterates toward the best solution through conversation.",
+    "brandTitle": "Consistent Style -- Brand Design System",
+    "brandDesc": "Upload your brand assets and the AI automatically grasps your brand tone. No matter how much you create, the style stays consistent.",
+    "editTitle": "Precise Editing -- Pixel-Level Control",
+    "editDesc": "AI generation is just the starting point. Edit every element directly on the canvas, fine-tuning until you're satisfied."
+  },
+  "showcase": {
+    "title": "Creativity Without Limits",
+    "subtitle": "Explore the boundless design possibilities powered by AI",
+    "item1Category": "Digital Art",
+    "item1Title": "Dream Jellyfish -- AI Digital Sculpture",
+    "item2Category": "Streetwear",
+    "item2Title": "Punk Denim -- AI Fashion Styling",
+    "item3Category": "Fine-Art Photography",
+    "item3Title": "Dark & Flowing -- AI Stylized Portrait",
+    "item4Category": "Creative Collage",
+    "item4Title": "Eastern Aesthetics -- AI Mixed Media",
+    "item5Category": "Still Life",
+    "item5Title": "Vintage Jewelry Box -- AI Refined Still Life",
+    "item6Category": "Fashion Editorial",
+    "item6Title": "Retro Sport -- AI Editorial Photography",
+    "item7Category": "Portrait",
+    "item7Title": "Fresh Duo -- AI Natural-Light Portrait",
+    "item8Category": "Light & Shadow",
+    "item8Title": "Under the Flash -- AI Dramatic Lighting"
+  },
+  "pricingPreview": {
+    "title": "Choose Your Plan",
+    "subtitle": "Flexible pricing, pick what you need",
+    "freeName": "Free",
+    "freePeriod": "Free forever",
+    "freeFeature1": "10 AI generations / month",
+    "freeFeature2": "Basic design templates",
+    "freeFeature3": "Single project space",
+    "freeFeature4": "Community support",
+    "freeCta": "Start Free",
+    "proName": "Pro",
+    "proBadge": "Most Popular",
+    "proPeriod": "per month",
+    "proFeature1": "Unlimited AI generations",
+    "proFeature2": "All AI models",
+    "proFeature3": "Unlimited project spaces",
+    "proFeature4": "Brand kit",
+    "proFeature5": "Priority support",
+    "proFeature6": "HD export",
+    "proCta": "Upgrade to Pro",
+    "teamName": "Team",
+    "teamPeriod": "per user / month",
+    "teamFeature1": "Everything in Pro",
+    "teamFeature2": "Team collaboration space",
+    "teamFeature3": "Shared asset library",
+    "teamFeature4": "Admin console",
+    "teamFeature5": "API access",
+    "teamFeature6": "Dedicated account manager",
+    "teamCta": "Contact Us"
+  },
+  "finalCta": {
+    "title": "Ready to let AI transform your design workflow?",
+    "subtitle": "Join 10,000+ creators and begin your AI design journey",
+    "cta": "Start Creating Free",
+    "note": "No credit card required · Free plan available forever"
+  },
+  "prompt": {
+    "title": "Start Creating Now",
+    "subtitle": "Describe your idea and let Loomic design it for you"
+  },
+  "footer": {
+    "tagline": "The AI-powered creative design platform",
+    "colProduct": "Product",
+    "colProductFeatures": "Features",
+    "colProductPricing": "Pricing",
+    "colProductChangelog": "Changelog",
+    "colProductRoadmap": "Roadmap",
+    "colResources": "Resources",
+    "colResourcesDocs": "Docs",
+    "colResourcesBlog": "Blog",
+    "colResourcesCommunity": "Community",
+    "colResourcesTemplates": "Templates",
+    "colAbout": "About",
+    "colAboutAbout": "About Us",
+    "colAboutCareers": "Careers",
+    "colAboutContact": "Contact",
+    "colAboutTerms": "Terms of Service",
+    "colAboutPrivacy": "Privacy Policy"
+  }
+}

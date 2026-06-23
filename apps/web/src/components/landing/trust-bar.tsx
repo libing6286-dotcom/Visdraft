@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { AnimatedCounter } from "@/components/landing/animated-counter";
 import { StaggerContainer, FadeUp } from "@/components/landing/motion";
@@ -12,15 +13,15 @@ import { StaggerContainer, FadeUp } from "@/components/landing/motion";
 interface StatItem {
   target: number;
   suffix: string;
-  label: string;
+  labelKey: string;
   decimals?: boolean;
 }
 
 const STATS: StatItem[] = [
-  { target: 10000, suffix: "+", label: "创作者" },
-  { target: 100000, suffix: "+", label: "设计作品" },
-  { target: 50, suffix: "+", label: "AI 模型" },
-  { target: 99.9, suffix: "%", label: "服务可用性", decimals: true },
+  { target: 10000, suffix: "+", labelKey: "creators" },
+  { target: 100000, suffix: "+", labelKey: "artworks" },
+  { target: 50, suffix: "+", labelKey: "models" },
+  { target: 99.9, suffix: "%", labelKey: "uptime", decimals: true },
 ];
 
 // ---------------------------------------------------------------------------
@@ -28,6 +29,7 @@ const STATS: StatItem[] = [
 // ---------------------------------------------------------------------------
 
 function StatCard({ stat, isLast }: { stat: StatItem; isLast: boolean }) {
+  const t = useTranslations("landing.trustBar");
   return (
     <>
       <FadeUp className="flex flex-col items-center gap-1.5 group">
@@ -54,7 +56,7 @@ function StatCard({ stat, isLast }: { stat: StatItem; isLast: boolean }) {
         />
 
         {/* Label */}
-        <span className="text-sm text-muted-foreground mt-0.5">{stat.label}</span>
+        <span className="text-sm text-muted-foreground mt-0.5">{t(stat.labelKey)}</span>
       </FadeUp>
 
       {/* Vertical separator between stats (hidden on last) */}
@@ -91,7 +93,7 @@ export function TrustBar() {
         )}
       >
         {STATS.map((stat, i) => (
-          <StatCard key={stat.label} stat={stat} isLast={i === STATS.length - 1} />
+          <StatCard key={stat.labelKey} stat={stat} isLast={i === STATS.length - 1} />
         ))}
       </StaggerContainer>
     </section>

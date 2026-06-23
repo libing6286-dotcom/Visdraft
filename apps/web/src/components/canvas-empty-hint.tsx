@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -16,6 +17,7 @@ export function CanvasEmptyHint({
   excalidrawApi,
   onOpenChat,
 }: CanvasEmptyHintProps) {
+  const t = useTranslations("canvas");
   const [hasElements, setHasElements] = useState(false);
   const onOpenChatRef = useRef(onOpenChat);
   onOpenChatRef.current = onOpenChat;
@@ -83,7 +85,7 @@ export function CanvasEmptyHint({
   return (
     <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
       <p className="text-base text-muted-foreground/50">
-        {"输入你的想法开始创作"}
+        {t("emptyHint")}
       </p>
     </div>
   );

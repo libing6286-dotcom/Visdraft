@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 
 type MessageErrorBoundaryProps = {
   children: React.ReactNode;
@@ -51,29 +52,34 @@ export class MessageErrorBoundary extends React.Component<
 
   render() {
     if (!this.state.error) return this.props.children;
-
-    return (
-      <div className="flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2 text-xs text-muted-foreground">
-        <svg
-          className="h-3.5 w-3.5 shrink-0 text-destructive/60"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
-            clipRule="evenodd"
-          />
-        </svg>
-        <span>消息渲染异常</span>
-        <button
-          type="button"
-          onClick={this.reset}
-          className="ml-auto text-xs text-foreground/60 hover:text-foreground underline transition-colors"
-        >
-          重试
-        </button>
-      </div>
-    );
+    return <MessageErrorFallback onRetry={this.reset} />;
   }
+}
+
+// Functional fallback so we can use the i18n hook (class can't).
+function MessageErrorFallback({ onRetry }: { onRetry: () => void }) {
+  const t = useTranslations("chat.error");
+  return (
+    <div className="flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2 text-xs text-muted-foreground">
+      <svg
+        className="h-3.5 w-3.5 shrink-0 text-destructive/60"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fillRule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
+          clipRule="evenodd"
+        />
+      </svg>
+      <span>{t("renderFailed")}</span>
+      <button
+        type="button"
+        onClick={onRetry}
+        className="ml-auto text-xs text-foreground/60 hover:text-foreground underline transition-colors"
+      >
+        {t("retry")}
+      </button>
+    </div>
+  );
 }

@@ -2,6 +2,7 @@
 
 import { MessageSquare, Sparkles, Paintbrush } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/landing/section-header";
 import { StaggerContainer, FadeUp } from "@/components/landing/motion";
@@ -14,32 +15,14 @@ import { StaggerContainer, FadeUp } from "@/components/landing/motion";
 interface Step {
   number: string;
   icon: LucideIcon;
-  title: string;
-  description: string;
+  titleKey: string;
+  descKey: string;
 }
 
 const STEPS: Step[] = [
-  {
-    number: "01",
-    icon: MessageSquare,
-    title: "描述你的想法",
-    description:
-      "用自然语言描述你想要的设计，或上传参考图片。AI 会理解你的真实意图。",
-  },
-  {
-    number: "02",
-    icon: Sparkles,
-    title: "AI 智能创作",
-    description:
-      "Loomic 分析你的需求，生成多个专业设计方案。从配色到排版，每个细节都经过精心考量。",
-  },
-  {
-    number: "03",
-    icon: Paintbrush,
-    title: "精细调整",
-    description:
-      "在画布上自由编辑任何元素。满意后一键导出，支持多种格式。",
-  },
+  { number: "01", icon: MessageSquare, titleKey: "step1Title", descKey: "step1Desc" },
+  { number: "02", icon: Sparkles, titleKey: "step2Title", descKey: "step2Desc" },
+  { number: "03", icon: Paintbrush, titleKey: "step3Title", descKey: "step3Desc" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -47,6 +30,7 @@ const STEPS: Step[] = [
 // ---------------------------------------------------------------------------
 
 function StepCard({ step, isLast }: { step: Step; isLast: boolean }) {
+  const t = useTranslations("landing.howItWorks");
   const Icon = step.icon;
 
   return (
@@ -91,12 +75,12 @@ function StepCard({ step, isLast }: { step: Step; isLast: boolean }) {
 
       {/* Title */}
       <h3 className="text-xl font-semibold text-foreground mb-3">
-        {step.title}
+        {t(step.titleKey)}
       </h3>
 
       {/* Description */}
       <p className="text-muted-foreground text-sm leading-relaxed">
-        {step.description}
+        {t(step.descKey)}
       </p>
 
       {/* Desktop connector arrow (hidden on last card) */}
@@ -127,14 +111,15 @@ function StepCard({ step, isLast }: { step: Step; isLast: boolean }) {
 // ---------------------------------------------------------------------------
 
 export function HowItWorks() {
+  const t = useTranslations("landing.howItWorks");
   return (
     <section className="py-24 md:py-32 bg-muted/30">
       <div className="max-w-5xl mx-auto px-4">
         {/* Section header */}
         <div className="mb-16 md:mb-20">
           <SectionHeader
-            title="三步开始创作"
-            subtitle="从想法到作品，简单到超乎想象"
+            title={t("title")}
+            subtitle={t("subtitle")}
           />
         </div>
 

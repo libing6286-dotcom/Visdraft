@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import type { ImageGenerationPreference, VideoGenerationPreference } from "@loomic/shared";
 
 import type { ReadyAttachment } from "@/hooks/use-image-attachments";

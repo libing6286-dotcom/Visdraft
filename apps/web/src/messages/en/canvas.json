@@ -1,0 +1,57 @@
+{
+  "bgColor": "Canvas background",
+  "logoMenu": {
+    "deleteFailed": "Failed to delete project",
+    "menu": "Menu",
+    "home": "Home",
+    "projects": "Projects",
+    "newProject": "New project",
+    "confirmDelete": "Confirm delete?",
+    "deleteCurrent": "Delete current project",
+    "importImage": "Import image",
+    "undo": "Undo",
+    "redo": "Redo",
+    "duplicate": "Duplicate",
+    "showAll": "Show all elements"
+  },
+  "tools": {
+    "hand": "Pan canvas (H)",
+    "selection": "Select (V)",
+    "rectangle": "Rectangle (R)",
+    "ellipse": "Ellipse (O)",
+    "arrow": "Arrow (A)",
+    "line": "Line (L)",
+    "freedraw": "Draw (P)",
+    "text": "Text (T)",
+    "image": "Image (9)",
+    "aiImage": "AI generate image",
+    "aiVideo": "AI generate video"
+  },
+  "files": {
+    "download": "Download",
+    "title": "Generated files",
+    "empty": "No generated files yet",
+    "end": "End of list"
+  },
+  "layers": {
+    "title": "Layers",
+    "empty": "Canvas is empty"
+  },
+  "emptyHint": "Type your idea to start creating",
+  "brandKit": {
+    "labelNone": "Brand kit: None",
+    "none": "None",
+    "empty": "No brand kits yet"
+  },
+  "generator": {
+    "imageFailed": "Image generation failed. Please retry or switch models.",
+    "videoFailed": "Video generation failed. Please retry or switch models.",
+    "genFailed": "Generation failed",
+    "firstFrame": "First frame",
+    "lastFrame": "Last frame",
+    "promptPlaceholder": "What shall we create today?"
+  },
+  "video": {
+    "download": "Download"
+  }
+}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/landing/section-header";
 import { StaggerContainer, scaleUp } from "@/components/landing/motion";
@@ -11,58 +12,22 @@ import { StaggerContainer, scaleUp } from "@/components/landing/motion";
 // ---------------------------------------------------------------------------
 
 interface GalleryItem {
-  category: string;
-  title: string;
+  categoryKey: string;
+  titleKey: string;
   image: string;
   colSpan?: string;
   rowSpan?: string;
 }
 
 const GALLERY_ITEMS: GalleryItem[] = [
-  {
-    category: "数字艺术",
-    title: "梦幻水母 -- AI 数字雕塑",
-    image: "/images/showcase/showcase-1.jpg",
-    rowSpan: "row-span-2",
-  },
-  {
-    category: "潮流时尚",
-    title: "朋克牛仔 -- AI 时尚造型",
-    image: "/images/showcase/showcase-10.jpg",
-    colSpan: "col-span-2",
-  },
-  {
-    category: "艺术摄影",
-    title: "暗调飘逸 -- AI 风格化写真",
-    image: "/images/showcase/showcase-2.jpg",
-  },
-  {
-    category: "创意拼贴",
-    title: "东方美学 -- AI 混合媒体创作",
-    image: "/images/showcase/showcase-3.jpg",
-  },
-  {
-    category: "静物写真",
-    title: "复古珠宝盒 -- AI 精致静物",
-    image: "/images/showcase/showcase-4.jpg",
-  },
-  {
-    category: "时尚大片",
-    title: "复古运动风 -- AI 编辑摄影",
-    image: "/images/showcase/showcase-5.jpg",
-    colSpan: "col-span-2",
-  },
-  {
-    category: "人像摄影",
-    title: "清新双人 -- AI 自然光写真",
-    image: "/images/showcase/showcase-11.jpg",
-  },
-  {
-    category: "光影摄影",
-    title: "闪光灯下 -- AI 戏剧性光影",
-    image: "/images/showcase/showcase-12.jpg",
-    rowSpan: "row-span-2",
-  },
+  { categoryKey: "item1Category", titleKey: "item1Title", image: "/images/showcase/showcase-1.jpg", rowSpan: "row-span-2" },
+  { categoryKey: "item2Category", titleKey: "item2Title", image: "/images/showcase/showcase-10.jpg", colSpan: "col-span-2" },
+  { categoryKey: "item3Category", titleKey: "item3Title", image: "/images/showcase/showcase-2.jpg" },
+  { categoryKey: "item4Category", titleKey: "item4Title", image: "/images/showcase/showcase-3.jpg" },
+  { categoryKey: "item5Category", titleKey: "item5Title", image: "/images/showcase/showcase-4.jpg" },
+  { categoryKey: "item6Category", titleKey: "item6Title", image: "/images/showcase/showcase-5.jpg", colSpan: "col-span-2" },
+  { categoryKey: "item7Category", titleKey: "item7Title", image: "/images/showcase/showcase-11.jpg" },
+  { categoryKey: "item8Category", titleKey: "item8Title", image: "/images/showcase/showcase-12.jpg", rowSpan: "row-span-2" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -70,6 +35,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
 // ---------------------------------------------------------------------------
 
 function GalleryCard({ item }: { item: GalleryItem }) {
+  const t = useTranslations("landing.showcase");
   return (
     <motion.div
       variants={scaleUp}
@@ -82,7 +48,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
     >
       <Image
         src={item.image}
-        alt={item.title}
+        alt={t(item.titleKey)}
         fill
         unoptimized
         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -99,10 +65,10 @@ function GalleryCard({ item }: { item: GalleryItem }) {
             color: "oklch(0.18 0 0)",
           }}
         >
-          {item.category}
+          {t(item.categoryKey)}
         </span>
         <p className="text-white text-sm font-medium leading-snug">
-          {item.title}
+          {t(item.titleKey)}
         </p>
       </div>
     </motion.div>
@@ -114,19 +80,20 @@ function GalleryCard({ item }: { item: GalleryItem }) {
 // ---------------------------------------------------------------------------
 
 export function ShowcaseGallery() {
+  const t = useTranslations("landing.showcase");
   return (
     <section id="showcase" className="py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-14 md:mb-20">
           <SectionHeader
-            title="创意无界"
-            subtitle="探索 AI 驱动的无限设计可能"
+            title={t("title")}
+            subtitle={t("subtitle")}
           />
         </div>
 
         <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-[240px] md:auto-rows-[280px] lg:auto-rows-[260px]">
           {GALLERY_ITEMS.map((item) => (
-            <GalleryCard key={item.title} item={item} />
+            <GalleryCard key={item.titleKey} item={item} />
           ))}
         </StaggerContainer>
       </div>

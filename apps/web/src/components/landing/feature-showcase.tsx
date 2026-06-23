@@ -10,6 +10,7 @@ import {
   MousePointer,
 } from "lucide-react";
 import { type Variants } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/landing/section-header";
 import {
@@ -124,8 +125,8 @@ function GradientBorderCard({ children }: { children: React.ReactNode }) {
 
 interface Feature {
   icon: LucideIcon;
-  title: string;
-  description: string;
+  titleKey: string;
+  descKey: string;
   visual: React.ReactNode;
   reversed: boolean;
   textVariants: Variants;
@@ -135,9 +136,8 @@ interface Feature {
 const FEATURES: Feature[] = [
   {
     icon: Layout,
-    title: "AI Canvas -- 画布级创作",
-    description:
-      "在无限画布上与 AI 协作。从一个简单的想法开始，AI 帮你构建完整的设计系统——布局、配色、排版，一切所见即所得。",
+    titleKey: "canvasTitle",
+    descKey: "canvasDesc",
     visual: <CanvasVisual />,
     reversed: false,
     textVariants: slideInLeft,
@@ -145,9 +145,8 @@ const FEATURES: Feature[] = [
   },
   {
     icon: MessageSquare,
-    title: "智能对话 -- 理解创意意图",
-    description:
-      "不是冰冷的指令执行。Loomic 理解你的设计需求，主动提出建议，在对话中迭代出最佳方案。",
+    titleKey: "chatTitle",
+    descKey: "chatDesc",
     visual: <ChatVisual />,
     reversed: true,
     textVariants: slideInRight,
@@ -155,9 +154,8 @@ const FEATURES: Feature[] = [
   },
   {
     icon: Palette,
-    title: "风格一致 -- 品牌设计系统",
-    description:
-      "上传你的品牌素材，AI 自动理解品牌调性。无论生成多少作品，始终保持风格统一。",
+    titleKey: "brandTitle",
+    descKey: "brandDesc",
     visual: <BrandVisual />,
     reversed: false,
     textVariants: slideInLeft,
@@ -165,9 +163,8 @@ const FEATURES: Feature[] = [
   },
   {
     icon: MousePointer,
-    title: "精准编辑 -- 像素级控制",
-    description:
-      "AI 生成只是起点。在画布上直接修改每一个元素，精确调整到你满意为止。",
+    titleKey: "editTitle",
+    descKey: "editDesc",
     visual: <EditVisual />,
     reversed: true,
     textVariants: slideInRight,
@@ -180,6 +177,7 @@ const FEATURES: Feature[] = [
 // ---------------------------------------------------------------------------
 
 function FeatureItem({ feature }: { feature: Feature }) {
+  const t = useTranslations("landing.features");
   const Icon = feature.icon;
 
   const textContent = (
@@ -191,12 +189,12 @@ function FeatureItem({ feature }: { feature: Feature }) {
 
       {/* Title */}
       <h3 className="text-2xl md:text-3xl font-bold text-foreground leading-tight">
-        {feature.title}
+        {t(feature.titleKey)}
       </h3>
 
       {/* Description */}
       <p className="text-muted-foreground leading-relaxed text-base">
-        {feature.description}
+        {t(feature.descKey)}
       </p>
     </ScrollReveal>
   );
@@ -256,14 +254,15 @@ function FeatureDivider() {
 // ---------------------------------------------------------------------------
 
 export function FeatureShowcase() {
+  const t = useTranslations("landing.features");
   return (
     <section id="features" className="py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-4">
         {/* Section header */}
         <div className="mb-20 md:mb-28">
           <SectionHeader
-            title="设计，超越生成"
-            subtitle="Loomic 不只是生成工具，更是你的智能设计伙伴"
+            title={t("title")}
+            subtitle={t("subtitle")}
             className="[&_h2]:tracking-tighter"
           />
         </div>
@@ -271,7 +270,7 @@ export function FeatureShowcase() {
         {/* Feature list */}
         <div className="space-y-24 md:space-y-32">
           {FEATURES.map((feature, index) => (
-            <React.Fragment key={feature.title}>
+            <React.Fragment key={t(feature.titleKey)}>
               {index > 0 && <FeatureDivider />}
               <FeatureItem feature={feature} />
             </React.Fragment>

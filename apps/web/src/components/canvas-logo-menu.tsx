@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import {
   Copy,
@@ -11,7 +12,7 @@ import {
   Trash2,
   Undo2,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useCallback, useRef, useState } from "react";
 
 import { LoomicLogo } from "@/components/icons/loomic-logo";
@@ -72,6 +73,7 @@ export function CanvasLogoMenu({
   canvasId,
   excalidrawApi,
 }: CanvasLogoMenuProps) {
+  const t = useTranslations("canvas.logoMenu");
   const router = useRouter();
   const { error: toastError } = useToast();
   const { create: createNewProject } = useCreateProject();
@@ -115,7 +117,7 @@ export function CanvasLogoMenu({
       router.push("/projects");
     } catch (err) {
       console.warn("Failed to delete project:", err);
-      toastError("项目删除失败");
+      toastError(t("deleteFailed"));
     } finally {
       setConfirmingDelete(false);
     }
@@ -180,7 +182,7 @@ export function CanvasLogoMenu({
       >
         <DropdownMenuTrigger
           className="flex items-center justify-center size-8 rounded-xl bg-card/80 backdrop-blur-sm shadow-sm border border-border hover:bg-card transition-colors cursor-pointer outline-none"
-          aria-label="菜单"
+          aria-label={t("menu")}
         >
           <LoomicLogo className="size-5 text-foreground" />
         </DropdownMenuTrigger>
@@ -190,11 +192,11 @@ export function CanvasLogoMenu({
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => router.push("/home")}>
               <Home className="size-4" />
-              主页
+              {t("home")}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => router.push("/projects")}>
               <FolderOpen className="size-4" />
-              项目库
+              {t("projects")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
@@ -204,14 +206,14 @@ export function CanvasLogoMenu({
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => createNewProject()}>
               <Plus className="size-4" />
-              新建项目
+              {t("newProject")}
             </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
               onClick={handleDeleteProject}
             >
               <Trash2 className="size-4" />
-              {confirmingDelete ? "确认删除?" : "删除当前项目"}
+              {confirmingDelete ? t("confirmDelete") : t("deleteCurrent")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
@@ -221,7 +223,7 @@ export function CanvasLogoMenu({
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
               <ImagePlus className="size-4" />
-              导入图片
+              {t("importImage")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
@@ -233,7 +235,7 @@ export function CanvasLogoMenu({
               onClick={() => dispatchKeyToExcalidraw("z", { metaKey: true })}
             >
               <Undo2 className="size-4" />
-              撤销
+              {t("undo")}
               <DropdownMenuShortcut>⌘Z</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -245,12 +247,12 @@ export function CanvasLogoMenu({
               }
             >
               <Redo2 className="size-4" />
-              重做
+              {t("redo")}
               <DropdownMenuShortcut>⇧⌘Z</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDuplicateElements}>
               <Copy className="size-4" />
-              复制对象
+              {t("duplicate")}
               <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -261,7 +263,7 @@ export function CanvasLogoMenu({
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => excalidrawApi?.scrollToContent()}>
               <Maximize2 className="size-4" />
-              显示画布所有元素
+              {t("showAll")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

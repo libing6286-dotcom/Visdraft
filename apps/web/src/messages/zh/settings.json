@@ -1,0 +1,76 @@
+{
+  "title": "设置",
+  "tabs": {
+    "profile": "个人资料",
+    "agent": "智能体",
+    "billing": "账单",
+    "usage": "用量"
+  },
+  "profile": {
+    "heading": "个人资料",
+    "subtitle": "管理你的个人信息。",
+    "displayName": "显示名称",
+    "namePlaceholder": "你的名字",
+    "email": "邮箱",
+    "emailNote": "邮箱不可更改。",
+    "save": "保存",
+    "saving": "正在保存…",
+    "updated": "资料已更新。",
+    "updateFailed": "更新资料失败，请重试。"
+  },
+  "agent": {
+    "heading": "智能体",
+    "subtitle": "为你的工作空间配置默认 AI 模型。",
+    "defaultModel": "默认模型",
+    "loadingModels": "正在加载模型…",
+    "modelNote": "该模型将用于工作空间中所有新的智能体运行。",
+    "save": "保存",
+    "saving": "正在保存…",
+    "updated": "智能体设置已更新。",
+    "updateFailed": "更新设置失败，请重试。"
+  },
+  "billing": {
+    "heading": "账单",
+    "subtitle": "管理你的订阅与账单详情。",
+    "loading": "正在加载账单信息…",
+    "loadError": "加载订阅信息失败，请稍后重试。",
+    "currentPlan": "当前套餐",
+    "billingSuffix": "{period} 计费",
+    "accessUntil": "可用至",
+    "nextBilling": "下次扣费日期",
+    "cancelledNotice": "订阅已取消，可继续使用至本计费周期结束。",
+    "upgrade": "升级套餐",
+    "change": "更换套餐",
+    "manageBilling": "管理账单",
+    "cancelSub": "取消订阅",
+    "cancelFailed": "取消订阅失败",
+    "cancelTitle": "确定取消订阅？",
+    "cancelBody": "你的订阅将保持有效至当前计费周期结束。之后将降级为免费套餐。",
+    "keepSub": "保留订阅",
+    "confirmCancel": "确认取消"
+  },
+  "usage": {
+    "heading": "用量",
+    "subtitle": "查看你的积分使用记录与交易明细。",
+    "loading": "正在加载用量记录…",
+    "filterAll": "全部",
+    "filterDeducted": "扣除",
+    "filterGranted": "发放",
+    "empty": "暂无交易记录。",
+    "colDescription": "说明",
+    "colType": "类型",
+    "colDate": "日期",
+    "colCredits": "积分",
+    "loadMore": "加载更多",
+    "loadingMore": "加载中…",
+    "types": {
+      "subscription_grant": "订阅发放",
+      "daily_grant": "每日发放",
+      "purchase": "购买",
+      "generation_deduct": "生成消耗",
+      "generation_refund": "退还",
+      "admin_adjustment": "管理员调整",
+      "bonus": "奖励"
+    }
+  }
+}

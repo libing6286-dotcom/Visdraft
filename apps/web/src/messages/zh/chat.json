@@ -1,0 +1,31 @@
+{
+  "collapsedTitle": "对话",
+  "reconnecting": "连接已断开，正在重连...",
+  "previewModelUnstable": "当前 Preview 模型请求不稳定，建议切换模型后重试",
+  "inputAria": "输入消息",
+  "skills": {
+    "tryThese": "试试这些 Loomic Skills",
+    "socialCarouselLabel": "社媒轮播图",
+    "socialCarouselPrompt": "帮我设计一组社交媒体轮播图，包含封面和多张内页，风格统一",
+    "socialPosterLabel": "社交媒体",
+    "socialPosterPrompt": "帮我设计一张社交媒体海报，风格现代简洁",
+    "logoBrandLabel": "Logo 与品牌",
+    "logoBrandPrompt": "帮我设计一个Logo和品牌视觉方案",
+    "storyboardLabel": "分镜故事板",
+    "storyboardPrompt": "帮我创建一组分镜故事板，用于展示创意概念",
+    "brochureLabel": "营销宣传册",
+    "brochurePrompt": "帮我设计一套营销宣传册页面，包含封面和内页",
+    "productShotLabel": "产品展示图",
+    "productShotPrompt": "帮我设计一组产品展示图，适合电商平台使用"
+  },
+  "tool": {
+    "viewDetails": "查看详情",
+    "inputParams": "输入参数",
+    "output": "输出",
+    "attachments": "附件"
+  },
+  "error": {
+    "renderFailed": "消息渲染异常",
+    "retry": "重试"
+  }
+}

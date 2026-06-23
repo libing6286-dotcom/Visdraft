@@ -1,9 +1,10 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 type Skill = {
   icon: React.ReactNode;
-  label: string;
-  prompt: string;
+  labelKey: string;
+  promptKey: string;
 };
 
 const PRESET_SKILLS: Skill[] = [
@@ -16,8 +17,8 @@ const PRESET_SKILLS: Skill[] = [
         <rect x="15" y="11" width="4" height="9" rx="1" stroke="currentColor" strokeWidth={1.5} />
       </svg>
     ),
-    label: "社媒轮播图",
-    prompt: "帮我设计一组社交媒体轮播图，包含封面和多张内页，风格统一",
+    labelKey: "socialCarouselLabel",
+    promptKey: "socialCarouselPrompt",
   },
   {
     icon: (
@@ -26,8 +27,8 @@ const PRESET_SKILLS: Skill[] = [
         <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z" stroke="currentColor" strokeWidth={1.5} />
       </svg>
     ),
-    label: "社交媒体",
-    prompt: "帮我设计一张社交媒体海报，风格现代简洁",
+    labelKey: "socialPosterLabel",
+    promptKey: "socialPosterPrompt",
   },
   {
     icon: (
@@ -37,8 +38,8 @@ const PRESET_SKILLS: Skill[] = [
         <path d="M2 12l10 5 10-5" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    label: "Logo 与品牌",
-    prompt: "帮我设计一个Logo和品牌视觉方案",
+    labelKey: "logoBrandLabel",
+    promptKey: "logoBrandPrompt",
   },
   {
     icon: (
@@ -49,8 +50,8 @@ const PRESET_SKILLS: Skill[] = [
         <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth={1.5} />
       </svg>
     ),
-    label: "分镜故事板",
-    prompt: "帮我创建一组分镜故事板，用于展示创意概念",
+    labelKey: "storyboardLabel",
+    promptKey: "storyboardPrompt",
   },
   {
     icon: (
@@ -59,8 +60,8 @@ const PRESET_SKILLS: Skill[] = [
         <path d="M4 9h16M9 9v11" stroke="currentColor" strokeWidth={1.5} />
       </svg>
     ),
-    label: "营销宣传册",
-    prompt: "帮我设计一套营销宣传册页面，包含封面和内页",
+    labelKey: "brochureLabel",
+    promptKey: "brochurePrompt",
   },
   {
     icon: (
@@ -69,8 +70,8 @@ const PRESET_SKILLS: Skill[] = [
         <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
       </svg>
     ),
-    label: "产品展示图",
-    prompt: "帮我设计一组产品展示图，适合电商平台使用",
+    labelKey: "productShotLabel",
+    promptKey: "productShotPrompt",
   },
 ];
 
@@ -79,21 +80,22 @@ type ChatSkillsProps = {
 };
 
 export function ChatSkills({ onSend }: ChatSkillsProps) {
+  const t = useTranslations("chat.skills");
   return (
     <div className="flex h-full flex-col items-center justify-center gap-5 px-4">
       <p className="text-sm font-semibold text-foreground">
-        试试这些 Loomic Skills
+        {t("tryThese")}
       </p>
       <div className="flex max-w-[320px] flex-wrap justify-center gap-2">
         {PRESET_SKILLS.map((skill) => (
           <button
-            key={skill.label}
+            key={skill.labelKey}
             type="button"
-            onClick={() => onSend(skill.prompt)}
+            onClick={() => onSend(t(skill.promptKey))}
             className="inline-flex h-9 max-w-full items-center justify-center gap-1 rounded-full border border-border bg-card px-[14px] text-sm text-foreground transition-colors hover:bg-muted active:bg-muted/80"
           >
             <span className="shrink-0 text-muted-foreground">{skill.icon}</span>
-            <span className="truncate">{skill.label}</span>
+            <span className="truncate">{t(skill.labelKey)}</span>
           </button>
         ))}
       </div>

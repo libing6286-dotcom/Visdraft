@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import {
   Dialog,
@@ -26,6 +27,7 @@ export function CreateProjectDialog({
   onSubmit,
 }: CreateProjectDialogProps) {
   const { success: toastSuccess, error: toastError } = useToast();
+  const t = useTranslations("workspace.createDialog");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,7 +49,7 @@ export function CreateProjectDialog({
       }
       await onSubmit(payload);
       // Success -- reset and close
-      toastSuccess("项目创建成功");
+      toastSuccess(t("successToast"));
       setName("");
       setDescription("");
       onOpenChange(false);
@@ -58,11 +60,11 @@ export function CreateProjectDialog({
           setError("A project with this name already exists. Try a different name.");
         } else {
           setError("Failed to create project. Please try again.");
-          toastError("项目创建失败");
+          toastError(t("errorToast"));
         }
       } else {
         setError("Failed to create project. Please try again.");
-        toastError("项目创建失败");
+        toastError(t("errorToast"));
       }
     } finally {
       setLoading(false);

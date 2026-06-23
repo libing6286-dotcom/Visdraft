@@ -2,6 +2,7 @@
 
 import type { ModelInfo } from "@loomic/shared";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -17,6 +18,7 @@ export function AgentSection({
   onSave,
   fetchModels,
 }: AgentSectionProps) {
+  const t = useTranslations("settings.agent");
   const [selectedModel, setSelectedModel] = useState(initialModel);
   const [models, setModels] = useState<ModelInfo[]>([]);
   const [modelsLoading, setModelsLoading] = useState(true);
@@ -50,11 +52,11 @@ export function AgentSection({
 
     try {
       await onSave(selectedModel);
-      setFeedback({ type: "success", message: "Agent settings updated." });
+      setFeedback({ type: "success", message: t("updated") });
     } catch {
       setFeedback({
         type: "error",
-        message: "Failed to update settings. Please try again.",
+        message: t("updateFailed"),
       });
     } finally {
       setSaving(false);
@@ -63,16 +65,16 @@ export function AgentSection({
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-1">Agent</h2>
+      <h2 className="text-lg font-semibold mb-1">{t("heading")}</h2>
       <p className="text-sm text-muted-foreground mb-6">
-        Configure the default AI model for your workspace.
+        {t("subtitle")}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
         <div className="space-y-2">
-          <Label htmlFor="defaultModel">Default Model</Label>
+          <Label htmlFor="defaultModel">{t("defaultModel")}</Label>
           {modelsLoading ? (
-            <p className="text-sm text-muted-foreground">Loading models...</p>
+            <p className="text-sm text-muted-foreground">{t("loadingModels")}</p>
           ) : (
             <select
               id="defaultModel"
@@ -88,7 +90,7 @@ export function AgentSection({
             </select>
           )}
           <p className="text-xs text-muted-foreground">
-            This model will be used for all new agent runs in your workspace.
+            {t("modelNote")}
           </p>
         </div>
 
@@ -101,7 +103,7 @@ export function AgentSection({
         )}
 
         <Button type="submit" disabled={saving || !hasChanges} size="sm">
-          {saving ? "Saving..." : "Save"}
+          {saving ? t("saving") : t("save")}
         </Button>
       </form>
     </div>

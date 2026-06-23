@@ -1,8 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useState, type FormEvent } from "react";
 
 import { Button } from "./ui/button";
@@ -23,6 +24,7 @@ const fadeIn = {
 } as any;
 
 export function RegisterForm() {
+  const t = useTranslations("auth.registerForm");
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +38,7 @@ export function RegisterForm() {
       await fetchViewer(accessToken);
       router.replace("/home");
     } catch {
-      setError("Could not finish creating your workspace. Please try again.");
+      setError(t("errorWorkspace"));
     }
   }
 
@@ -45,7 +47,7 @@ export function RegisterForm() {
     const trimmed = email.trim();
     if (!trimmed || !password) return;
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("passwordsMismatch"));
       return;
     }
 
@@ -106,12 +108,15 @@ export function RegisterForm() {
                 />
               </svg>
             </motion.div>
-            <h2 className="text-lg font-semibold">Check your email</h2>
+            <h2 className="text-lg font-semibold">{t("checkEmail")}</h2>
             <p className="text-sm text-muted-foreground">
-              We sent a confirmation link to <strong>{email}</strong>
+              {t.rich("sentConfirm", {
+                email,
+                strong: (chunks) => <strong>{chunks}</strong>,
+              })}
             </p>
             <Link href="/login" className="text-sm text-foreground underline underline-offset-4">
-              Back to sign in
+              {t("backToSignIn")}
             </Link>
           </motion.div>
         ) : (
@@ -124,15 +129,15 @@ export function RegisterForm() {
             className="space-y-6"
           >
             <motion.div variants={fadeIn} className="space-y-2 text-center">
-              <h2 className="text-2xl font-semibold tracking-tight">Create your account</h2>
+              <h2 className="text-2xl font-semibold tracking-tight">{t("title")}</h2>
               <p className="text-sm text-muted-foreground">
-                Start with email and password
+                {t("subtitle")}
               </p>
             </motion.div>
 
             <motion.form variants={fadeIn} onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="register-email">Email</Label>
+                <Label htmlFor="register-email">{t("email")}</Label>
                 <Input
                   id="register-email"
                   type="email"
@@ -143,7 +148,7 @@ export function RegisterForm() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="register-password">Password</Label>
+                <Label htmlFor="register-password">{t("password")}</Label>
                 <Input
                   id="register-password"
                   type="password"
@@ -154,7 +159,7 @@ export function RegisterForm() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="register-confirm-password">Confirm password</Label>
+                <Label htmlFor="register-confirm-password">{t("confirmPassword")}</Label>
                 <Input
                   id="register-confirm-password"
                   type="password"
@@ -165,7 +170,7 @@ export function RegisterForm() {
                 />
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Creating account..." : "Create account"}
+                {loading ? t("creating") : t("create")}
               </Button>
             </motion.form>
 
@@ -185,14 +190,14 @@ export function RegisterForm() {
 
             <motion.div variants={fadeIn} className="flex items-center gap-4">
               <Separator className="flex-1" />
-              <span className="text-xs uppercase text-muted-foreground">or</span>
+              <span className="text-xs uppercase text-muted-foreground">{t("or")}</span>
               <Separator className="flex-1" />
             </motion.div>
 
             <motion.p variants={fadeIn} className="text-center text-sm text-muted-foreground">
-              Already have an account?{" "}
+              {t("haveAccount")}{" "}
               <Link href="/login" className="font-medium text-foreground underline underline-offset-4">
-                Sign in
+                {t("signIn")}
               </Link>
             </motion.p>
           </motion.div>

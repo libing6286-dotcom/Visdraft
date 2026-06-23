@@ -8,6 +8,7 @@ import type {
   HomeDiscoverySelection,
 } from "@/lib/home-discovery-seeds";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type HomeDiscoveryGalleryProps = {
   categories: HomeDiscoveryCategory[];
@@ -48,6 +49,7 @@ export function HomeDiscoveryGallery({
   categories,
   onCaseSelect,
 }: HomeDiscoveryGalleryProps) {
+  const t = useTranslations("workspace.discovery");
   const [activeCategoryKey, setActiveCategoryKey] = useState<string>("all");
 
   const visibleCases = useMemo<
@@ -100,9 +102,9 @@ export function HomeDiscoveryGallery({
       <div className="mb-5 flex flex-col gap-4">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <h2 className="text-lg font-medium text-foreground">灵感发现</h2>
+            <h2 className="text-lg font-medium text-foreground">{t("title")}</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              点击卡片后会直接按这条案例思路新建 Loomic 项目，并进入 agent 对话流。
+              {t("desc")}
             </p>
           </div>
         </div>
@@ -110,7 +112,7 @@ export function HomeDiscoveryGallery({
         <div className="flex flex-wrap gap-2">
           <DiscoveryTab
             active={activeCategoryKey === "all"}
-            label="全部"
+            label={t("all")}
             onClick={() => setActiveCategoryKey("all")}
           />
           {categories.map((category) => (
@@ -165,13 +167,13 @@ export function HomeDiscoveryGallery({
                   </span>
                 </div>
                 <p className="mt-1 text-left text-xs text-muted-foreground">
-                  点击后直接作为 Loomic 的起始需求
+                  {t("hintClick")}
                 </p>
               </div>
 
               <div className="flex shrink-0 items-center gap-3 text-xs text-muted-foreground">
-                <span>{formatMetric(item.viewCount)} 浏览</span>
-                <span>{formatMetric(item.likeCount)} 赞</span>
+                <span>{formatMetric(item.viewCount)} {t("views")}</span>
+                <span>{formatMetric(item.likeCount)} {t("likes")}</span>
               </div>
             </div>
           </button>

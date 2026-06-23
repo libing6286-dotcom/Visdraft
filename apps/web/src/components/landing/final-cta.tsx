@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { FadeUp } from "@/components/landing/motion";
 
 // ---------------------------------------------------------------------------
@@ -73,6 +74,7 @@ function BackgroundOrbs() {
 // ---------------------------------------------------------------------------
 
 export function FinalCTA() {
+  const t = useTranslations("landing.finalCta");
   return (
     <section className="py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-4">
@@ -89,7 +91,7 @@ export function FinalCTA() {
           {/* Headline */}
           <FadeUp>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight max-w-3xl text-white">
-              准备好让 AI 改变你的设计流程了吗？
+              {t("title")}
             </h2>
           </FadeUp>
 
@@ -99,7 +101,7 @@ export function FinalCTA() {
               className="mt-4 text-lg max-w-xl"
               style={{ color: "oklch(1 0 0 / 0.55)" }}
             >
-              加入 10,000+ 创作者，开启你的 AI 设计之旅
+              {t("subtitle")}
             </p>
           </FadeUp>
 
@@ -124,7 +126,7 @@ export function FinalCTA() {
                   boxShadow: "0 0 24px 4px oklch(0.90 0.17 115 / 0.2)",
                 }}
               >
-                免费开始创作
+                {t("cta")}
               </Link>
             </div>
           </FadeUp>
@@ -138,7 +140,7 @@ export function FinalCTA() {
             className="mt-4 text-sm"
             style={{ color: "oklch(1 0 0 / 0.35)" }}
           >
-            无需信用卡 · 永久免费版可用
+            {t("note")}
           </motion.p>
         </div>
       </div>

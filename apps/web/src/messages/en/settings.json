@@ -1,0 +1,76 @@
+{
+  "title": "Settings",
+  "tabs": {
+    "profile": "Profile",
+    "agent": "Agent",
+    "billing": "Billing",
+    "usage": "Usage"
+  },
+  "profile": {
+    "heading": "Profile",
+    "subtitle": "Manage your personal information.",
+    "displayName": "Display Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailNote": "Email cannot be changed.",
+    "save": "Save",
+    "saving": "Saving...",
+    "updated": "Profile updated.",
+    "updateFailed": "Failed to update profile. Please try again."
+  },
+  "agent": {
+    "heading": "Agent",
+    "subtitle": "Configure the default AI model for your workspace.",
+    "defaultModel": "Default Model",
+    "loadingModels": "Loading models...",
+    "modelNote": "This model will be used for all new agent runs in your workspace.",
+    "save": "Save",
+    "saving": "Saving...",
+    "updated": "Agent settings updated.",
+    "updateFailed": "Failed to update settings. Please try again."
+  },
+  "billing": {
+    "heading": "Billing",
+    "subtitle": "Manage your subscription and billing details.",
+    "loading": "Loading billing info...",
+    "loadError": "Failed to load subscription info. Please try again later.",
+    "currentPlan": "Current Plan",
+    "billingSuffix": "{period} billing",
+    "accessUntil": "Access until",
+    "nextBilling": "Next billing date",
+    "cancelledNotice": "Subscription cancelled. Access continues until the end of the billing period.",
+    "upgrade": "Upgrade Plan",
+    "change": "Change Plan",
+    "manageBilling": "Manage Billing",
+    "cancelSub": "Cancel Subscription",
+    "cancelFailed": "Failed to cancel subscription",
+    "cancelTitle": "Cancel Subscription?",
+    "cancelBody": "Your subscription will remain active until the end of the current billing period. After that, you will be downgraded to the Free plan.",
+    "keepSub": "Keep Subscription",
+    "confirmCancel": "Confirm Cancel"
+  },
+  "usage": {
+    "heading": "Usage",
+    "subtitle": "View your credit usage history and transactions.",
+    "loading": "Loading usage history...",
+    "filterAll": "All",
+    "filterDeducted": "Deducted",
+    "filterGranted": "Granted",
+    "empty": "No transactions found.",
+    "colDescription": "Description",
+    "colType": "Type",
+    "colDate": "Date",
+    "colCredits": "Credits",
+    "loadMore": "Load More",
+    "loadingMore": "Loading...",
+    "types": {
+      "subscription_grant": "Subscription Grant",
+      "daily_grant": "Daily Grant",
+      "purchase": "Purchase",
+      "generation_deduct": "Generation",
+      "generation_refund": "Refund",
+      "admin_adjustment": "Adjustment",
+      "bonus": "Bonus"
+    }
+  }
+}

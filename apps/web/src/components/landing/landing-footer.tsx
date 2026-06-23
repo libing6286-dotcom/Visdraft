@@ -1,7 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { localeNames, type AppLocale } from "@/i18n/routing";
 
 // ---------------------------------------------------------------------------
 // Logo mark -- reused from nav
@@ -30,37 +32,37 @@ function LogoMark({ className }: { className?: string }) {
 // ---------------------------------------------------------------------------
 
 interface FooterColumn {
-  title: string;
-  links: { label: string; href: string }[];
+  titleKey: string;
+  links: { labelKey: string; href: string }[];
 }
 
 const FOOTER_COLUMNS: FooterColumn[] = [
   {
-    title: "产品",
+    titleKey: "colProduct",
     links: [
-      { label: "功能介绍", href: "#features" },
-      { label: "定价方案", href: "#pricing" },
-      { label: "更新日志", href: "/changelog" },
-      { label: "产品路线图", href: "/roadmap" },
+      { labelKey: "colProductFeatures", href: "#features" },
+      { labelKey: "colProductPricing", href: "#pricing" },
+      { labelKey: "colProductChangelog", href: "/changelog" },
+      { labelKey: "colProductRoadmap", href: "/roadmap" },
     ],
   },
   {
-    title: "资源",
+    titleKey: "colResources",
     links: [
-      { label: "帮助文档", href: "/docs" },
-      { label: "设计博客", href: "/blog" },
-      { label: "社区论坛", href: "/community" },
-      { label: "模板市场", href: "/templates" },
+      { labelKey: "colResourcesDocs", href: "/docs" },
+      { labelKey: "colResourcesBlog", href: "/blog" },
+      { labelKey: "colResourcesCommunity", href: "/community" },
+      { labelKey: "colResourcesTemplates", href: "/templates" },
     ],
   },
   {
-    title: "关于",
+    titleKey: "colAbout",
     links: [
-      { label: "关于我们", href: "/about" },
-      { label: "加入团队", href: "/careers" },
-      { label: "联系我们", href: "/contact" },
-      { label: "服务条款", href: "/terms" },
-      { label: "隐私政策", href: "/privacy" },
+      { labelKey: "colAboutAbout", href: "/about" },
+      { labelKey: "colAboutCareers", href: "/careers" },
+      { labelKey: "colAboutContact", href: "/contact" },
+      { labelKey: "colAboutTerms", href: "/terms" },
+      { labelKey: "colAboutPrivacy", href: "/privacy" },
     ],
   },
 ];
@@ -113,6 +115,8 @@ function DiscordIcon({ className }: { className?: string }) {
 // ---------------------------------------------------------------------------
 
 export function LandingFooter() {
+  const t = useTranslations("landing.footer");
+  const locale = useLocale() as AppLocale;
   const currentYear = new Date().getFullYear();
 
   return (
@@ -129,7 +133,7 @@ export function LandingFooter() {
             </Link>
 
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              AI 驱动的创意设计平台
+              {t("tagline")}
             </p>
 
             {/* Social links */}
@@ -166,18 +170,18 @@ export function LandingFooter() {
 
           {/* Link columns */}
           {FOOTER_COLUMNS.map((col) => (
-            <div key={col.title}>
+            <div key={col.titleKey}>
               <p className="text-sm font-semibold text-foreground mb-4">
-                {col.title}
+                {t(col.titleKey)}
               </p>
               <ul className="space-y-0">
                 {col.links.map((link) => (
-                  <li key={link.label}>
+                  <li key={link.labelKey}>
                     <Link
                       href={link.href}
                       className="block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-150"
                     >
-                      {link.label}
+                      {t(link.labelKey)}
                     </Link>
                   </li>
                 ))}
@@ -191,7 +195,7 @@ export function LandingFooter() {
           <p className="text-sm text-muted-foreground">
             &copy; {currentYear} Loomic. All rights reserved.
           </p>
-          <span className="text-sm text-muted-foreground">简体中文</span>
+          <span className="text-sm text-muted-foreground">{localeNames[locale]}</span>
         </div>
       </div>
     </footer>

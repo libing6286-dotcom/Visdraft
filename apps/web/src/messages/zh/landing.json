@@ -1,0 +1,121 @@
+{
+  "hero": {
+    "headline": "让创意，自由生长",
+    "description": "从灵感到作品，Loomic 是你的 AI 设计伙伴。智能理解你的创意意图，生成专业级设计，让每一个想法都能成为现实。",
+    "ctaStart": "开始创作",
+    "ctaShowcase": "查看案例"
+  },
+  "nav": {
+    "features": "功能",
+    "showcase": "案例",
+    "pricing": "定价",
+    "ctaStart": "开始创作"
+  },
+  "trustBar": {
+    "creators": "创作者",
+    "artworks": "设计作品",
+    "models": "AI 模型",
+    "uptime": "服务可用性"
+  },
+  "howItWorks": {
+    "title": "三步开始创作",
+    "subtitle": "从想法到作品，简单到超乎想象",
+    "step1Title": "描述你的想法",
+    "step1Desc": "用自然语言描述你想要的设计，或上传参考图片。AI 会理解你的真实意图。",
+    "step2Title": "AI 智能创作",
+    "step2Desc": "Loomic 分析你的需求，生成多个专业设计方案。从配色到排版，每个细节都经过精心考量。",
+    "step3Title": "精细调整",
+    "step3Desc": "在画布上自由编辑任何元素。满意后一键导出，支持多种格式。"
+  },
+  "features": {
+    "title": "设计，超越生成",
+    "subtitle": "Loomic 不只是生成工具，更是你的智能设计伙伴",
+    "canvasTitle": "AI Canvas -- 画布级创作",
+    "canvasDesc": "在无限画布上与 AI 协作。从一个简单的想法开始，AI 帮你构建完整的设计系统——布局、配色、排版，一切所见即所得。",
+    "chatTitle": "智能对话 -- 理解创意意图",
+    "chatDesc": "不是冰冷的指令执行。Loomic 理解你的设计需求，主动提出建议，在对话中迭代出最佳方案。",
+    "brandTitle": "风格一致 -- 品牌设计系统",
+    "brandDesc": "上传你的品牌素材，AI 自动理解品牌调性。无论生成多少作品，始终保持风格统一。",
+    "editTitle": "精准编辑 -- 像素级控制",
+    "editDesc": "AI 生成只是起点。在画布上直接修改每一个元素，精确调整到你满意为止。"
+  },
+  "showcase": {
+    "title": "创意无界",
+    "subtitle": "探索 AI 驱动的无限设计可能",
+    "item1Category": "数字艺术",
+    "item1Title": "梦幻水母 -- AI 数字雕塑",
+    "item2Category": "潮流时尚",
+    "item2Title": "朋克牛仔 -- AI 时尚造型",
+    "item3Category": "艺术摄影",
+    "item3Title": "暗调飘逸 -- AI 风格化写真",
+    "item4Category": "创意拼贴",
+    "item4Title": "东方美学 -- AI 混合媒体创作",
+    "item5Category": "静物写真",
+    "item5Title": "复古珠宝盒 -- AI 精致静物",
+    "item6Category": "时尚大片",
+    "item6Title": "复古运动风 -- AI 编辑摄影",
+    "item7Category": "人像摄影",
+    "item7Title": "清新双人 -- AI 自然光写真",
+    "item8Category": "光影摄影",
+    "item8Title": "闪光灯下 -- AI 戏剧性光影"
+  },
+  "pricingPreview": {
+    "title": "选择你的计划",
+    "subtitle": "灵活定价，按需选择",
+    "freeName": "免费版",
+    "freePeriod": "永久免费",
+    "freeFeature1": "每月 10 次 AI 生成",
+    "freeFeature2": "基础设计模板",
+    "freeFeature3": "单项目空间",
+    "freeFeature4": "社区支持",
+    "freeCta": "免费开始",
+    "proName": "专业版",
+    "proBadge": "最受欢迎",
+    "proPeriod": "每月",
+    "proFeature1": "无限 AI 生成",
+    "proFeature2": "全部 AI 模型",
+    "proFeature3": "无限项目空间",
+    "proFeature4": "品牌工具包",
+    "proFeature5": "优先支持",
+    "proFeature6": "高清导出",
+    "proCta": "升级 Pro",
+    "teamName": "团队版",
+    "teamPeriod": "每月 / 每人",
+    "teamFeature1": "Pro 全部功能",
+    "teamFeature2": "团队协作空间",
+    "teamFeature3": "共享资源库",
+    "teamFeature4": "管理控制台",
+    "teamFeature5": "API 接入",
+    "teamFeature6": "专属客户经理",
+    "teamCta": "联系我们"
+  },
+  "finalCta": {
+    "title": "准备好让 AI 改变你的设计流程了吗？",
+    "subtitle": "加入 10,000+ 创作者，开启你的 AI 设计之旅",
+    "cta": "免费开始创作",
+    "note": "无需信用卡 · 永久免费版可用"
+  },
+  "prompt": {
+    "title": "现在就开始创作",
+    "subtitle": "描述你的创意，让 Loomic 帮你设计"
+  },
+  "footer": {
+    "tagline": "AI 驱动的创意设计平台",
+    "colProduct": "产品",
+    "colProductFeatures": "功能介绍",
+    "colProductPricing": "定价方案",
+    "colProductChangelog": "更新日志",
+    "colProductRoadmap": "产品路线图",
+    "colResources": "资源",
+    "colResourcesDocs": "帮助文档",
+    "colResourcesBlog": "设计博客",
+    "colResourcesCommunity": "社区论坛",
+    "colResourcesTemplates": "模板市场",
+    "colAbout": "关于",
+    "colAboutAbout": "关于我们",
+    "colAboutCareers": "加入团队",
+    "colAboutContact": "联系我们",
+    "colAboutTerms": "服务条款",
+    "colAboutPrivacy": "隐私政策"
+  }
+}

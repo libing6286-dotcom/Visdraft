@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
 import type { GeneratedImage, ImageGenerateParams, ImageProvider, ModelInfo } from "../types.js";
 import { aspectRatioToDimensions, fetchAsBase64, GenerationError } from "../utils.js";
@@ -11,13 +11,24 @@ const PROVIDER_NAME = "openrouter";
 // 可在 https://openrouter.ai/models?fmt=cards&output_modalities=image 查询可用模型。
 const OPENROUTER_IMAGE_MODELS: readonly ModelInfo[] = [
   {
-    id: "nvidia/llama-nemotron-rerank-vl-1b-v2:free",
-    displayName: "nemotron",
+    // 注意：此处的 id 会被原样作为 OpenRouter 的 model slug 透传（见 generate() 中的
+    // chatRequest.model），因此必须是 OpenRouter 真实存在且 output_modalities 含 "image"
+    // 的模型。可用列表见 https://openrouter.ai/models?fmt=cards&output_modalities=image
+    //
+    // 选型说明：Google Gemini 系列图像模型在中国大陆地区被 OpenRouter 封禁（403
+    // "not available in your region"），故默认改用 OpenAI 图像模型。若后续给本 provider
+    // 接入了允许地区的代理（OpenRouter SDK 支持 serverURL 选项），可切回 Gemini。
+    id: "nex-agi/nex-n2-pro:free",
+    displayName: "nex-agi/nex-n2-pro",
     description:
-      "Google Gemini 2.5 Flash native image generation & editing, served through OpenRouter. Supports text-to-image and image editing with input images.",
-    iconUrl:
-      "https://tjzk.replicate.delivery/models_organizations_avatar/27e1e3fe-f766-4748-83b3-777bc282d8dd/1342004.png",
+      "OpenAI GPT-5 native image generation & editing, served through OpenRouter. Supports text-to-image and image editing with input images.",
   },
+  // 备选模型（按需启用；启用前确认在你所在地区可用）：
+  //   - openai/gpt-5-image-mini            // 更便宜，适合测试
+  //   - openai/gpt-5.4-image-2
+  //   - google/gemini-2.5-flash-image      // 质量好，但中国大陆地区被封禁，需代理
+  //   - google/gemini-3-pro-image-preview
+  //   - google/gemini-3.1-flash-image-preview
   // {
   //   id: "black-forest-labs/flux.2-pro",
   //   displayName: "Flux.2 Pro",
@@ -27,15 +38,10 @@ const OPENROUTER_IMAGE_MODELS: readonly ModelInfo[] = [
 ];
 
 /**
- * OpenRouter 在标准 chat completion 响应的 message 上附加了非标准的 `images` 字段，
- * 用于返回生成的图像（base64 data URL）。OpenAI SDK 的类型里没有这个字段，故在此扩展。
+ * OpenRouter 在 chat completion 响应的 assistant message 上附加了 `images` 字段返回生成图像
+ * （base64 data URL），@openrouter/sdk 已将其建模为 ChatAssistantImages，无需手动扩展类型。
  * 参考：https://openrouter.ai/docs/features/multimodal/image-generation
  */
-interface OpenRouterImage {
-  type?: string;
-  image_url?: { url?: string };
-}
-
 export class OpenRouterImageProvider implements ImageProvider {
   readonly name = PROVIDER_NAME;
   readonly models = OPENROUTER_IMAGE_MODELS;
@@ -44,13 +50,8 @@ export class OpenRouterImageProvider implements ImageProvider {
   constructor(apiKey: string) {
     // OpenRouter 使用 OpenAI 兼容的 API，通过设置 baseURL 切换端点。
     this.client = new OpenAI({
-      apiKey,
-      baseURL: "https://openrouter.ai/api/v1",
-      defaultHeaders: {
-        // OpenRouter 推荐携带来源信息，用于排行榜归因（可选）。
-        "HTTP-Referer": process.env.OPENROUTER_REFERER || "https://loomic.ai",
-        "X-Title": "Loomic",
-      },
+      baseURL: 'https://openrouter.ai/api/v1',
+      apiKey
     });
   }
 
@@ -60,9 +61,10 @@ export class OpenRouterImageProvider implements ImageProvider {
 
     // 构造消息内容：文本 prompt + 可选的输入图像（用于图像编辑）。
     // OpenRouter 接受 image_url 类型的 content part，url 可为 http(s) 或 base64 data URI。
+    // 注意：@openrouter/sdk 的入参用驼峰 `imageUrl`（SDK 会在上行时 remap 为 image_url）。
     const content: Array<
       | { type: "text"; text: string }
-      | { type: "image_url"; image_url: { url: string } }
+      | { type: "image_url"; imageUrl: { url: string } }
     > = [{ type: "text", text: params.prompt }];
 
     if (params.inputImages?.length) {
@@ -72,31 +74,39 @@ export class OpenRouterImageProvider implements ImageProvider {
       for (const img of fetched) {
         content.push({
           type: "image_url",
-          image_url: { url: `data:${img.mimeType};base64,${img.data}` },
+          imageUrl: { url: `data:${img.mimeType};base64,${img.data}` },
         });
       }
     }
 
     let response;
     try {
+      // 注意：@openrouter/sdk 的 chat.send 接收的是请求信封，真正的 completion
+      // 参数必须包裹在 `chatRequest` 字段内，否则 SDK 的 Zod 校验会报
+      // "expected object, received undefined"（path: ["chatRequest"]）。
       response = await this.client.chat.completions.create({
         model: params.model,
-        // 关键：启用图像输出模态，否则 OpenRouter 只会返回文本。
-        modalities: ["image", "text"],
-        messages: [{ role: "user", content }],
-      } as OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming);
+        messages: [{ role: "user", content: '生成一张穿着jk的神明少女' }],
+      });
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unknown OpenRouter error";
+      // OpenRouter 对部分模型（如 Google Gemini 系列图像模型）有地区限制，命中时返回
+      // 403 ForbiddenResponseError。单独归类，便于上层给用户更明确的提示/切换模型。
+      const isRegionBlocked =
+        (error instanceof Error && error.name === "ForbiddenResponseError") ||
+        /not available in your region/i.test(message);
       throw new GenerationError(
         PROVIDER_NAME,
-        "api_error",
-        error instanceof Error ? error.message : "Unknown OpenRouter error",
+        isRegionBlocked ? "region_blocked" : "api_error",
+        isRegionBlocked
+          ? `OpenRouter model "${params.model}" is not available in your region. ${message}`
+          : message,
       );
     }
 
-    // 生成的图像位于 message.images 数组中（OpenRouter 扩展字段）。
-    const message = response.choices?.[0]?.message as
-      | (OpenAI.Chat.Completions.ChatCompletionMessage & { images?: OpenRouterImage[] })
-      | undefined;
+    // 生成的图像位于 message.images 数组中（OpenRouter 扩展字段，SDK 已建模为 ChatAssistantImages）。
+    const message = response.choices?.[0]?.message;
     const dataUrl = message?.images?.[0]?.image_url?.url;
 
     if (!dataUrl) {

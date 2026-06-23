@@ -117,6 +117,19 @@ const REPLICATE_IMAGE_MODELS: readonly ModelInfo[] = [
   },
 ];
 
+/** Provider name used to register/look up the Replicate image provider. */
+export const REPLICATE_IMAGE_PROVIDER_NAME = "replicate";
+
+/** Set of all Replicate image model IDs, for fast model→provider resolution. */
+const REPLICATE_IMAGE_MODEL_IDS = new Set<string>(
+  REPLICATE_IMAGE_MODELS.map((m) => m.id),
+);
+
+/** Returns true if the given ID is a Replicate image model (not a provider name). */
+export function isReplicateImageModel(modelId: string): boolean {
+  return REPLICATE_IMAGE_MODEL_IDS.has(modelId);
+}
+
 // ── Quality → model-specific resolution translation ──────────────────────
 
 type QualityMap = Record<string, Record<string, { param: string; value: string }>>;

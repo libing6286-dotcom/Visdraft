@@ -2,11 +2,12 @@
 
 import type { ProjectSummary } from "@loomic/shared";
 import { Trash2 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 import { DeleteProjectDialog } from "./delete-project-dialog";
 import { useDeleteProject } from "@/hooks/use-delete-project";
 import { formatDate } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface ProjectListProps {
   projects: ProjectSummary[];
@@ -21,6 +22,7 @@ export function ProjectList({
   onCreateClick,
   onDeleted,
 }: ProjectListProps) {
+  const t = useTranslations("workspace.projects");
   const { pendingId, deleting, requestDelete, confirmDelete, cancelDelete } =
     useDeleteProject(onDeleted ? { onDeleted } : undefined);
 
@@ -29,7 +31,7 @@ export function ProjectList({
       {/* Header */}
       <div className="mb-4 sm:mb-6">
         <h1 className="text-base font-medium text-foreground sm:text-lg">
-          项目
+          {t("title")}
         </h1>
       </div>
 
@@ -63,7 +65,7 @@ export function ProjectList({
               />
             </svg>
             <span className="text-xs font-semibold text-foreground sm:text-sm">
-              新建项目
+              {t("newProject")}
             </span>
           </div>
         </div>
@@ -112,7 +114,7 @@ export function ProjectList({
               </div>
             </div>
             <div className="mt-0.5 text-[10px] text-muted-foreground sm:text-[11px]">
-              更新于 {formatDate(project.updatedAt)}
+              {t("updatedAt", { date: formatDate(project.updatedAt) })}
             </div>
           </Link>
         ))}

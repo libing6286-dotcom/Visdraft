@@ -2,6 +2,7 @@
 
 import { Check, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/landing/section-header";
@@ -13,58 +14,53 @@ import { StaggerContainer, scaleUp } from "@/components/landing/motion";
 // ---------------------------------------------------------------------------
 
 interface PricingPlan {
-  name: string;
-  badge?: string;
+  nameKey: string;
+  badgeKey?: string;
   price: string;
-  period: string;
-  features: string[];
-  cta: string;
+  periodKey: string;
+  featureKeys: string[];
+  ctaKey: string;
   highlighted: boolean;
 }
 
 const PLANS: PricingPlan[] = [
   {
-    name: "免费版",
+    nameKey: "freeName",
     price: "¥0",
-    period: "永久免费",
-    features: [
-      "每月 10 次 AI 生成",
-      "基础设计模板",
-      "单项目空间",
-      "社区支持",
-    ],
-    cta: "免费开始",
+    periodKey: "freePeriod",
+    featureKeys: ["freeFeature1", "freeFeature2", "freeFeature3", "freeFeature4"],
+    ctaKey: "freeCta",
     highlighted: false,
   },
   {
-    name: "专业版",
-    badge: "最受欢迎",
+    nameKey: "proName",
+    badgeKey: "proBadge",
     price: "¥99",
-    period: "每月",
-    features: [
-      "无限 AI 生成",
-      "全部 AI 模型",
-      "无限项目空间",
-      "品牌工具包",
-      "优先支持",
-      "高清导出",
+    periodKey: "proPeriod",
+    featureKeys: [
+      "proFeature1",
+      "proFeature2",
+      "proFeature3",
+      "proFeature4",
+      "proFeature5",
+      "proFeature6",
     ],
-    cta: "升级 Pro",
+    ctaKey: "proCta",
     highlighted: true,
   },
   {
-    name: "团队版",
+    nameKey: "teamName",
     price: "¥299",
-    period: "每月 / 每人",
-    features: [
-      "Pro 全部功能",
-      "团队协作空间",
-      "共享资源库",
-      "管理控制台",
-      "API 接入",
-      "专属客户经理",
+    periodKey: "teamPeriod",
+    featureKeys: [
+      "teamFeature1",
+      "teamFeature2",
+      "teamFeature3",
+      "teamFeature4",
+      "teamFeature5",
+      "teamFeature6",
     ],
-    cta: "联系我们",
+    ctaKey: "teamCta",
     highlighted: false,
   },
 ];
@@ -74,6 +70,7 @@ const PLANS: PricingPlan[] = [
 // ---------------------------------------------------------------------------
 
 function PricingCard({ plan }: { plan: PricingPlan }) {
+  const t = useTranslations("landing.pricingPreview");
   return (
     <motion.div
       variants={scaleUp}
@@ -94,7 +91,7 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
       }
     >
       {/* Badge */}
-      {plan.badge && (
+      {plan.badgeKey && (
         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
           <span
             className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold"
@@ -104,13 +101,13 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
             }}
           >
             <Sparkles className="size-3" />
-            {plan.badge}
+            {t(plan.badgeKey)}
           </span>
         </div>
       )}
 
       {/* Plan name */}
-      <p className="text-lg font-semibold text-foreground">{plan.name}</p>
+      <p className="text-lg font-semibold text-foreground">{t(plan.nameKey)}</p>
 
       {/* Price */}
       <div className="mt-4">
@@ -118,14 +115,14 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
           {plan.price}
         </span>
         <span className="ml-2 text-sm text-muted-foreground">
-          {plan.period}
+          {t(plan.periodKey)}
         </span>
       </div>
 
       {/* Features */}
       <ul className="space-y-3 mt-6 flex-1">
-        {plan.features.map((feature) => (
-          <li key={feature} className="flex items-center gap-3">
+        {plan.featureKeys.map((featureKey) => (
+          <li key={featureKey} className="flex items-center gap-3">
             <div
               className="size-5 rounded-full flex items-center justify-center shrink-0"
               style={{
@@ -137,7 +134,7 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
                 style={{ color: "oklch(0.65 0.17 115)" }}
               />
             </div>
-            <span className="text-sm text-muted-foreground">{feature}</span>
+            <span className="text-sm text-muted-foreground">{t(featureKey)}</span>
           </li>
         ))}
       </ul>
@@ -155,11 +152,11 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
               color: "oklch(0.2 0 0)",
             }}
           >
-            {plan.cta}
+            {t(plan.ctaKey)}
           </button>
         ) : (
           <Button variant="outline" className="w-full">
-            {plan.cta}
+            {t(plan.ctaKey)}
           </Button>
         )}
       </div>
@@ -172,6 +169,7 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
 // ---------------------------------------------------------------------------
 
 export function PricingPreview() {
+  const t = useTranslations("landing.pricingPreview");
   return (
     <section id="pricing" className="py-24 md:py-32 relative overflow-hidden">
       {/* Subtle dots grid background */}
@@ -187,14 +185,14 @@ export function PricingPreview() {
       <div className="relative max-w-5xl mx-auto px-4">
         <div className="mb-14 md:mb-20">
           <SectionHeader
-            title="选择你的计划"
-            subtitle="灵活定价，按需选择"
+            title={t("title")}
+            subtitle={t("subtitle")}
           />
         </div>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start">
           {PLANS.map((plan) => (
-            <PricingCard key={plan.name} plan={plan} />
+            <PricingCard key={plan.nameKey} plan={plan} />
           ))}
         </StaggerContainer>
       </div>

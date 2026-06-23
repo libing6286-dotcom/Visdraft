@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Dialog,
@@ -22,11 +23,12 @@ export function DeleteProjectDialog({
   onConfirm,
   onCancel,
 }: DeleteProjectDialogProps) {
+  const t = useTranslations("workspace.deleteDialog");
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) onCancel(); }}>
       <DialogContent className="sm:max-w-sm" showCloseButton={false}>
         <p className="text-sm font-medium text-foreground">
-          确定删除此项目？此操作无法撤销。
+          {t("confirm")}
         </p>
         <div className="mt-4 flex items-center justify-end gap-3">
           <Button
@@ -35,7 +37,7 @@ export function DeleteProjectDialog({
             disabled={deleting}
             className="rounded-xl"
           >
-            取消
+            {t("cancel")}
           </Button>
           <Button
             onClick={onConfirm}
@@ -50,7 +52,7 @@ export function DeleteProjectDialog({
               >
                 <Loader2 size={16} />
               </motion.span>
-            ) : "永久删除"}
+            ) : t("delete")}
           </Button>
         </div>
       </DialogContent>

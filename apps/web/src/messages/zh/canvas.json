@@ -1,0 +1,57 @@
+{
+  "bgColor": "画布背景色",
+  "logoMenu": {
+    "deleteFailed": "项目删除失败",
+    "menu": "菜单",
+    "home": "主页",
+    "projects": "项目库",
+    "newProject": "新建项目",
+    "confirmDelete": "确认删除?",
+    "deleteCurrent": "删除当前项目",
+    "importImage": "导入图片",
+    "undo": "撤销",
+    "redo": "重做",
+    "duplicate": "复制对象",
+    "showAll": "显示画布所有元素"
+  },
+  "tools": {
+    "hand": "拖拽画布 (H)",
+    "selection": "选择 (V)",
+    "rectangle": "矩形 (R)",
+    "ellipse": "椭圆 (O)",
+    "arrow": "箭头 (A)",
+    "line": "直线 (L)",
+    "freedraw": "画笔 (P)",
+    "text": "文字 (T)",
+    "image": "图片 (9)",
+    "aiImage": "AI 生成图片",
+    "aiVideo": "AI 生成视频"
+  },
+  "files": {
+    "download": "下载",
+    "title": "已生成文件列表",
+    "empty": "暂无生成文件",
+    "end": "到底了"
+  },
+  "layers": {
+    "title": "图层",
+    "empty": "画布为空"
+  },
+  "emptyHint": "输入你的想法开始创作",
+  "brandKit": {
+    "labelNone": "品牌套件: 无",
+    "none": "无",
+    "empty": "暂无品牌套件"
+  },
+  "generator": {
+    "imageFailed": "图片生成失败，请重试或更换模型。",
+    "videoFailed": "视频生成失败，请重试或更换模型。",
+    "genFailed": "生成失败",
+    "firstFrame": "首帧",
+    "lastFrame": "尾帧",
+    "promptPlaceholder": "今天我们要创作什么"
+  },
+  "video": {
+    "download": "下载"
+  }
+}

@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -127,6 +128,7 @@ function ElementRow({ el, onSelect }: { el: ExcalidrawEl; onSelect: (id: string)
    Main component
    ================================================================ */
 export function CanvasBottomBar({ excalidrawApi, layersOpen, onToggleLayers, filesOpen, onToggleFiles, leftPanelOpen }: CanvasBottomBarProps) {
+  const t = useTranslations("canvas");
   /* ── Zoom state ── */
   const [zoom, setZoom] = useState(1);
   const [zoomMenuOpen, setZoomMenuOpen] = useState(false);
@@ -251,7 +253,7 @@ export function CanvasBottomBar({ excalidrawApi, layersOpen, onToggleLayers, fil
         <div className="flex flex-col gap-3">
           {/* Title bar */}
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-foreground">画布背景色</span>
+            <span className="text-xs font-medium text-foreground">{t("bgColor")}</span>
             <button type="button" className="flex h-5 w-5 items-center justify-center rounded text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setBgPickerOpen(false)} aria-label="Close color picker">
               <CloseIcon className="h-3.5 w-3.5" />
