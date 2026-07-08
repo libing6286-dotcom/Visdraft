@@ -246,7 +246,7 @@ export class ReplicateVideoProvider implements VideoProvider {
     const resolution = params.resolution ?? "720p";
     const { width, height } = getVideoDimensions(resolution, params.aspectRatio ?? "16:9");
 
-    // Try synchronous wait first (Prefer: wait=300), fall back to polling.
+    // Try synchronous wait first (Prefer: wait=59), fall back to polling.
     // AbortSignal.timeout guards against Replicate hanging indefinitely.
     const response = await fetch(
       `${REPLICATE_API_BASE}/models/${endpoint}/predictions`,
@@ -255,10 +255,10 @@ export class ReplicateVideoProvider implements VideoProvider {
         headers: {
           Authorization: `Bearer ${this.apiToken}`,
           "Content-Type": "application/json",
-          Prefer: "wait=300",
+          Prefer: "wait=59",
         },
         body: JSON.stringify({ input }),
-        signal: AbortSignal.timeout(330_000), // 330s — slightly above Prefer: wait=300
+        signal: AbortSignal.timeout(80_000), // 80s — slightly above Prefer: wait=59
       },
     );
 
@@ -278,14 +278,22 @@ export class ReplicateVideoProvider implements VideoProvider {
       urls?: { get?: string };
     };
 
-    // If prediction is still processing (Prefer: wait timed out), poll for result
+    // If prediction is still running (Prefer: wait timed out), poll for result.
+    // NOTE: 当生成耗时 > Prefer: wait 秒数时，Replicate 会在任务未完成时返回，
+    // 此时 status 可能是 "starting"（排队/冷启动）或 "processing"（推理中），output 均为 null。
+    // 之前只判断 "processing" 会漏掉 "starting"，导致长耗时任务直接抛 no_output。
     let output = data.output;
-    if (!output && data.status === "processing" && data.urls?.get) {
+    const isNonTerminal = data.status !== "succeeded" && data.status !== "failed" && data.status !== "canceled";
+    if (!output && isNonTerminal && data.urls?.get) {
       output = await this.pollForResult(data.urls.get);
     }
 
     const outputUrl = Array.isArray(output) ? output[0] : output;
     if (!outputUrl) {
+      console.error(
+        `[replicate-video] no output URL for prediction ${data.id} (final status=${data.status}). ` +
+          `This usually means the prediction is still running and polling did not resolve in time.`,
+      );
       throw new GenerationError("replicate", "no_output", "Replicate returned no video output URL");
     }
 
