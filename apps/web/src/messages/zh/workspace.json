@@ -43,9 +43,9 @@
   },
   "discovery": {
     "title": "灵感发现",
-    "desc": "点击卡片后会直接按这条案例思路新建 Loomic 项目，并进入 agent 对话流。",
+    "desc": "点击卡片后会直接按这条案例思路新建 Scenva 项目，并进入 agent 对话流。",
     "all": "全部",
-    "hintClick": "点击后直接作为 Loomic 的起始需求",
+    "hintClick": "点击后直接作为 Scenva 的起始需求",
     "views": "浏览",
     "likes": "赞"
   },
@@ -60,6 +60,6 @@
   },
   "prompt": {
     "clear": "清除",
-    "placeholder": "让 Loomic 帮你设计..."
+    "placeholder": "让 Scenva 帮你设计..."
   }
 }

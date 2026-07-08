@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader2, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { CreditTransaction } from "@loomic/shared";
+import type { CreditTransaction } from "@scenva/shared";
 
 import { useAuth } from "@/lib/auth-context";
 import { fetchCreditTransactions } from "@/lib/credits-api";

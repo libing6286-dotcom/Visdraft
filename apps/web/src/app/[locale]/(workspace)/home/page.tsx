@@ -1,6 +1,6 @@
 "use client";
 
-import type { ImageGenerationPreference, ProjectSummary, VideoGenerationPreference } from "@loomic/shared";
+import type { ImageGenerationPreference, ProjectSummary, VideoGenerationPreference } from "@scenva/shared";
 import type { ReadyAttachment } from "@/hooks/use-image-attachments";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -14,7 +14,7 @@ import { DeleteProjectDialog } from "@/components/delete-project-dialog";
 import { HomeExampleBrowser } from "@/components/home-example-browser";
 import { HomePrompt, type HomePromptHandle } from "@/components/home-prompt";
 import { LoadingScreen } from "@/components/loading-screen";
-import { LoomicLogo } from "@/components/icons/loomic-logo";
+import { ScenvaLogo } from "@/components/icons/scenva-logo";
 import { HomeProjectsSkeleton } from "@/components/skeletons/home-skeleton";
 import { useCreateProject } from "@/hooks/use-create-project";
 import { useDeleteProject } from "@/hooks/use-delete-project";
@@ -234,9 +234,9 @@ export default function HomePage() {
           custom={0}
           className="mb-3 flex items-center gap-2 md:mb-4"
         >
-          <LoomicLogo className="size-7 text-foreground md:size-8" />
+          <ScenvaLogo className="size-7 text-foreground md:size-8" />
           <span className="text-lg font-semibold text-foreground md:text-xl">
-            Loomic
+            Scenva
           </span>
         </motion.div>
 

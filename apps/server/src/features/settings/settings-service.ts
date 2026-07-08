@@ -1,4 +1,4 @@
-import type { WorkspaceSettings } from "@loomic/shared";
+import type { WorkspaceSettings } from "@scenva/shared";
 
 import type { AuthenticatedUser, UserSupabaseClient } from "../../supabase/user.js";
 

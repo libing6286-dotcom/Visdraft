@@ -1,11 +1,11 @@
 <p align="center">
-  <a href="https://loomic-one.vercel.app" target="_blank">
-    <img src="apps/web/public/logo.svg" alt="Loomic Logo" width="80" />
+  <a href="https://scenva-one.vercel.app" target="_blank">
+    <img src="apps/web/public/logo.svg" alt="Scenva Logo" width="80" />
   </a>
 </p>
 
 <h1 align="center">
-  <a href="https://loomic-one.vercel.app" target="_blank">Loomic</a>
+  <a href="https://scenva-one.vercel.app" target="_blank">Scenva</a>
 </h1>
 
 <p align="center">
@@ -14,8 +14,8 @@
 </p>
 
 <p align="center">
-  <a href="https://loomic-one.vercel.app">
-    <img width="900" src="docs/images/base-image.png" alt="Loomic" />
+  <a href="https://scenva-one.vercel.app">
+    <img width="900" src="docs/images/base-image.png" alt="Scenva" />
   </a>
 </p>
 
@@ -33,23 +33,23 @@
 </p>
 
 <p align="center">
-  <img width="900" src="docs/images/home-image.png" alt="Loomic Workspace" />
+  <img width="900" src="docs/images/home-image.png" alt="Scenva Workspace" />
 </p>
 
 ---
 
-## 💡 Loomic 是什么
+## 💡 Scenva 是什么
 
 CapCut 刚推出了 Video Studio——基于画布的 AI 视频制作空间，Lovart 做的是 AI 设计 Agent，Canva 也在往 AI 方向猛推。这类产品的共同点：闭源、数据不在你手里、定价你说了不算。
 
-Loomic 做的是同一件事，但完全开源。你在无限画布上跟 AI 对话，它直接生成图片、视频，摆好位置，调好样式。不需要时间轴，不需要模板，不需要学 prompt 工程。说"把左边那张换成暖色调"，AI 就懂了。
+Scenva 做的是同一件事，但完全开源。你在无限画布上跟 AI 对话，它直接生成图片、视频，摆好位置，调好样式。不需要时间轴，不需要模板，不需要学 prompt 工程。说"把左边那张换成暖色调"，AI 就懂了。
 
 从构思、角色设定、故事板、场景生成、细节打磨到导出——整个创作流程在一个画布上完成。底层是 LangGraph 驱动的 Agent，接了 Google Gemini / Vertex AI / OpenAI / Replicate 十几个模型（包括 Veo 3.1、Kling、Seedance、Sora 等），图片视频都能生。
 
 开源，可以自己部署，数据全在你手里。
 
 <p align="center">
-  <img width="900" src="docs/images/canvas-image.png" alt="Loomic Canvas" />
+  <img width="900" src="docs/images/canvas-image.png" alt="Scenva Canvas" />
 </p>
 
 ---
@@ -163,8 +163,8 @@ Loomic 做的是同一件事，但完全开源。你在无限画布上跟 AI 对
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/fancyboi999/Loomic.git
-cd Loomic
+git clone https://github.com/fancyboi999/Scenva.git
+cd Scenva
 pnpm install
 ```
 
@@ -198,7 +198,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
 # ── Required: At least one AI provider ──────────────────────
-LOOMIC_AGENT_MODEL=google:gemini-2.5-flash     # or openai:gpt-4o
+SCENVA_AGENT_MODEL=google:gemini-2.5-flash     # or openai:gpt-4o
 GOOGLE_API_KEY=your-google-api-key             # for Gemini + Imagen + Veo
 # OPENAI_API_KEY=your-openai-key               # alternative: OpenAI provider
 
@@ -224,12 +224,12 @@ pnpm seed
 
 | Email | Password | Plan | Credits |
 |-------|----------|------|---------|
-| `free@test.loomic.com` | `opensourceloomic` | Free | 50 |
-| `starter@test.loomic.com` | `opensourceloomic` | Starter | 1,200 |
-| `pro@test.loomic.com` | `opensourceloomic` | Pro | 5,000 |
-| `ultra@test.loomic.com` | `opensourceloomic` | Ultra | 15,000 |
+| `free@test.scenva.com` | `opensourcescenva` | Free | 50 |
+| `starter@test.scenva.com` | `opensourcescenva` | Starter | 1,200 |
+| `pro@test.scenva.com` | `opensourcescenva` | Pro | 5,000 |
+| `ultra@test.scenva.com` | `opensourcescenva` | Ultra | 15,000 |
 
-> These accounts are created in YOUR Supabase instance, not the hosted version at loomic.one.
+> These accounts are created in YOUR Supabase instance, not the hosted version at scenva.one.
 
 ### 5. Start Development
 
@@ -255,7 +255,7 @@ Open http://localhost:3000 and start creating!
 
 ```bash
 # Connect your repo to Vercel, then set:
-# Build Command:   pnpm --filter @loomic/shared build && pnpm --filter @loomic/web build
+# Build Command:   pnpm --filter @scenva/shared build && pnpm --filter @scenva/web build
 # Output Directory: apps/web/out
 # Environment Variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_SERVER_BASE_URL
 ```
@@ -267,7 +267,7 @@ The backend runs as two services from a single Docker image, differentiated by `
 **API Service:**
 ```bash
 SERVICE_MODE=api
-LOOMIC_SERVER_PORT=3001
+SCENVA_SERVER_PORT=3001
 ```
 
 **Worker Service:**
@@ -298,8 +298,8 @@ Each worker polls PGMQ and processes jobs concurrently. PGMQ guarantees exactly-
 
 ```bash
 # Local: start multiple workers
-pnpm --filter @loomic/server dev:workers:2   # 2 workers (6 concurrent jobs)
-pnpm --filter @loomic/server dev:workers:3   # 3 workers (9 concurrent jobs)
+pnpm --filter @scenva/server dev:workers:2   # 2 workers (6 concurrent jobs)
+pnpm --filter @scenva/server dev:workers:3   # 3 workers (9 concurrent jobs)
 ```
 
 | Variable | Default | Description |
@@ -317,7 +317,7 @@ On Railway, scale by adding more worker service replicas.
 ## 📂 Project Structure
 
 ```
-Loomic/
+Scenva/
 ├── apps/
 │   ├── web/                    # Next.js 15 frontend
 │   │   ├── src/
@@ -383,7 +383,7 @@ Loomic/
 
 | Variable | Description |
 |----------|-------------|
-| `LOOMIC_AGENT_MODEL` | Agent LLM model (e.g., `google:gemini-2.5-flash`) |
+| `SCENVA_AGENT_MODEL` | Agent LLM model (e.g., `google:gemini-2.5-flash`) |
 | `GOOGLE_API_KEY` | Google AI API key (Gemini + Imagen + Veo) |
 | `OPENAI_API_KEY` | OpenAI API key (GPT + DALL-E) |
 | `OPENAI_API_BASE` | Custom OpenAI-compatible endpoint |
@@ -412,10 +412,10 @@ Loomic/
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `LOOMIC_SERVER_PORT` | `3001` | API server port |
-| `LOOMIC_WEB_ORIGIN` | `http://localhost:3000` | Frontend origin (CORS) |
-| `LOOMIC_AGENT_BACKEND_MODE` | `state` | Agent persistence (`state` or `filesystem`) |
-| `LOOMIC_SKILLS_ROOT` | `../../skills` | Path to skills directory |
+| `SCENVA_SERVER_PORT` | `3001` | API server port |
+| `SCENVA_WEB_ORIGIN` | `http://localhost:3000` | Frontend origin (CORS) |
+| `SCENVA_AGENT_BACKEND_MODE` | `state` | Agent persistence (`state` or `filesystem`) |
+| `SCENVA_SKILLS_ROOT` | `../../skills` | Path to skills directory |
 | `WORKER_CONCURRENCY` | `3` | Jobs per worker |
 | `WORKER_IMAGE_CONCURRENCY` | `3` | Image generation slots |
 | `WORKER_VIDEO_CONCURRENCY` | `2` | Video generation slots |

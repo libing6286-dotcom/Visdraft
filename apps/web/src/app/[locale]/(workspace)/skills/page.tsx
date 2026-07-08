@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ListFilter, Plus, Search, ShieldCheck } from "lucide-react";
 
-import type { SkillCategory, SkillDetail, SkillListItem } from "@loomic/shared";
+import type { SkillCategory, SkillDetail, SkillListItem } from "@scenva/shared";
 
 import { SkillCard } from "@/components/skills/skill-card";
 import { CreateSkillDialog } from "@/components/skills/create-skill-dialog";

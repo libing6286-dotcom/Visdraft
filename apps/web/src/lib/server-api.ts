@@ -25,7 +25,7 @@ import type {
   JobResponse,
   MarketplaceSearchResponse,
   MarketplaceDetail,
-} from "@loomic/shared";
+} from "@scenva/shared";
 
 import { getServerBaseUrl } from "./env";
 import { dedupeRequest } from "./dedupe-request";

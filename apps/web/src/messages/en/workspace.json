@@ -43,9 +43,9 @@
   },
   "discovery": {
     "title": "Discover",
-    "desc": "Click a card to start a new Loomic project from that example and jump straight into the agent chat.",
+    "desc": "Click a card to start a new Scenva project from that example and jump straight into the agent chat.",
     "all": "All",
-    "hintClick": "Click to use directly as Loomic's starting brief",
+    "hintClick": "Click to use directly as Scenva's starting brief",
     "views": "views",
     "likes": "likes"
   },
@@ -60,6 +60,6 @@
   },
   "prompt": {
     "clear": "Clear",
-    "placeholder": "Let Loomic design for you..."
+    "placeholder": "Let Scenva design for you..."
   }
 }

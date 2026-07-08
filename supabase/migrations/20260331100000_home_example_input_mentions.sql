@@ -172,7 +172,7 @@ values
   (
     'nano-banana-pro',
     $t$Design pixel-perfect web interface.$t$,
-    $p$Generate a landing page for a furniture shop called Loomic, Neo Brutalism style. These are the product images:$p$,
+    $p$Generate a landing page for a furniture shop called Scenva, Neo Brutalism style. These are the product images:$p$,
     array[
       'https://jmcrxgenontlkxktpihl.supabase.co/storage/v1/object/public/project-assets/home-seeds/examples/nano-banana-pro/e1-1.webp',
       'https://jmcrxgenontlkxktpihl.supabase.co/storage/v1/object/public/project-assets/home-seeds/examples/nano-banana-pro/e1-2.webp',

@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { ImageGenerationPreference, VideoGenerationPreference } from "@loomic/shared";
+import type { ImageGenerationPreference, VideoGenerationPreference } from "@scenva/shared";
 
 import type { ImageAttachmentState, ReadyAttachment } from "../hooks/use-image-attachments";
 import type { HomeExampleSelection } from "@/lib/home-example-seeds";

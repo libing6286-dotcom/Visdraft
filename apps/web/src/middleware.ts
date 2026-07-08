@@ -9,7 +9,7 @@ import { routing } from "@/i18n/routing";
  * - 按 cookie(NEXT_LOCALE) → Accept-Language 检测语言并把 `/` 映射到对应内容；
  * - 为非默认语言补 `/zh` 前缀、为默认语言去前缀。
  *
- * 鉴权不在此处理：Loomic 的 Supabase 登录态在客户端（workspace layout 守卫）。
+ * 鉴权不在此处理：Scenva 的 Supabase 登录态在客户端（workspace layout 守卫）。
  */
 export default createMiddleware(routing);
 

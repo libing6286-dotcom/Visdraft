@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import type { ImageGenerationPreference, VideoGenerationPreference } from "@loomic/shared";
+import type { ImageGenerationPreference, VideoGenerationPreference } from "@scenva/shared";
 
 import type { ReadyAttachment } from "@/hooks/use-image-attachments";
 import { useAuth } from "@/lib/auth-context";
@@ -10,12 +10,12 @@ import { useToast } from "@/components/toast";
 import { ApiAuthError, createProject } from "@/lib/server-api";
 
 /** sessionStorage key used to pass attachments from Home → Canvas auto-send. */
-export const INITIAL_ATTACHMENTS_KEY = "loomic:initial-attachments";
+export const INITIAL_ATTACHMENTS_KEY = "scenva:initial-attachments";
 export const INITIAL_IMAGE_GENERATION_PREFERENCE_KEY =
-  "loomic:initial-image-generation-preference";
+  "scenva:initial-image-generation-preference";
 export const INITIAL_VIDEO_GENERATION_PREFERENCE_KEY =
-  "loomic:initial-video-generation-preference";
-export const INITIAL_AGENT_MODEL_KEY = "loomic:initial-agent-model";
+  "scenva:initial-video-generation-preference";
+export const INITIAL_AGENT_MODEL_KEY = "scenva:initial-agent-model";
 
 /**
  * Shared hook for creating an Untitled project and navigating to its canvas.

@@ -44,7 +44,7 @@ type GetMetadataOptions = {
  *   export const generateMetadata = getMetadata({ namespace: "pages.pricing", path: "/pricing" });
  *
  * 产出本地化 title/description、canonical、hreflang alternates、og:locale。
- * 参考 shipany src/shared/lib/seo.ts 的封装思路，适配 Loomic（无服务依赖）。
+ * 参考 shipany src/shared/lib/seo.ts 的封装思路，适配 Scenva（无服务依赖）。
  */
 export function getMetadata(options: GetMetadataOptions = {}) {
   const { namespace = "common.metadata", path = "/", imageUrl, noIndex } = options;
@@ -90,7 +90,7 @@ export function getMetadata(options: GetMetadataOptions = {}) {
         url: canonical,
         title,
         description,
-        siteName: "Loomic",
+        siteName: "Scenva",
         images: [{ url: image, width: 1200, height: 630 }],
       },
       twitter: {

@@ -1,4 +1,4 @@
--- Loomic Supabase Foundation V1
+-- Scenva Supabase Foundation V1
 -- Target hosted project ref: ndbwtngvypwgqexcirdo
 --
 -- Checklist:

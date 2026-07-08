@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
-import type { VideoGenerationPreference } from "@loomic/shared";
+import type { VideoGenerationPreference } from "@scenva/shared";
 
-const STORAGE_KEY = "loomic:video-model-preference";
+const STORAGE_KEY = "scenva:video-model-preference";
 const DEFAULT_MODEL = "google/veo-3.1";
 
 export type VideoModelPreference = VideoGenerationPreference;

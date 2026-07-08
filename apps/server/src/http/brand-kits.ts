@@ -10,7 +10,7 @@ import {
   brandKitAssetResponseSchema,
   brandKitUpdateRequestSchema,
   unauthenticatedErrorResponseSchema,
-} from "@loomic/shared";
+} from "@scenva/shared";
 
 import {
   BrandKitServiceError,

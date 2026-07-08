@@ -3,7 +3,7 @@
 import type {
   ImageGenerationPreference,
   VideoGenerationPreference,
-} from "@loomic/shared";
+} from "@scenva/shared";
 import type { ReadyAttachment } from "@/hooks/use-image-attachments";
 import { motion } from "framer-motion";
 import { useRouter } from "@/i18n/navigation";

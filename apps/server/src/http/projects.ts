@@ -7,7 +7,7 @@ import {
   projectListResponseSchema,
   projectUpdateRequestSchema,
   unauthenticatedErrorResponseSchema,
-} from "@loomic/shared";
+} from "@scenva/shared";
 
 import {
   ProjectServiceError,

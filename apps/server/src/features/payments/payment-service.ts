@@ -1,6 +1,6 @@
 // @credits-system — Payment lifecycle: checkout creation, subscription sync, cancellation, plan changes
-import type { BillingPeriod, SubscriptionPlan } from "@loomic/shared";
-import { PLAN_CONFIGS } from "@loomic/shared";
+import type { BillingPeriod, SubscriptionPlan } from "@scenva/shared";
+import { PLAN_CONFIGS } from "@scenva/shared";
 
 import type { AdminSupabaseClient } from "../../supabase/admin.js";
 import type { LemonSqueezyClient } from "./lemon-squeezy-client.js";

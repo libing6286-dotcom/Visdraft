@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
-import { LoomicLogo } from "@/components/icons/loomic-logo";
+import { ScenvaLogo } from "@/components/icons/scenva-logo";
 import { CreditBalance } from "@/components/credits/credit-balance";
 import { LocaleSelector } from "@/components/locale-selector";
 import { useAuth } from "@/lib/auth-context";
@@ -204,7 +204,7 @@ export function AppSidebar() {
         {/* Logo */}
         <Link
           href="/home"
-          title="Loomic"
+          title="Scenva"
           className="mb-1 flex h-9 w-9 items-center justify-center"
         >
           <motion.div
@@ -212,7 +212,7 @@ export function AppSidebar() {
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <LoomicLogo className="size-7 text-foreground" />
+            <ScenvaLogo className="size-7 text-foreground" />
           </motion.div>
         </Link>
 

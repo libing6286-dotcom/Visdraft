@@ -3,8 +3,8 @@ import type {
   BillingPeriod,
   CreditTransaction,
   SubscriptionPlan,
-} from "@loomic/shared";
-import { PLAN_CONFIGS } from "@loomic/shared";
+} from "@scenva/shared";
+import { PLAN_CONFIGS } from "@scenva/shared";
 
 import type { AdminSupabaseClient } from "../../supabase/admin.js";
 

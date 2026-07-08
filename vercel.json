@@ -1,4 +1,4 @@
 {
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @loomic/shared build && pnpm --filter @loomic/web build"
+  "buildCommand": "pnpm --filter @scenva/shared build && pnpm --filter @scenva/web build"
 }

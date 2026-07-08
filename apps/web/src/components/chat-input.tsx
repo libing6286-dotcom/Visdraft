@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 
-import type { MessageMention } from "@loomic/shared";
+import type { MessageMention } from "@scenva/shared";
 import type { ImageAttachmentState } from "../hooks/use-image-attachments";
 import type { CanvasSelectedElement } from "./canvas-editor";
 import { useImageModelPreference } from "../hooks/use-image-model-preference";

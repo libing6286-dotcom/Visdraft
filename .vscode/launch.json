@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Loomic Server",
+      "name": "Debug Scenva Server",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}/apps/server",
@@ -21,7 +21,7 @@
       "internalConsoleOptions": "neverOpen"
     },
     {
-      "name": "Debug Loomic Worker",
+      "name": "Debug Scenva Worker",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}/apps/server",
@@ -33,13 +33,16 @@
         "tsx",
         "./src/worker.ts"
       ],
+      "env": {
+        "WORKER_ID": "dbg"
+      },
       "autoAttachChildProcesses": true,
       "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     },
     {
-      "name": "Attach to Loomic Server",
+      "name": "Attach to Scenva Server",
       "type": "node",
       "request": "attach",
       "port": 9229,

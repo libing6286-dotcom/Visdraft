@@ -8,7 +8,7 @@ import {
   sessionCreateResponseSchema,
   sessionListResponseSchema,
   unauthenticatedErrorResponseSchema,
-} from "@loomic/shared";
+} from "@scenva/shared";
 
 import {
   ChatServiceError,

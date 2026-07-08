@@ -4,7 +4,7 @@
   "previewModelUnstable": "当前 Preview 模型请求不稳定，建议切换模型后重试",
   "inputAria": "输入消息",
   "skills": {
-    "tryThese": "试试这些 Loomic Skills",
+    "tryThese": "试试这些 Scenva Skills",
     "socialCarouselLabel": "社媒轮播图",
     "socialCarouselPrompt": "帮我设计一组社交媒体轮播图，包含封面和多张内页，风格统一",
     "socialPosterLabel": "社交媒体",

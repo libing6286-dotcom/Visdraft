@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { useCallback, useEffect, useRef, useState, Suspense } from "react";
 
-import type { ImageArtifact, VideoArtifact } from "@loomic/shared";
+import type { ImageArtifact, VideoArtifact } from "@scenva/shared";
 import type { CanvasImageItem } from "@/components/canvas-image-picker";
 import type { CanvasSelectedElement } from "@/components/canvas-editor";
 import { LoadingScreen } from "@/components/loading-screen";

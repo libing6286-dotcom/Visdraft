@@ -2,7 +2,7 @@ import type {
   ProjectCreateRequest,
   ProjectSummary,
   ProjectUpdateRequest,
-} from "@loomic/shared";
+} from "@scenva/shared";
 
 import {
   BootstrapError,

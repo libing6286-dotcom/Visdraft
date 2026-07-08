@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-export const DEFAULT_AGENT_BACKEND_MODE = "filesystem";
+export const DEFAULT_AGENT_BACKEND_MODE = "state";
 export const DEFAULT_AGENT_MODEL = "gpt-4.1";
 export const DEFAULT_GOOGLE_AGENT_MODEL = "gemini-2.5-flash";
 export const DEFAULT_SERVER_PORT = 3001;
@@ -74,7 +74,7 @@ export function loadServerEnv(
 ): ServerEnv {
   const agentFilesRoot =
     overrides.agentFilesRoot ??
-    parseAgentFilesRoot(source.LOOMIC_AGENT_FILES_ROOT);
+    parseAgentFilesRoot(source.SCENVA_AGENT_FILES_ROOT);
   const openAIApiBase =
     overrides.openAIApiBase ?? normalizeOptionalString(source.OPENAI_API_BASE);
   const openAIApiKey =
@@ -139,7 +139,7 @@ export function loadServerEnv(
   const lemonSqueezyVariantBusinessYearly =
     overrides.lemonSqueezyVariantBusinessYearly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_BUSINESS_YEARLY);
   const skillsRoot =
-    overrides.skillsRoot ?? normalizeOptionalString(source.LOOMIC_SKILLS_ROOT);
+    overrides.skillsRoot ?? normalizeOptionalString(source.SCENVA_SKILLS_ROOT);
   const workerConcurrency = overrides.workerConcurrency ??
     (source.WORKER_CONCURRENCY
       ? parseInt(source.WORKER_CONCURRENCY, 10) : undefined);
@@ -159,10 +159,10 @@ export function loadServerEnv(
       ? parseInt(source.WORKER_MAX_BATCH_SIZE, 10) : undefined);
 
   // Resolve default agent model based on available provider keys.
-  // Explicit LOOMIC_AGENT_MODEL always takes precedence; otherwise fall back
+  // Explicit SCENVA_AGENT_MODEL always takes precedence; otherwise fall back
   // to Gemini 2.5 Flash when only Google/Vertex is configured.
   const explicitModel =
-    overrides.agentModel ?? parseAgentModel(source.LOOMIC_AGENT_MODEL);
+    overrides.agentModel ?? parseAgentModel(source.SCENVA_AGENT_MODEL);
   const resolvedAgentModel =
     explicitModel ??
     resolveDefaultAgentModel({
@@ -174,12 +174,12 @@ export function loadServerEnv(
   return {
     agentBackendMode:
       overrides.agentBackendMode ??
-      parseAgentBackendMode(source.LOOMIC_AGENT_BACKEND_MODE),
+      parseAgentBackendMode(source.SCENVA_AGENT_BACKEND_MODE),
     agentModel: resolvedAgentModel,
-    port: overrides.port ?? parsePort(source.LOOMIC_SERVER_PORT ?? source.PORT),
+    port: overrides.port ?? parsePort(source.SCENVA_SERVER_PORT ?? source.PORT),
     version: overrides.version ?? readServerVersion(),
     webOrigin:
-      overrides.webOrigin ?? source.LOOMIC_WEB_ORIGIN ?? DEFAULT_WEB_ORIGIN,
+      overrides.webOrigin ?? source.SCENVA_WEB_ORIGIN ?? DEFAULT_WEB_ORIGIN,
     ...(agentFilesRoot ? { agentFilesRoot } : {}),
     ...(deepseekApiKey ? { deepseekApiKey } : {}),
     ...(googleApiKey ? { googleApiKey } : {}),
@@ -230,7 +230,7 @@ function parseAgentBackendMode(rawMode: string | undefined): AgentBackendMode {
     return rawMode;
   }
 
-  throw new Error(`Invalid LOOMIC_AGENT_BACKEND_MODE value: ${rawMode}`);
+  throw new Error(`Invalid SCENVA_AGENT_BACKEND_MODE value: ${rawMode}`);
 }
 
 function parseAgentFilesRoot(rawRoot: string | undefined) {
@@ -253,7 +253,7 @@ function parsePort(rawPort: string | undefined) {
 
   const port = Number.parseInt(rawPort, 10);
   if (!Number.isInteger(port) || port <= 0) {
-    throw new Error(`Invalid LOOMIC_SERVER_PORT value: ${rawPort}`);
+    throw new Error(`Invalid SCENVA_SERVER_PORT value: ${rawPort}`);
   }
 
   return port;
