@@ -3,5 +3,22 @@
     "title": "Scenva",
     "description": "AI 驱动的创意工作空间",
     "keywords": "AI, 设计, 创意, 画布, Scenva"
+  },
+  "pages": {
+    "landing": {
+      "title": "Scenva",
+      "description": "AI 驱动的创意工作空间。",
+      "keywords": "AI, 设计, 创意, 画布, Scenva"
+    },
+    "home": {
+      "title": "Scenva - 面向创作者的 AI 设计工作空间",
+      "description": "在 Scenva 中创建 AI 生成设计、品牌视觉、社媒内容和可编辑画布项目，把创意生产集中到一个工作空间。",
+      "keywords": "AI 设计工具, AI 创意工作空间, AI 图片生成, 品牌设计, Scenva"
+    },
+    "pricing": {
+      "title": "Scenva 定价 - 面向创作者的 AI 设计方案",
+      "description": "比较 Scenva 的 AI 图片生成、视频生成、品牌套件、项目空间、积分和团队创意工作流方案。",
+      "keywords": "Scenva 定价, AI 设计定价, AI 图片生成方案, AI 创意工具价格"
+    }
   }
 }

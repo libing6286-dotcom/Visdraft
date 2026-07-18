@@ -3,5 +3,22 @@
     "title": "Scenva",
     "description": "AI-powered creative workspace",
     "keywords": "AI, design, creative, canvas, Scenva"
+  },
+  "pages": {
+    "landing": {
+      "title": "Scenva",
+      "description": "AI-powered creative workspace.",
+      "keywords": "AI, design, creative, canvas, Scenva"
+    },
+    "home": {
+      "title": "Scenva - AI Design Workspace for Creators",
+      "description": "Create AI-generated designs, brand visuals, social content, and editable canvas projects in one creative workspace.",
+      "keywords": "AI design tool, AI creative workspace, AI image generator, brand design, Scenva"
+    },
+    "pricing": {
+      "title": "Scenva Pricing - AI Design Plans for Creators",
+      "description": "Compare Scenva plans for AI image generation, video generation, brand kits, projects, credits, and team creative workflows.",
+      "keywords": "Scenva pricing, AI design pricing, AI image generation plans, AI creative tool pricing"
+    }
   }
 }

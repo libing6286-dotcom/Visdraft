@@ -21,7 +21,10 @@ export function generateStaticParams() {
 }
 
 // 本地化的根级 metadata（title/description/canonical/hreflang/og:locale）
-export const generateMetadata = getMetadata({ path: "/" });
+export const generateMetadata = getMetadata({
+  namespace: "common.pages.landing",
+  path: "/",
+});
 
 export default async function LocaleLayout({
   children,
