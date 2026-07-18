@@ -45,19 +45,21 @@ export function LocaleSelector({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size={type === "icon" ? "icon" : "default"}
-          aria-label="Switch language"
-          className={className}
-        >
-          <Languages className="size-4" />
-          {type === "button" ? (
-            <span className="ml-1.5">{localeNames[currentLocale]}</span>
-          ) : null}
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="ghost"
+            size={type === "icon" ? "icon" : "default"}
+            aria-label="Switch language"
+            className={className}
+          >
+            <Languages className="size-4" />
+            {type === "button" ? (
+              <span className="ml-1.5">{localeNames[currentLocale]}</span>
+            ) : null}
+          </Button>
+        }
+      />
       <DropdownMenuContent align="end" className="min-w-32">
         {locales.map((locale) => (
           <DropdownMenuItem

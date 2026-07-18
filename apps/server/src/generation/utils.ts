@@ -1,9 +1,27 @@
+// const KNOWN_RATIOS: Record<string, { width: number; height: number }> = {
+//   "1:1": { width: 1024, height: 1024 },
+//   "16:9": { width: 1024, height: 576 },
+//   "9:16": { width: 576, height: 1024 },
+//   "4:3": { width: 1024, height: 768 },
+//   "3:4": { width: 768, height: 1024 },
+// };
+
 const KNOWN_RATIOS: Record<string, { width: number; height: number }> = {
   "1:1": { width: 1024, height: 1024 },
-  "16:9": { width: 1024, height: 576 },
-  "9:16": { width: 576, height: 1024 },
-  "4:3": { width: 1024, height: 768 },
-  "3:4": { width: 768, height: 1024 },
+  "16:9": { width: 1820, height: 1024 },
+  "9:16": { width: 1024, height: 1820 },
+  "4:3": { width: 1365, height: 1024 },
+  "3:4": { width: 1024, height: 1365 },
+  "3:2": { width: 1365, height: 1024 },
+  "2:3": { width: 1024, height: 1365 },
+  "5:4": { width: 1280, height: 1024 },
+  "4:5": { width: 1024, height: 1280 },
+  "1:2": { width: 1024, height: 2048 },
+  "2:1": { width: 2048, height: 1024 },
+  "7:5": { width: 1434, height: 1024 },
+  "5:7": { width: 1024, height: 1434 },
+  "3:5": { width: 1024, height: 1707 },
+  "5:3": { width: 1707, height: 1024 },
 };
 
 function roundTo64(value: number): number {

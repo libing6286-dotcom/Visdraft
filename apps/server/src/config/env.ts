@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 export const DEFAULT_AGENT_BACKEND_MODE = "state";
 export const DEFAULT_AGENT_MODEL = "gpt-4.1";
 export const DEFAULT_GOOGLE_AGENT_MODEL = "gemini-2.5-flash";
+export const DEFAULT_DEEPSEEK_AGENT_MODEL = "deepseek-v4-flash";
 export const DEFAULT_SERVER_PORT = 3001;
 export const DEFAULT_WEB_ORIGIN = "http://localhost:3000";
 
@@ -11,12 +12,17 @@ export const DEFAULT_WEB_ORIGIN = "http://localhost:3000";
  * When Google/Vertex is configured but OpenAI is not, defaults to Gemini 2.5 Flash.
  */
 export function resolveDefaultAgentModel(
-  env: Pick<ServerEnv, "googleApiKey" | "googleVertexProject" | "openAIApiKey">,
+  env: Pick<
+    ServerEnv,
+    "deepseekApiKey" | "googleApiKey" | "googleVertexProject" | "openAIApiKey"
+  >,
 ): string {
   const hasOpenAI = !!env.openAIApiKey;
   const hasGoogle = !!(env.googleApiKey || env.googleVertexProject);
+  const hasDeepseek = !!env.deepseekApiKey;
 
   if (!hasOpenAI && hasGoogle) return DEFAULT_GOOGLE_AGENT_MODEL;
+  if (!hasOpenAI && !hasGoogle && hasDeepseek) return DEFAULT_DEEPSEEK_AGENT_MODEL;
   return DEFAULT_AGENT_MODEL;
 }
 
@@ -74,7 +80,9 @@ export function loadServerEnv(
 ): ServerEnv {
   const agentFilesRoot =
     overrides.agentFilesRoot ??
-    parseAgentFilesRoot(source.SCENVA_AGENT_FILES_ROOT);
+    parseAgentFilesRoot(
+      source.SCENVA_AGENT_FILES_ROOT ?? source.LOOMIC_AGENT_FILES_ROOT,
+    );
   const openAIApiBase =
     overrides.openAIApiBase ?? normalizeOptionalString(source.OPENAI_API_BASE);
   const openAIApiKey =
@@ -139,7 +147,10 @@ export function loadServerEnv(
   const lemonSqueezyVariantBusinessYearly =
     overrides.lemonSqueezyVariantBusinessYearly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_BUSINESS_YEARLY);
   const skillsRoot =
-    overrides.skillsRoot ?? normalizeOptionalString(source.SCENVA_SKILLS_ROOT);
+    overrides.skillsRoot ??
+    normalizeOptionalString(
+      source.SCENVA_SKILLS_ROOT ?? source.LOOMIC_SKILLS_ROOT,
+    );
   const workerConcurrency = overrides.workerConcurrency ??
     (source.WORKER_CONCURRENCY
       ? parseInt(source.WORKER_CONCURRENCY, 10) : undefined);
@@ -162,10 +173,12 @@ export function loadServerEnv(
   // Explicit SCENVA_AGENT_MODEL always takes precedence; otherwise fall back
   // to Gemini 2.5 Flash when only Google/Vertex is configured.
   const explicitModel =
-    overrides.agentModel ?? parseAgentModel(source.SCENVA_AGENT_MODEL);
+    overrides.agentModel ??
+    parseAgentModel(source.SCENVA_AGENT_MODEL ?? source.LOOMIC_AGENT_MODEL);
   const resolvedAgentModel =
     explicitModel ??
     resolveDefaultAgentModel({
+      deepseekApiKey,
       googleApiKey,
       googleVertexProject,
       openAIApiKey,
@@ -174,12 +187,21 @@ export function loadServerEnv(
   return {
     agentBackendMode:
       overrides.agentBackendMode ??
-      parseAgentBackendMode(source.SCENVA_AGENT_BACKEND_MODE),
+      parseAgentBackendMode(
+        source.SCENVA_AGENT_BACKEND_MODE ?? source.LOOMIC_AGENT_BACKEND_MODE,
+      ),
     agentModel: resolvedAgentModel,
-    port: overrides.port ?? parsePort(source.SCENVA_SERVER_PORT ?? source.PORT),
+    port:
+      overrides.port ??
+      parsePort(
+        source.SCENVA_SERVER_PORT ?? source.LOOMIC_SERVER_PORT ?? source.PORT,
+      ),
     version: overrides.version ?? readServerVersion(),
     webOrigin:
-      overrides.webOrigin ?? source.SCENVA_WEB_ORIGIN ?? DEFAULT_WEB_ORIGIN,
+      overrides.webOrigin ??
+      source.SCENVA_WEB_ORIGIN ??
+      source.LOOMIC_WEB_ORIGIN ??
+      DEFAULT_WEB_ORIGIN,
     ...(agentFilesRoot ? { agentFilesRoot } : {}),
     ...(deepseekApiKey ? { deepseekApiKey } : {}),
     ...(googleApiKey ? { googleApiKey } : {}),

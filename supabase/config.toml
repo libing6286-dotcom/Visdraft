@@ -1,4 +1,4 @@
-project_id = "scenva"
+project_id = "loomic"
 
 [api]
 enabled = true

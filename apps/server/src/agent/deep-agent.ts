@@ -6,7 +6,12 @@ import { ChatOpenAI } from "@langchain/openai";
 import { ChatDeepSeek } from "@langchain/deepseek";
 import { createDeepAgent } from "deepagents";
 
-import { DEFAULT_AGENT_MODEL, DEFAULT_GOOGLE_AGENT_MODEL, type ServerEnv } from "../config/env.js";
+import {
+  DEFAULT_AGENT_MODEL,
+  DEFAULT_DEEPSEEK_AGENT_MODEL,
+  DEFAULT_GOOGLE_AGENT_MODEL,
+  type ServerEnv,
+} from "../config/env.js";
 import type { ConnectionManager } from "../ws/connection-manager.js";
 import { createAgentBackend, type AgentBackendResult } from "./backends/index.js";
 import { SCENVA_SYSTEM_PROMPT } from "./prompts/scenva-main.js";
@@ -142,21 +147,51 @@ function createStreamingChatModel(specifier: string): BaseLanguageModel {
   const hasGoogle = hasGoogleApiKey || hasVertexAI;
   const hasDeepseekApiKey = !!process.env.DEEPSEEK_API_KEY;
 
+  const fallbackProvider = (
+    candidates: Array<"openai" | "google" | "deepseek">,
+  ): "openai" | "google" | "deepseek" | null => {
+    for (const candidate of candidates) {
+      if (candidate === "openai" && process.env.OPENAI_API_KEY) return "openai";
+      if (candidate === "google" && hasGoogle) return "google";
+      if (candidate === "deepseek" && hasDeepseekApiKey) return "deepseek";
+    }
+    return null;
+  };
+
+  const applyFallback = (nextProvider: "openai" | "google" | "deepseek" | null) => {
+    if (!nextProvider) {
+      throw new Error(
+        `No AI provider credentials configured for requested model: ${specifier}. ` +
+        "Set one of OPENAI_API_KEY, GOOGLE_API_KEY / GOOGLE_VERTEX_PROJECT, or DEEPSEEK_API_KEY.",
+      );
+    }
+    provider = nextProvider;
+    modelName =
+      nextProvider === "google"
+        ? DEFAULT_GOOGLE_AGENT_MODEL
+        : nextProvider === "deepseek"
+          ? DEFAULT_DEEPSEEK_AGENT_MODEL
+          : DEFAULT_AGENT_MODEL;
+  };
+
   // Provider availability fallback
   if (provider === "google" && !hasGoogle) {
-    console.warn(`[model] Google unavailable (no GOOGLE_API_KEY or Vertex AI config), falling back to OpenAI for: ${specifier}`);
-    provider = "openai";
-    modelName = DEFAULT_AGENT_MODEL;
+    console.warn(
+      `[model] Google unavailable (no GOOGLE_API_KEY or Vertex AI config), falling back for: ${specifier}`,
+    );
+    applyFallback(fallbackProvider(["openai", "deepseek"]));
   }
   if (provider === "deepseek" && !hasDeepseekApiKey) {
-    console.warn(`[model] Deepseek unavailable (no DEEPSEEK_API_KEY), falling back to OpenAI for: ${specifier}`);
-    provider = "openai";
-    modelName = DEFAULT_AGENT_MODEL;
+    console.warn(
+      `[model] Deepseek unavailable (no DEEPSEEK_API_KEY), falling back for: ${specifier}`,
+    );
+    applyFallback(fallbackProvider(["openai", "google"]));
   }
-  if (provider === "openai" && !process.env.OPENAI_API_KEY && hasGoogle) {
-    console.warn(`[model] OpenAI unavailable (no OPENAI_API_KEY), falling back to Google for: ${specifier}`);
-    provider = "google";
-    modelName = DEFAULT_GOOGLE_AGENT_MODEL;
+  if (provider === "openai" && !process.env.OPENAI_API_KEY) {
+    console.warn(
+      `[model] OpenAI unavailable (no OPENAI_API_KEY), falling back for: ${specifier}`,
+    );
+    applyFallback(fallbackProvider(["google", "deepseek"]));
   }
 
   switch (provider) {

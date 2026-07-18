@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-12T22:31:55.5331548+08:00",
+  "title": "Design System: Scenva",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Canvas White",
+        "canonical": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.25 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.52 0 0)",
+          "oklch(0.68 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.94 0 0)",
+          "oklch(1 0 0)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Foreground Ink",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.145 0 0)",
+          "oklch(0.205 0 0)",
+          "oklch(0.269 0 0)",
+          "oklch(0.371 0 0)",
+          "oklch(0.439 0 0)",
+          "oklch(0.556 0 0)",
+          "oklch(0.708 0 0)",
+          "oklch(0.985 0 0)"
+        ]
+      },
+      "accent-lime": {
+        "role": "primary",
+        "displayName": "Studio Lime",
+        "canonical": "oklch(0.90 0.17 115)",
+        "tonalRamp": [
+          "oklch(0.20 0.08 115)",
+          "oklch(0.30 0.10 115)",
+          "oklch(0.42 0.12 115)",
+          "oklch(0.55 0.14 115)",
+          "oklch(0.68 0.16 115)",
+          "oklch(0.80 0.17 115)",
+          "oklch(0.90 0.17 115)",
+          "oklch(0.96 0.08 115)"
+        ]
+      },
+      "destructive": {
+        "role": "error",
+        "displayName": "Destructive Red",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(0.20 0.08 27.325)",
+          "oklch(0.30 0.12 27.325)",
+          "oklch(0.42 0.18 27.325)",
+          "oklch(0.577 0.245 27.325)",
+          "oklch(0.68 0.19 27.325)",
+          "oklch(0.78 0.14 27.325)",
+          "oklch(0.88 0.08 27.325)",
+          "oklch(0.96 0.04 27.325)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Landing and major empty-state headlines only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Marketing section and large feature headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel titles, dialog titles, settings headers, and card labels."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Product copy, chat prose, helper text, and descriptions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, form labels, tabs, compact navigation, and inline actions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "subtle",
+        "value": "0 1px 3px rgba(0, 0, 0, 0.04)",
+        "purpose": "Tiny separation for low-priority surfaces."
+      },
+      {
+        "name": "card",
+        "value": "0 4px 20px rgba(0, 0, 0, 0.04)",
+        "purpose": "Gentle lift for non-interactive cards."
+      },
+      {
+        "name": "float",
+        "value": "0 12px 40px rgba(0, 0, 0, 0.12)",
+        "purpose": "Popover, menu, dialog, and floating tool surfaces."
+      },
+      {
+        "name": "accent-glow",
+        "value": "0 0 20px oklch(0.90 0.17 115 / 0.25)",
+        "purpose": "Rare active-generation or CTA emphasis."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fast",
+        "value": "150ms ease-out",
+        "purpose": "Default product state transitions."
+      },
+      {
+        "name": "dialog-standard",
+        "value": "200ms ease-out",
+        "purpose": "Dialog fade, zoom, and slide transitions."
+      },
+      {
+        "name": "toast-standard",
+        "value": "250ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "purpose": "Toast entrance and exit motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Compact primary action for product UI.",
+      "html": "<button class=\"ds-btn-primary\">Create</button>",
+      "css": ".ds-btn-primary { height: 32px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 10px; border: 1px solid transparent; border-radius: 8px; background: var(--primary); color: var(--primary-foreground); font: 500 14px/1 Geist, ui-sans-serif, system-ui, sans-serif; white-space: nowrap; transition: background-color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out; } .ds-btn-primary:hover { background: oklch(0.205 0 0 / 0.88); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px oklch(0.90 0.17 115 / 0.5); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Neutral secondary action with quiet border and muted hover.",
+      "html": "<button class=\"ds-btn-outline\">Cancel</button>",
+      "css": ".ds-btn-outline { height: 32px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--background); color: var(--foreground); font: 500 14px/1 Geist, ui-sans-serif, system-ui, sans-serif; white-space: nowrap; transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out; } .ds-btn-outline:hover { background: var(--muted); color: var(--foreground); } .ds-btn-outline:active { transform: translateY(1px); } .ds-btn-outline:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px oklch(0.90 0.17 115 / 0.5); }"
+    },
+    {
+      "name": "Ghost Icon Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Icon-only utility action for toolbars, nav, and close controls.",
+      "html": "<button class=\"ds-btn-icon\" aria-label=\"Toggle\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm0 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm8-5a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1ZM1 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H2a1 1 0 0 1-1-1Z\" fill=\"currentColor\" /></svg></button>",
+      "css": ".ds-btn-icon { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted-foreground); transition: background-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out; } .ds-btn-icon svg { width: 16px; height: 16px; } .ds-btn-icon:hover { background: var(--muted); color: var(--foreground); } .ds-btn-icon:active { transform: translateY(1px); } .ds-btn-icon:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px oklch(0.90 0.17 115 / 0.5); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Compact product field for project names, settings, and forms.",
+      "html": "<input class=\"ds-input\" placeholder=\"My Project\" />",
+      "css": ".ds-input { height: 32px; width: 100%; min-width: 0; border: 1px solid var(--input); border-radius: 8px; background: transparent; color: var(--foreground); padding: 4px 10px; font: 400 14px/1.5 Geist, ui-sans-serif, system-ui, sans-serif; transition: border-color 150ms ease-out, box-shadow 150ms ease-out, background-color 150ms ease-out; } .ds-input::placeholder { color: var(--muted-foreground); } .ds-input:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px oklch(0.90 0.17 115 / 0.5); } .ds-input:disabled { cursor: not-allowed; background: oklch(0.922 0 0 / 0.5); opacity: 0.5; }"
+    },
+    {
+      "name": "Sidebar Rail",
+      "kind": "nav",
+      "refersTo": "sidebar-rail",
+      "description": "Desktop authenticated navigation rail.",
+      "html": "<nav class=\"ds-sidebar\"><a class=\"ds-sidebar-item ds-sidebar-item-active\" href=\"#\" aria-label=\"Home\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M8.69 2.136a2 2 0 0 1 2.62 0l5.655 4.905A3 3 0 0 1 18 9.307v7.194a1.5 1.5 0 0 1-1.5 1.5h-3c-.777 0-1.415-.59-1.493-1.347L12 16.501v-5.188a.6.6 0 0 0-.48-.588l-.12-.011H8.6a.6.6 0 0 0-.6.6V16.5A1.5 1.5 0 0 1 6.5 18h-3A1.5 1.5 0 0 1 2 16.5V9.307c0-.815.332-1.593.915-2.157l.119-.11z\" fill=\"currentColor\" /></svg></a></nav>",
+      "css": ".ds-sidebar { width: 60px; height: 220px; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 0; border-right: 1px solid var(--border); background: var(--card); } .ds-sidebar-item { position: relative; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; color: var(--muted-foreground); transition: color 150ms ease-out, background-color 150ms ease-out, transform 150ms ease-out; } .ds-sidebar-item svg { width: 20px; height: 20px; } .ds-sidebar-item:hover { color: var(--foreground); transform: scale(1.08); } .ds-sidebar-item-active { color: var(--foreground); background: oklch(0.90 0.17 115 / 0.10); box-shadow: inset 2px 0 0 var(--accent); }"
+    },
+    {
+      "name": "Dialog Panel",
+      "kind": "card",
+      "refersTo": "dialog",
+      "description": "Small centered task panel for creation and confirmation flows.",
+      "html": "<section class=\"ds-dialog\"><h2>New Project</h2><p>Name your workspace before creating.</p><div class=\"ds-dialog-footer\"><button>Cancel</button><button>Create</button></div></section>",
+      "css": ".ds-dialog { width: min(100%, 384px); display: grid; gap: 16px; padding: 16px; border-radius: 14px; background: var(--background); color: var(--foreground); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); border: 1px solid oklch(0.145 0 0 / 0.10); font-family: Geist, ui-sans-serif, system-ui, sans-serif; } .ds-dialog h2 { margin: 0; font-size: 16px; line-height: 1; font-weight: 500; } .ds-dialog p { margin: 0; color: var(--muted-foreground); font-size: 14px; line-height: 1.5; } .ds-dialog-footer { margin: 0 -16px -16px; padding: 16px; display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--border); border-radius: 0 0 14px 14px; background: oklch(0.97 0 0 / 0.5); } .ds-dialog button { height: 32px; border-radius: 8px; border: 1px solid var(--border); padding: 0 10px; background: var(--background); color: var(--foreground); font: 500 14px/1 Geist, ui-sans-serif, system-ui, sans-serif; } .ds-dialog button:last-child { border-color: transparent; background: var(--primary); color: var(--primary-foreground); }"
+    },
+    {
+      "name": "Toast",
+      "kind": "custom",
+      "refersTo": "toast",
+      "description": "Bottom-center feedback for short-lived success, error, and info messages.",
+      "html": "<div class=\"ds-toast\"><svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z\" fill=\"currentColor\" /></svg> Project created</div>",
+      "css": ".ds-toast { display: inline-flex; align-items: center; gap: 10px; border-radius: 14px; padding: 12px 16px; background: var(--foreground); color: var(--background); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); font: 500 14px/1.25 Geist, ui-sans-serif, system-ui, sans-serif; } .ds-toast svg { width: 16px; height: 16px; color: var(--success); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Quiet Studio",
+    "overview": "Scenva's product UI is a quiet creative studio: the canvas, chat, generation controls, and brand assets stay readable and close at hand while the interface itself remains compact. The visual system earns trust through restraint. It uses familiar product patterns, a monochrome foundation, and one sharp lime accent for focus, selection, and creative spark.\n\nThe product should feel professional, open, and creator-friendly without turning into a decorative AI showcase. Landing and pricing pages may carry more expression, but authenticated workspace surfaces must keep the controls direct and the canvas central. Scenva explicitly rejects the feel of a closed SaaS template tool, a traditional timeline-first editing suite, or a flashy but untrustworthy AI generator.",
+    "keyCharacteristics": [
+      "Compact 32px controls for fast repeated use.",
+      "Monochrome surfaces with lime used sparingly as a signal.",
+      "Tonal layering before heavy elevation.",
+      "Geist as a single product type family.",
+      "Direct controls, visible state, and restrained motion."
+    ],
+    "rules": [
+      {
+        "name": "The Lime Is Rare Rule",
+        "body": "Studio Lime is a state and identity signal, not decoration. If a screen starts to read green, the accent has been overused.",
+        "section": "colors"
+      },
+      {
+        "name": "The Monochrome Workspace Rule",
+        "body": "Workspace surfaces stay neutral so generated images, videos, and brand assets carry the color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Product Scale Rule",
+        "body": "Authenticated UI uses fixed rem sizes, not fluid typography. Fluid display type belongs to marketing surfaces, not sidebars, dialogs, or tools.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Do not introduce a second display or body family unless a full brand refresh commits to it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat At Rest Rule",
+        "body": "Surfaces are flat until interaction or layering demands depth. A border plus a large decorative shadow is forbidden.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Glow Has A Job Rule",
+        "body": "Lime glow must indicate focus, active creation, or a deliberate CTA. It must not be used as background decoration.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep authenticated workspace UI restrained, compact, and familiar.",
+      "Do reserve Studio Lime for focus rings, selected navigation, active generation, logo marks, and rare CTA emphasis.",
+      "Do use the existing 32px control height and 8px radius for standard buttons and inputs.",
+      "Do use tonal surfaces, borders, skeletons, and clear empty states before adding heavy visual effects.",
+      "Do keep AI generation status legible, steerable, and recoverable."
+    ],
+    "donts": [
+      "Don't make Scenva feel like a closed SaaS template tool.",
+      "Don't make Scenva feel like a traditional timeline-first editing suite.",
+      "Don't make Scenva feel like a flashy but untrustworthy AI generator.",
+      "Don't use thick colored side-stripe borders, gradient text, decorative glassmorphism, or generic hero metric blocks.",
+      "Don't pair a 1px border with large decorative shadows on cards or buttons.",
+      "Don't introduce oversized radii above 16px on product cards, panels, inputs, or dialogs.",
+      "Don't add decorative motion that does not communicate state, progress, or feedback."
+    ]
+  }
+}
