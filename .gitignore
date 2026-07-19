@@ -12,6 +12,7 @@
 # next.js
 /.next/
 **/.next/
+**/.open-next/
 /out/
 apps/web/out/
 supabase/.temp/
@@ -36,12 +37,14 @@ yarn-error.log*
 .env*.local
 .env
 .env.cloud
+.dev.vars
 
 # service account credentials (never commit)
 **/credentials/*.json
 
 # vercel
 .vercel
+**/.wrangler/
 
 # typescript
 *.tsbuildinfo
