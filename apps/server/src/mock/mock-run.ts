@@ -6,7 +6,7 @@ import type {
   RunCreateRequest,
   RunCreateResponse,
   StreamEvent,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 type MockRunStatus = "accepted" | "running" | "completed" | "canceled";
 

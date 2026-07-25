@@ -6,7 +6,7 @@ import type {
   BrandKitAssetCreateRequest,
   BrandKitAssetUpdateRequest,
   BrandKitAssetResponse,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import { getServerBaseUrl } from "./env";
 import { ApiAuthError, ApiApplicationError } from "./server-api";

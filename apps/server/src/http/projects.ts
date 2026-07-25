@@ -7,7 +7,7 @@ import {
   projectListResponseSchema,
   projectUpdateRequestSchema,
   unauthenticatedErrorResponseSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   ProjectServiceError,

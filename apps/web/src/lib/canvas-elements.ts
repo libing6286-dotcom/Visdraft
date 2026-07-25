@@ -1,4 +1,4 @@
-import type { ImageArtifact, VideoArtifact } from "@scenva/shared";
+import type { ImageArtifact, VideoArtifact } from "@visdraft/shared";
 
 import { getServerBaseUrl } from "./env";
 

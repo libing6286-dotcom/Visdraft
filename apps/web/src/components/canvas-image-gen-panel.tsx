@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 
-import type { ImageArtifact } from "@scenva/shared";
+import type { ImageArtifact } from "@visdraft/shared";
 
 import { generateImageDirect } from "../lib/server-api";
 import { insertImageOnCanvas } from "../lib/canvas-elements";

@@ -2,9 +2,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { getServerBaseUrl, loadWebEnv } from "../src/lib/env";
 
-describe("@scenva/web env helpers", () => {
+describe("@visdraft/web env helpers", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
   });
 
   it("loads the browser-safe Supabase env and explicit server base url", () => {
@@ -45,5 +46,12 @@ describe("@scenva/web env helpers", () => {
     vi.stubEnv("NEXT_PUBLIC_SERVER_BASE_URL", "http://localhost:4020");
 
     expect(getServerBaseUrl()).toBe("http://localhost:4020");
+  });
+
+  it("rejects localhost server base url from non-local browser origins", () => {
+    vi.stubEnv("NEXT_PUBLIC_SERVER_BASE_URL", "http://localhost:3001");
+    vi.stubGlobal("location", new URL("https://visdraft.com"));
+
+    expect(() => getServerBaseUrl()).toThrow(/NEXT_PUBLIC_SERVER_BASE_URL/);
   });
 });

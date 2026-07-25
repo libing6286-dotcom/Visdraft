@@ -25,7 +25,7 @@ try {
     port: env.port,
   });
 
-  console.log(`@scenva/server listening on http://${host}:${env.port}`);
+  console.log(`@visdraft/server listening on http://${host}:${env.port}`);
 } catch (error) {
   app.log.error(error);
   process.exitCode = 1;

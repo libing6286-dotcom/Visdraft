@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import React, { useMemo } from "react";
 
-import type { ContentBlock, ToolArtifact, ToolBlock } from "@scenva/shared";
+import type { ContentBlock, ToolArtifact, ToolBlock } from "@visdraft/shared";
 import { ImagePill } from "./chat/image-lightbox";
 import { MarkdownRenderer } from "./chat/markdown-renderer";
 import { MentionPill } from "./chat/mention-pill";
@@ -13,7 +13,7 @@ import { ToolBlockView } from "./chat/tool-block-view";
 // Re-export types for backward compatibility with existing consumers
 export type { ContentBlock, ToolArtifact };
 
-/** @deprecated Use ToolBlock from @scenva/shared instead */
+/** @deprecated Use ToolBlock from @visdraft/shared instead */
 export type ToolActivity = ToolBlock;
 
 /* ------------------------------------------------------------------ */
@@ -218,15 +218,15 @@ const AssistantMessage = React.memo(function AssistantMessage({
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <span>{"\u601d\u8003\u4e2d"}</span>
           <span
-            className="inline-block h-1 w-1 rounded-full bg-muted-foreground animate-bounce-dot"
+            className="inline-block h-1 w-1 rounded-full bg-muted-foreground animate-typing-dot"
             style={{ animationDelay: "0ms" }}
           />
           <span
-            className="inline-block h-1 w-1 rounded-full bg-muted-foreground animate-bounce-dot"
+            className="inline-block h-1 w-1 rounded-full bg-muted-foreground animate-typing-dot"
             style={{ animationDelay: "150ms" }}
           />
           <span
-            className="inline-block h-1 w-1 rounded-full bg-muted-foreground animate-bounce-dot"
+            className="inline-block h-1 w-1 rounded-full bg-muted-foreground animate-typing-dot"
             style={{ animationDelay: "300ms" }}
           />
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import type { BrandKitAsset } from "@scenva/shared";
+import type { BrandKitAsset } from "@visdraft/shared";
 import { useCallback, useRef } from "react";
 
 import { AddAssetCard, AssetCard } from "./asset-card";

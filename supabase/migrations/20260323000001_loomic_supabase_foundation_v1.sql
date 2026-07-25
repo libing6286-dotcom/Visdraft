@@ -1,4 +1,4 @@
--- Scenva Supabase Foundation V1
+-- Visdraft Supabase Foundation V1
 -- Target hosted project ref: ndbwtngvypwgqexcirdo
 --
 -- Checklist:

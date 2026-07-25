@@ -81,7 +81,7 @@ export function loadServerEnv(
   const agentFilesRoot =
     overrides.agentFilesRoot ??
     parseAgentFilesRoot(
-      source.SCENVA_AGENT_FILES_ROOT ?? source.LOOMIC_AGENT_FILES_ROOT,
+      source.VISDRAFT_AGENT_FILES_ROOT ?? source.LOOMIC_AGENT_FILES_ROOT,
     );
   const openAIApiBase =
     overrides.openAIApiBase ?? normalizeOptionalString(source.OPENAI_API_BASE);
@@ -149,7 +149,7 @@ export function loadServerEnv(
   const skillsRoot =
     overrides.skillsRoot ??
     normalizeOptionalString(
-      source.SCENVA_SKILLS_ROOT ?? source.LOOMIC_SKILLS_ROOT,
+      source.VISDRAFT_SKILLS_ROOT ?? source.LOOMIC_SKILLS_ROOT,
     );
   const workerConcurrency = overrides.workerConcurrency ??
     (source.WORKER_CONCURRENCY
@@ -170,11 +170,11 @@ export function loadServerEnv(
       ? parseInt(source.WORKER_MAX_BATCH_SIZE, 10) : undefined);
 
   // Resolve default agent model based on available provider keys.
-  // Explicit SCENVA_AGENT_MODEL always takes precedence; otherwise fall back
+  // Explicit VISDRAFT_AGENT_MODEL always takes precedence; otherwise fall back
   // to Gemini 2.5 Flash when only Google/Vertex is configured.
   const explicitModel =
     overrides.agentModel ??
-    parseAgentModel(source.SCENVA_AGENT_MODEL ?? source.LOOMIC_AGENT_MODEL);
+    parseAgentModel(source.VISDRAFT_AGENT_MODEL ?? source.LOOMIC_AGENT_MODEL);
   const resolvedAgentModel =
     explicitModel ??
     resolveDefaultAgentModel({
@@ -188,18 +188,18 @@ export function loadServerEnv(
     agentBackendMode:
       overrides.agentBackendMode ??
       parseAgentBackendMode(
-        source.SCENVA_AGENT_BACKEND_MODE ?? source.LOOMIC_AGENT_BACKEND_MODE,
+        source.VISDRAFT_AGENT_BACKEND_MODE ?? source.LOOMIC_AGENT_BACKEND_MODE,
       ),
     agentModel: resolvedAgentModel,
     port:
       overrides.port ??
       parsePort(
-        source.SCENVA_SERVER_PORT ?? source.LOOMIC_SERVER_PORT ?? source.PORT,
+        source.VISDRAFT_SERVER_PORT ?? source.LOOMIC_SERVER_PORT ?? source.PORT,
       ),
     version: overrides.version ?? readServerVersion(),
     webOrigin:
       overrides.webOrigin ??
-      source.SCENVA_WEB_ORIGIN ??
+      source.VISDRAFT_WEB_ORIGIN ??
       source.LOOMIC_WEB_ORIGIN ??
       DEFAULT_WEB_ORIGIN,
     ...(agentFilesRoot ? { agentFilesRoot } : {}),
@@ -252,7 +252,7 @@ function parseAgentBackendMode(rawMode: string | undefined): AgentBackendMode {
     return rawMode;
   }
 
-  throw new Error(`Invalid SCENVA_AGENT_BACKEND_MODE value: ${rawMode}`);
+  throw new Error(`Invalid VISDRAFT_AGENT_BACKEND_MODE value: ${rawMode}`);
 }
 
 function parseAgentFilesRoot(rawRoot: string | undefined) {
@@ -275,7 +275,7 @@ function parsePort(rawPort: string | undefined) {
 
   const port = Number.parseInt(rawPort, 10);
   if (!Number.isInteger(port) || port <= 0) {
-    throw new Error(`Invalid SCENVA_SERVER_PORT value: ${rawPort}`);
+    throw new Error(`Invalid VISDRAFT_SERVER_PORT value: ${rawPort}`);
   }
 
   return port;

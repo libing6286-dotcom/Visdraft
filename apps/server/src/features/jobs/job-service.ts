@@ -3,7 +3,7 @@ import type {
   BackgroundJobStatus,
   BackgroundJobType,
   Json,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import type { PgmqClient } from "../../queue/pgmq-client.js";
 import type {

@@ -33,8 +33,8 @@ COPY packages/shared/ packages/shared/
 COPY packages/config/ packages/config/
 COPY apps/server/ apps/server/
 
-# Build @scenva/shared (server depends on it)
-RUN pnpm --filter @scenva/shared build
+# Build @visdraft/shared (server depends on it)
+RUN pnpm --filter @visdraft/shared build
 
 # ── Stage 3: Production image ─────────────────────────────────────
 FROM node:22-slim AS production
@@ -59,8 +59,8 @@ RUN apt-get update && \
     pip3 install --no-cache-dir --break-system-packages pillow reportlab && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy skills (fonts + SKILL.md) to /opt/scenva/skills/
-COPY skills/ /opt/scenva/skills/
+# Copy skills (fonts + SKILL.md) to /opt/visdraft/skills/
+COPY skills/ /opt/visdraft/skills/
 
 # SERVICE_MODE: "api" (default) or "worker"
 ENV SERVICE_MODE=api

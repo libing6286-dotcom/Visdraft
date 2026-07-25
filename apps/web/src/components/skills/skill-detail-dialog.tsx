@@ -12,7 +12,7 @@ import {
   Users,
 } from "lucide-react";
 
-import type { SkillDetail, SkillFileEntry, SkillSource } from "@scenva/shared";
+import type { SkillDetail, SkillFileEntry, SkillSource } from "@visdraft/shared";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

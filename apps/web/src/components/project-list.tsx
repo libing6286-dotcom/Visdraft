@@ -1,6 +1,6 @@
 "use client";
 
-import type { ProjectSummary } from "@scenva/shared";
+import type { ProjectSummary } from "@visdraft/shared";
 import { Trash2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 

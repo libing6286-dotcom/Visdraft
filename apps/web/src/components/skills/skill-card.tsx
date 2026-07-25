@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useCallback } from "react";
 
-import type { SkillCategory, SkillListItem, SkillSource } from "@scenva/shared";
+import type { SkillCategory, SkillListItem, SkillSource } from "@visdraft/shared";
 
 import {
   DropdownMenu,

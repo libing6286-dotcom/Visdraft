@@ -1,6 +1,6 @@
 "use client";
 
-import type { WorkspaceSummary, ProjectSummary } from "@scenva/shared";
+import type { WorkspaceSummary, ProjectSummary } from "@visdraft/shared";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 

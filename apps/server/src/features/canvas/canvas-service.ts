@@ -1,4 +1,4 @@
-import type { CanvasContent, CanvasDetail, Json } from "@scenva/shared";
+import type { CanvasContent, CanvasDetail, Json } from "@visdraft/shared";
 
 import type { AuthenticatedUser, UserSupabaseClient } from "../../supabase/user.js";
 

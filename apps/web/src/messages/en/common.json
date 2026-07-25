@@ -1,24 +1,24 @@
 {
   "metadata": {
-    "title": "Scenva",
+    "title": "Visdraft",
     "description": "AI-powered creative workspace",
-    "keywords": "AI, design, creative, canvas, Scenva"
+    "keywords": "AI, design, creative, canvas, Visdraft"
   },
   "pages": {
     "landing": {
-      "title": "Scenva",
+      "title": "Visdraft",
       "description": "AI-powered creative workspace.",
-      "keywords": "AI, design, creative, canvas, Scenva"
+      "keywords": "AI, design, creative, canvas, Visdraft"
     },
     "home": {
-      "title": "Scenva - AI Design Workspace for Creators",
+      "title": "Visdraft - AI Design Workspace for Creators",
       "description": "Create AI-generated designs, brand visuals, social content, and editable canvas projects in one creative workspace.",
-      "keywords": "AI design tool, AI creative workspace, AI image generator, brand design, Scenva"
+      "keywords": "AI design tool, AI creative workspace, AI image generator, brand design, Visdraft"
     },
     "pricing": {
-      "title": "Scenva Pricing - AI Design Plans for Creators",
-      "description": "Compare Scenva plans for AI image generation, video generation, brand kits, projects, credits, and team creative workflows.",
-      "keywords": "Scenva pricing, AI design pricing, AI image generation plans, AI creative tool pricing"
+      "title": "Visdraft Pricing - AI Design Plans for Creators",
+      "description": "Compare Visdraft plans for AI image generation, video generation, brand kits, projects, credits, and team creative workflows.",
+      "keywords": "Visdraft pricing, AI design pricing, AI image generation plans, AI creative tool pricing"
     }
   }
 }

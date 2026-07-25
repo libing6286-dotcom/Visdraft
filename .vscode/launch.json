@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Scenva Server",
+      "name": "Debug Visdraft Server",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}/apps/server",
@@ -21,7 +21,7 @@
       "internalConsoleOptions": "neverOpen"
     },
     {
-      "name": "Debug Scenva Worker",
+      "name": "Debug Visdraft Worker",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}/apps/server",
@@ -42,7 +42,7 @@
       "internalConsoleOptions": "neverOpen"
     },
     {
-      "name": "Attach to Scenva Server",
+      "name": "Attach to Visdraft Server",
       "type": "node",
       "request": "attach",
       "port": 9229,

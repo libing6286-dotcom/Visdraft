@@ -128,7 +128,7 @@ export function LandingFooter() {
             <Link href="/" className="inline-flex items-center gap-2">
               <LogoMark />
               <span className="text-base font-semibold text-foreground tracking-tight">
-                Scenva
+                Visdraft
               </span>
             </Link>
 
@@ -193,7 +193,7 @@ export function LandingFooter() {
         {/* Bottom bar */}
         <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Scenva. All rights reserved.
+            &copy; {currentYear} Visdraft. All rights reserved.
           </p>
           <span className="text-sm text-muted-foreground">{localeNames[locale]}</span>
         </div>

@@ -9,7 +9,7 @@ import {
   unauthenticatedErrorResponseSchema,
   viewerResponseSchema,
   type SubscriptionPlan,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   BootstrapError,

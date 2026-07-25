@@ -3,7 +3,7 @@ import multipart from "@fastify/multipart";
 import websocket from "@fastify/websocket";
 import Fastify, { type FastifyInstance, type FastifyRequest } from "fastify";
 
-import type { ScenvaAgentFactory } from "./agent/deep-agent.js";
+import type { VisdraftAgentFactory } from "./agent/deep-agent.js";
 import {
   createAgentPersistenceService,
   type AgentPersistenceService,
@@ -98,7 +98,7 @@ import {
 } from "./supabase/user.js";
 
 export type BuildAppOptions = {
-  agentFactory?: ScenvaAgentFactory;
+  agentFactory?: VisdraftAgentFactory;
   agentModel?: BaseLanguageModel | string;
   agentPersistenceService?: AgentPersistenceService;
   agentRunMetadataService?: AgentRunMetadataService;

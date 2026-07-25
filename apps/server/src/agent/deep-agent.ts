@@ -14,19 +14,19 @@ import {
 } from "../config/env.js";
 import type { ConnectionManager } from "../ws/connection-manager.js";
 import { createAgentBackend, type AgentBackendResult } from "./backends/index.js";
-import { SCENVA_SYSTEM_PROMPT } from "./prompts/scenva-main.js";
+import { VISDRAFT_SYSTEM_PROMPT } from "./prompts/visdraft-main.js";
 import { createVideoSubAgent } from "./sub-agents.js";
 import { createMainAgentTools } from "./tools/index.js";
 import type { PersistImageFn, SubmitImageJobFn } from "./tools/image-generate.js";
 import type { SubmitVideoJobFn } from "./tools/video-generate.js";
 import type { WorkspaceSkillEntry } from "./workspace-skills.js";
 
-export type ScenvaAgent = Pick<
+export type VisdraftAgent = Pick<
   ReturnType<typeof createDeepAgent>,
   "stream" | "streamEvents"
 >;
 
-export type ScenvaAgentFactory = (options: {
+export type VisdraftAgentFactory = (options: {
   backendResult?: AgentBackendResult;
   brandKitId?: string | null;
   canvasId?: string;
@@ -41,9 +41,9 @@ export type ScenvaAgentFactory = (options: {
   submitVideoJob?: SubmitVideoJobFn;
   store?: BaseStore;
   workspaceSkills?: WorkspaceSkillEntry[];
-}) => ScenvaAgent;
+}) => VisdraftAgent;
 
-export function createScenvaDeepAgent(options: {
+export function createVisdraftDeepAgent(options: {
   backendResult?: AgentBackendResult;
   brandKitId?: string | null;
   canvasId?: string;
@@ -58,7 +58,7 @@ export function createScenvaDeepAgent(options: {
   submitVideoJob?: SubmitVideoJobFn;
   store?: BaseStore;
   workspaceSkills?: WorkspaceSkillEntry[];
-}): ScenvaAgent {
+}): VisdraftAgent {
   const backendResult =
     options.backendResult ?? createAgentBackend(options.env, options.canvasId);
 
@@ -74,14 +74,14 @@ export function createScenvaDeepAgent(options: {
     options.createUserClient ??
     ((_accessToken: string): never => {
       throw new Error(
-        "inspect_canvas is unavailable: no createUserClient was provided to createScenvaDeepAgent.",
+        "inspect_canvas is unavailable: no createUserClient was provided to createVisdraftDeepAgent.",
       );
     });
 
   let systemPrompt = options.brandKitId
-    ? SCENVA_SYSTEM_PROMPT +
+    ? VISDRAFT_SYSTEM_PROMPT +
       "\n\n当前项目已绑定品牌套件。在进行设计相关工作时，请先使用 get_brand_kit 工具查询品牌信息，确保设计符合品牌规范。"
-    : SCENVA_SYSTEM_PROMPT;
+    : VISDRAFT_SYSTEM_PROMPT;
 
   // Inject enabled skills (both system and user-created) into the system prompt.
   // All skills are loaded from the database via loadWorkspaceSkills() in runtime.ts.
@@ -111,7 +111,7 @@ export function createScenvaDeepAgent(options: {
     backend: backendResult.factory,
     ...(options.checkpointer ? { checkpointer: options.checkpointer } : {}),
     model: resolvedModel,
-    name: "scenva",
+    name: "visdraft",
     ...(options.store ? { store: options.store } : {}),
     subagents: [createVideoSubAgent()],
     systemPrompt,

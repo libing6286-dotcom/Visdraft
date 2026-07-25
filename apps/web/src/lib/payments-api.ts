@@ -1,5 +1,5 @@
 // @credits-system — Frontend API client for payments: checkout, subscription, cancellation, plan change
-import type { BillingPeriod, SubscriptionPlan } from "@scenva/shared";
+import type { BillingPeriod, SubscriptionPlan } from "@visdraft/shared";
 
 import { getServerBaseUrl } from "./env";
 import { ApiAuthError, ApiApplicationError } from "./server-api";

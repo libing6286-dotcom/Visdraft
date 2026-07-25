@@ -9,7 +9,7 @@ import {
   setPlanRequestSchema,
   applicationErrorResponseSchema,
   unauthenticatedErrorResponseSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   CreditServiceError,

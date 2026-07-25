@@ -25,7 +25,7 @@ import type {
   JobResponse,
   MarketplaceSearchResponse,
   MarketplaceDetail,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import { getServerBaseUrl } from "./env";
 import { dedupeRequest } from "./dedupe-request";

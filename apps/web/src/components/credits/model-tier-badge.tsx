@@ -2,7 +2,7 @@
 "use client";
 
 import { Lock } from "lucide-react";
-import type { SubscriptionPlan } from "@scenva/shared";
+import type { SubscriptionPlan } from "@visdraft/shared";
 
 interface ModelTierBadgeProps {
   creditCost: number;

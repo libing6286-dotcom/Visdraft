@@ -1,6 +1,6 @@
 "use client";
 
-import type { ModelInfo } from "@scenva/shared";
+import type { ModelInfo } from "@visdraft/shared";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 

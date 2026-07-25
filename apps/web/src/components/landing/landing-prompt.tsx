@@ -3,7 +3,7 @@
 import type {
   ImageGenerationPreference,
   VideoGenerationPreference,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 import type { ReadyAttachment } from "@/hooks/use-image-attachments";
 import { motion } from "framer-motion";
 import { useRouter } from "@/i18n/navigation";

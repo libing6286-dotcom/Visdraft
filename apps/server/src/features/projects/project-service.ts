@@ -2,7 +2,7 @@ import type {
   ProjectCreateRequest,
   ProjectSummary,
   ProjectUpdateRequest,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   BootstrapError,

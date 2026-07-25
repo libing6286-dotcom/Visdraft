@@ -1,6 +1,6 @@
 "use client";
 
-import type { BrandKitAsset } from "@scenva/shared";
+import type { BrandKitAsset } from "@visdraft/shared";
 import { Plus, X } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 

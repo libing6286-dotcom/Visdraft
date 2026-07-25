@@ -7,7 +7,7 @@ import type {
   WsCommandAck,
   WsRpcRequest,
   RunCreateRequest,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 import { getServerBaseUrl } from "../lib/env";
 
 type EventCallback = (event: StreamEvent) => void;

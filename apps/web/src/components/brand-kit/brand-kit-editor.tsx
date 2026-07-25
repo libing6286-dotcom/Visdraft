@@ -4,7 +4,7 @@ import type {
   BrandKitAsset,
   BrandKitDetail,
   BrandKitAssetType,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 import { Copy, Ellipsis, Sparkles, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 

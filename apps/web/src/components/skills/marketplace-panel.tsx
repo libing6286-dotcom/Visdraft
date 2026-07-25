@@ -12,7 +12,7 @@ import {
   User,
 } from "lucide-react";
 
-import type { MarketplaceDetail, MarketplaceSkill } from "@scenva/shared";
+import type { MarketplaceDetail, MarketplaceSkill } from "@visdraft/shared";
 
 import { Button } from "@/components/ui/button";
 import {

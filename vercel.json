@@ -1,4 +1,4 @@
 {
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @scenva/shared build && pnpm --filter @scenva/web build"
+  "buildCommand": "pnpm --filter @visdraft/shared build && pnpm --filter @visdraft/web build"
 }

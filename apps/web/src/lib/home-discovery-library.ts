@@ -1,4 +1,4 @@
-import type { Database } from "@scenva/shared";
+import type { Database } from "@visdraft/shared";
 
 import type { HomeDiscoveryCategory } from "./home-discovery-seeds";
 import { homeDiscoverySeedCategories } from "./home-discovery-seeds";

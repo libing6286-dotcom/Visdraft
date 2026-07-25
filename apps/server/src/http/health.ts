@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 
-import { healthResponseSchema } from "@scenva/shared";
+import { healthResponseSchema } from "@visdraft/shared";
 
 import type { ServerEnv } from "../config/env.js";
 
@@ -11,7 +11,7 @@ export async function registerHealthRoutes(
   app.get("/api/health", async (_request, reply) => {
     const payload = healthResponseSchema.parse({
       ok: true,
-      service: "scenva-server",
+      service: "visdraft-server",
       version: env.version,
     });
 

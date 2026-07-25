@@ -5,7 +5,7 @@ import {
   unauthenticatedErrorResponseSchema,
   workspaceSettingsResponseSchema,
   workspaceSettingsUpdateRequestSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import type { ViewerService } from "../features/bootstrap/ensure-user-foundation.js";
 import {

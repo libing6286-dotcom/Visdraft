@@ -1,15 +1,15 @@
 import type { SVGProps } from "react";
 
 /**
- * Scenva brand logo — 6-petal blob with star (left) and smile (right).
+ * Visdraft brand logo — 6-petal blob with star (left) and smile (right).
  *
  * Uses `currentColor` for the blob fill so the icon automatically adapts to
  * light / dark themes.  Inner elements are always the opposite colour.
  *
  * @example
- * <ScenvaLogo className="size-7 text-foreground" />
+ * <VisdraftLogo className="size-7 text-foreground" />
  */
-export function ScenvaLogo(props: SVGProps<SVGSVGElement>) {
+export function VisdraftLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -43,7 +43,7 @@ export function ScenvaLogo(props: SVGProps<SVGSVGElement>) {
  * Inverted variant for dark backgrounds — white blob, dark inner elements.
  * Use this when you need explicit colour control (e.g. OG images, login panel).
  */
-export function ScenvaLogoInverted(props: SVGProps<SVGSVGElement>) {
+export function VisdraftLogoInverted(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 100 100"

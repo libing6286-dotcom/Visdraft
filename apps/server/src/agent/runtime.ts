@@ -14,7 +14,7 @@ import type {
   RunCreateResponse,
   StreamEvent,
   VideoGenerationPreference,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import type { ServerEnv } from "../config/env.js";
 import { createPipelineLogger } from "../ws/logger.js";
@@ -29,13 +29,13 @@ import type { SubmitImageJobFn } from "./tools/image-generate.js";
 import type { SubmitVideoJobFn } from "./tools/video-generate.js";
 import type { CreditService } from "../features/credits/credit-service.js";
 import { TierGuardError, type TierGuard } from "../features/credits/tier-guard.js";
-import { getPlanConfig, type BillingErrorCode, type ImageQualityLevel } from "@scenva/shared";
+import { getPlanConfig, type BillingErrorCode, type ImageQualityLevel } from "@visdraft/shared";
 import { createAgentBackend } from "./backends/index.js";
 import {
-  type ScenvaAgent,
-  type ScenvaAgentFactory,
+  type VisdraftAgent,
+  type VisdraftAgentFactory,
   createDefaultModelSpecifier,
-  createScenvaDeepAgent,
+  createVisdraftDeepAgent,
 } from "./deep-agent.js";
 import type { AgentPersistenceService } from "./persistence/index.js";
 import { adaptDeepAgentStream } from "./stream-adapter.js";
@@ -248,7 +248,7 @@ type RuntimeRunRecord = RunCreateRequest & {
 
 type CreateAgentRuntimeOptions = {
   agentPersistenceService?: AgentPersistenceService;
-  agentFactory?: ScenvaAgentFactory;
+  agentFactory?: VisdraftAgentFactory;
   agentRunMetadataService?: AgentRunMetadataService;
   connectionManager?: ConnectionManager;
   createUserClient?: (accessToken: string) => unknown;
@@ -272,10 +272,10 @@ export function createAgentRunService(options: CreateAgentRuntimeOptions) {
     options.runIdFactory ??
     (() => randomUUID());
 
-  const resolvedAgentFactory: ScenvaAgentFactory =
+  const resolvedAgentFactory: VisdraftAgentFactory =
     options.agentFactory ??
     ((agentOptions) =>
-      createScenvaDeepAgent({
+      createVisdraftDeepAgent({
         ...agentOptions,
         ...(options.createUserClient
           ? { createUserClient: options.createUserClient }
@@ -865,7 +865,7 @@ export function createAgentRunService(options: CreateAgentRuntimeOptions) {
       );
 
       try {
-      let agent: ScenvaAgent;
+      let agent: VisdraftAgent;
       try {
         const resolvedModel = run.modelOverride
           ? (run.modelOverride.includes(":")

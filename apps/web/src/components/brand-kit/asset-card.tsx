@@ -1,6 +1,6 @@
 "use client";
 
-import type { BrandKitAsset } from "@scenva/shared";
+import type { BrandKitAsset } from "@visdraft/shared";
 import { Image as ImageIcon, Plus, X } from "lucide-react";
 
 import { cn } from "../../lib/utils";

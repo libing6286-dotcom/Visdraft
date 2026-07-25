@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChatSessionSummary } from "@scenva/shared";
+import type { ChatSessionSummary } from "@visdraft/shared";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type SessionSelectorProps = {

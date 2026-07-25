@@ -1,7 +1,7 @@
 {
   "hero": {
     "headline": "Where Ideas Grow Freely",
-    "description": "From spark to finished work, Scenva is your AI design partner. It understands your creative intent and generates professional-grade designs — turning every idea into reality.",
+    "description": "From spark to finished work, Visdraft is your AI design partner. It understands your creative intent and generates professional-grade designs — turning every idea into reality.",
     "ctaStart": "Start Creating",
     "ctaShowcase": "View Showcase"
   },
@@ -23,17 +23,17 @@
     "step1Title": "Describe Your Idea",
     "step1Desc": "Describe the design you want in natural language, or upload reference images. The AI understands what you really mean.",
     "step2Title": "AI Creates",
-    "step2Desc": "Scenva analyzes your needs and generates multiple professional design options. Every detail — from color to layout — is carefully considered.",
+    "step2Desc": "Visdraft analyzes your needs and generates multiple professional design options. Every detail — from color to layout — is carefully considered.",
     "step3Title": "Refine to Perfection",
     "step3Desc": "Freely edit any element on the canvas. Once you're happy, export in one click with support for multiple formats."
   },
   "features": {
     "title": "Design, Beyond Generation",
-    "subtitle": "Scenva isn't just a generator — it's your intelligent design partner",
+    "subtitle": "Visdraft isn't just a generator — it's your intelligent design partner",
     "canvasTitle": "AI Canvas -- Canvas-Level Creation",
     "canvasDesc": "Collaborate with AI on an infinite canvas. Start from a simple idea and let AI build a complete design system — layout, color, typography — all WYSIWYG.",
     "chatTitle": "Smart Chat -- Understands Intent",
-    "chatDesc": "Not cold command execution. Scenva understands your design needs, proactively offers suggestions, and iterates toward the best solution through conversation.",
+    "chatDesc": "Not cold command execution. Visdraft understands your design needs, proactively offers suggestions, and iterates toward the best solution through conversation.",
     "brandTitle": "Consistent Style -- Brand Design System",
     "brandDesc": "Upload your brand assets and the AI automatically grasps your brand tone. No matter how much you create, the style stays consistent.",
     "editTitle": "Precise Editing -- Pixel-Level Control",
@@ -97,7 +97,7 @@
   },
   "prompt": {
     "title": "Start Creating Now",
-    "subtitle": "Describe your idea and let Scenva design it for you"
+    "subtitle": "Describe your idea and let Visdraft design it for you"
   },
   "footer": {
     "tagline": "The AI-powered creative design platform",

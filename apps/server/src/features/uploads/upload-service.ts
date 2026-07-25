@@ -1,4 +1,4 @@
-import type { AssetBucket, AssetObject } from "@scenva/shared";
+import type { AssetBucket, AssetObject } from "@visdraft/shared";
 
 import type {
   AuthenticatedUser,

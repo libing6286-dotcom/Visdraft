@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { ChatSessionSummary, ContentBlock } from "@scenva/shared";
-import type { ChatMessage as ChatMessageData } from "@scenva/shared";
+import type { ChatSessionSummary, ContentBlock } from "@visdraft/shared";
+import type { ChatMessage as ChatMessageData } from "@visdraft/shared";
 import {
   createSession,
   deleteSession as deleteSessionApi,

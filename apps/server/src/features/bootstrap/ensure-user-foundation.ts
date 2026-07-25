@@ -2,7 +2,7 @@ import {
   type Json,
   type ViewerResponse,
   viewerResponseSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import type { AdminSupabaseClient } from "../../supabase/admin.js";
 import type { AuthenticatedUser } from "../../supabase/user.js";

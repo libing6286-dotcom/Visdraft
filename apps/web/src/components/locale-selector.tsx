@@ -40,6 +40,10 @@ export function LocaleSelector({
     // 一年有效期，path=/ 全站可用
     document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
     // pathname 不含 locale 前缀，router 会按目标 locale 自动补前缀
+    if (locale === "en" && pathname === "/") {
+      window.location.assign("/");
+      return;
+    }
     router.replace(pathname, { locale });
   }
 

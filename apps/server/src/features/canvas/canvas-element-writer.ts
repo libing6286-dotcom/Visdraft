@@ -1,6 +1,6 @@
 // apps/server/src/features/canvas/canvas-element-writer.ts
 
-import type { CanvasContent, Json } from "@scenva/shared";
+import type { CanvasContent, Json } from "@visdraft/shared";
 
 // ---------------------------------------------------------------------------
 // Types

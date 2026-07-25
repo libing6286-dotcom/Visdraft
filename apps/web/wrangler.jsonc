@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "scenva-web",
+  "name": "visdraft-web",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-07-19",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -11,16 +11,16 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "scenva-web"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "NEXT_INC_CACHE_R2_BUCKET",
-      "bucket_name": "scenva-web-opennext-cache"
+      "service": "visdraft-web"
     }
   ],
   "images": {
     "binding": "IMAGES"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "visdraft.com",
+      "custom_domain": true
+    }
+  ]
 }

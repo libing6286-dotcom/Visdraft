@@ -1,12 +1,12 @@
 // @credits-system — Payment API routes: checkout, subscription status, plan change, cancellation
 import type { FastifyInstance, FastifyReply } from "fastify";
-import type { BillingPeriod, SubscriptionPlan } from "@scenva/shared";
+import type { BillingPeriod, SubscriptionPlan } from "@visdraft/shared";
 import {
   subscriptionPlanSchema,
   billingPeriodSchema,
   applicationErrorResponseSchema,
   unauthenticatedErrorResponseSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   PaymentServiceError,

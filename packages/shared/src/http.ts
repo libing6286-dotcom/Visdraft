@@ -17,7 +17,7 @@ import {
 
 export const healthResponseSchema = z.object({
   ok: z.literal(true),
-  service: z.literal("scenva-server"),
+  service: z.literal("visdraft-server"),
   version: z.string().min(1),
 });
 

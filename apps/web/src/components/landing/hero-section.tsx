@@ -109,7 +109,7 @@ function HeroMockup() {
             <span className="size-3 rounded-full bg-green-400/80" />
           </div>
           <span className="text-xs text-muted-foreground font-medium">
-            Scenva Canvas
+            Visdraft Canvas
           </span>
           <div className="w-14" />
         </div>
@@ -119,7 +119,7 @@ function HeroMockup() {
           <MockupCursor />
           <Image
             src="/images/showcase/showcase-12.jpg"
-            alt="Scenva Canvas AI creative workspace"
+            alt="Visdraft Canvas AI creative workspace"
             width={1200}
             height={675}
             priority

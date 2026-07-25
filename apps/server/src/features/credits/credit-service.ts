@@ -3,8 +3,8 @@ import type {
   BillingPeriod,
   CreditTransaction,
   SubscriptionPlan,
-} from "@scenva/shared";
-import { PLAN_CONFIGS } from "@scenva/shared";
+} from "@visdraft/shared";
+import { PLAN_CONFIGS } from "@visdraft/shared";
 
 import type { AdminSupabaseClient } from "../../supabase/admin.js";
 

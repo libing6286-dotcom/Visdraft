@@ -1,5 +1,5 @@
 ---
-name: Scenva
+name: Visdraft
 description: Open-source, self-hostable AI creative canvas for image and video workflows.
 colors:
   background: "oklch(1 0 0)"
@@ -89,15 +89,15 @@ components:
     width: "60px"
 ---
 
-# Design System: Scenva
+# Design System: Visdraft
 
 ## 1. Overview
 
 **Creative North Star: "Quiet Studio"**
 
-Scenva's product UI is a quiet creative studio: the canvas, chat, generation controls, and brand assets stay readable and close at hand while the interface itself remains compact. The visual system earns trust through restraint. It uses familiar product patterns, a monochrome foundation, and one sharp lime accent for focus, selection, and creative spark.
+Visdraft's product UI is a quiet creative studio: the canvas, chat, generation controls, and brand assets stay readable and close at hand while the interface itself remains compact. The visual system earns trust through restraint. It uses familiar product patterns, a monochrome foundation, and one sharp lime accent for focus, selection, and creative spark.
 
-The product should feel professional, open, and creator-friendly without turning into a decorative AI showcase. Landing and pricing pages may carry more expression, but authenticated workspace surfaces must keep the controls direct and the canvas central. Scenva explicitly rejects the feel of a closed SaaS template tool, a traditional timeline-first editing suite, or a flashy but untrustworthy AI generator.
+The product should feel professional, open, and creator-friendly without turning into a decorative AI showcase. Landing and pricing pages may carry more expression, but authenticated workspace surfaces must keep the controls direct and the canvas central. Visdraft explicitly rejects the feel of a closed SaaS template tool, a traditional timeline-first editing suite, or a flashy but untrustworthy AI generator.
 
 **Key Characteristics:**
 - Compact 32px controls for fast repeated use.
@@ -133,7 +133,7 @@ The palette is restrained: clean white and near-black neutrals carry the workspa
 **Body Font:** Geist, with ui-sans-serif and system-ui fallback
 **Label/Mono Font:** no distinct mono family in the current system
 
-**Character:** Geist gives Scenva a crisp product voice that works across marketing headings, compact labels, chat content, and dense controls. The system uses weight and spacing more than font pairing.
+**Character:** Geist gives Visdraft a crisp product voice that works across marketing headings, compact labels, chat content, and dense controls. The system uses weight and spacing more than font pairing.
 
 ### Hierarchy
 - **Display** (700, 3.5rem, 1 line-height): landing and major empty-state headlines only. Keep display letter-spacing no tighter than -0.03em.
@@ -150,7 +150,7 @@ The palette is restrained: clean white and near-black neutrals carry the workspa
 
 ## 4. Elevation
 
-Scenva is flat by default and layered through tone, borders, and motion. Shadows exist, but they are quiet and functional: small ambient shadows for cards, stronger shadows for floating surfaces, and glow only when the lime accent is actively drawing attention.
+Visdraft is flat by default and layered through tone, borders, and motion. Shadows exist, but they are quiet and functional: small ambient shadows for cards, stronger shadows for floating surfaces, and glow only when the lime accent is actively drawing attention.
 
 ### Shadow Vocabulary
 - **Subtle** (`0 1px 3px rgba(0, 0, 0, 0.04)`): tiny separation for low-priority surfaces.
@@ -216,9 +216,9 @@ The canvas is the visual priority. Surrounding controls should stay compact, fix
 - **Do** keep AI generation status legible, steerable, and recoverable.
 
 ### Don't:
-- **Don't** make Scenva feel like a closed SaaS template tool.
-- **Don't** make Scenva feel like a traditional timeline-first editing suite.
-- **Don't** make Scenva feel like a flashy but untrustworthy AI generator.
+- **Don't** make Visdraft feel like a closed SaaS template tool.
+- **Don't** make Visdraft feel like a traditional timeline-first editing suite.
+- **Don't** make Visdraft feel like a flashy but untrustworthy AI generator.
 - **Don't** use thick colored side-stripe borders, gradient text, decorative glassmorphism, or generic hero metric blocks.
 - **Don't** pair a 1px border with large decorative shadows on cards or buttons.
 - **Don't** introduce oversized radii above 16px on product cards, panels, inputs, or dialogs.

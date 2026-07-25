@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-07-12T22:31:55.5331548+08:00",
-  "title": "Design System: Scenva",
+  "title": "Design System: Visdraft",
   "extensions": {
     "colorMeta": {
       "background": {
@@ -205,7 +205,7 @@
   ],
   "narrative": {
     "northStar": "Quiet Studio",
-    "overview": "Scenva's product UI is a quiet creative studio: the canvas, chat, generation controls, and brand assets stay readable and close at hand while the interface itself remains compact. The visual system earns trust through restraint. It uses familiar product patterns, a monochrome foundation, and one sharp lime accent for focus, selection, and creative spark.\n\nThe product should feel professional, open, and creator-friendly without turning into a decorative AI showcase. Landing and pricing pages may carry more expression, but authenticated workspace surfaces must keep the controls direct and the canvas central. Scenva explicitly rejects the feel of a closed SaaS template tool, a traditional timeline-first editing suite, or a flashy but untrustworthy AI generator.",
+    "overview": "Visdraft's product UI is a quiet creative studio: the canvas, chat, generation controls, and brand assets stay readable and close at hand while the interface itself remains compact. The visual system earns trust through restraint. It uses familiar product patterns, a monochrome foundation, and one sharp lime accent for focus, selection, and creative spark.\n\nThe product should feel professional, open, and creator-friendly without turning into a decorative AI showcase. Landing and pricing pages may carry more expression, but authenticated workspace surfaces must keep the controls direct and the canvas central. Visdraft explicitly rejects the feel of a closed SaaS template tool, a traditional timeline-first editing suite, or a flashy but untrustworthy AI generator.",
     "keyCharacteristics": [
       "Compact 32px controls for fast repeated use.",
       "Monochrome surfaces with lime used sparingly as a signal.",
@@ -253,9 +253,9 @@
       "Do keep AI generation status legible, steerable, and recoverable."
     ],
     "donts": [
-      "Don't make Scenva feel like a closed SaaS template tool.",
-      "Don't make Scenva feel like a traditional timeline-first editing suite.",
-      "Don't make Scenva feel like a flashy but untrustworthy AI generator.",
+      "Don't make Visdraft feel like a closed SaaS template tool.",
+      "Don't make Visdraft feel like a traditional timeline-first editing suite.",
+      "Don't make Visdraft feel like a flashy but untrustworthy AI generator.",
       "Don't use thick colored side-stripe borders, gradient text, decorative glassmorphism, or generic hero metric blocks.",
       "Don't pair a 1px border with large decorative shadows on cards or buttons.",
       "Don't introduce oversized radii above 16px on product cards, panels, inputs, or dialogs.",

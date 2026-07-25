@@ -1,4 +1,4 @@
-import type { StreamEvent } from "@scenva/shared";
+import type { StreamEvent } from "@visdraft/shared";
 
 type BufferedEvent = {
   event: StreamEvent;

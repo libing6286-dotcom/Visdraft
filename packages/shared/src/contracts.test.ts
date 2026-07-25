@@ -19,16 +19,16 @@ const databaseTypeSource = readFileSync(
   "utf8",
 );
 
-describe("@scenva/shared contracts", () => {
+describe("@visdraft/shared contracts", () => {
   it("shares the health response schema for server and web", () => {
     const parsed = healthResponseSchema.parse({
       ok: true,
-      service: "scenva-server",
+      service: "visdraft-server",
       version: "0.1.0",
     });
 
     expect(parsed.ok).toBe(true);
-    expect(parsed.service).toBe("scenva-server");
+    expect(parsed.service).toBe("visdraft-server");
   });
 
   it("accepts canvasId as optional field", () => {
@@ -102,7 +102,7 @@ describe("@scenva/shared contracts", () => {
         {
           mentionType: "brand-kit-asset",
           id: "brand-logo-1",
-          label: "Scenva 主 Logo",
+          label: "Visdraft 主 Logo",
           assetType: "logo",
           fileUrl: "https://example.com/logo.png",
         },
@@ -160,13 +160,13 @@ describe("@scenva/shared contracts", () => {
     const parsed = viewerResponseSchema.parse({
       profile: {
         id: "user_123",
-        email: "maker@scenva.test",
-        displayName: "Scenva Maker",
+        email: "maker@visdraft.test",
+        displayName: "Visdraft Maker",
         avatarUrl: "https://example.com/avatar.png",
       },
       workspace: {
         id: "workspace_123",
-        name: "Scenva Maker",
+        name: "Visdraft Maker",
         type: "personal",
         ownerUserId: "user_123",
       },
@@ -207,7 +207,7 @@ describe("@scenva/shared contracts", () => {
           description: createRequest.description,
           workspace: {
             id: "workspace_123",
-            name: "Scenva Maker",
+            name: "Visdraft Maker",
             type: "personal",
             ownerUserId: "user_123",
           },
@@ -312,7 +312,7 @@ describe("@scenva/shared contracts", () => {
             description: "Primary workspace project",
             workspace: {
               id: "workspace_123",
-              name: "Scenva Maker",
+              name: "Visdraft Maker",
               type: "personal",
               ownerUserId: "user_123",
             },

@@ -1,19 +1,12 @@
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
-import Script from "next/script";
-import { Geist } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
-import { cn } from "@/lib/utils";
 import { getMetadata } from "@/lib/seo";
 import { routing } from "@/i18n/routing";
 
 import { Providers } from "@/components/providers";
-
-import "../globals.css";
-
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 // 预生成两种语言的静态参数（SSR 下非必需，但利于按 locale 预渲染营销页）
 export function generateStaticParams() {
@@ -44,20 +37,8 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html
-      lang={locale}
-      className={cn(geist.variable, "scroll-smooth")}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen bg-background font-sans antialiased">
-        <NextIntlClientProvider>
-          <Providers>{children}</Providers>
-        </NextIntlClientProvider>
-        <Script
-          src="https://app.lemonsqueezy.com/js/lemon.js"
-          strategy="lazyOnload"
-        />
-      </body>
-    </html>
+    <NextIntlClientProvider>
+      <Providers>{children}</Providers>
+    </NextIntlClientProvider>
   );
 }

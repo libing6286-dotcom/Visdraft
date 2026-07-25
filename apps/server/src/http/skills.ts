@@ -10,7 +10,7 @@ import {
   unauthenticatedErrorResponseSchema,
   workspaceSkillListResponseSchema,
   workspaceSkillToggleRequestSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import { importSkillFromUrl, SkillImportError } from "../features/skills/skill-import-service.js";
 

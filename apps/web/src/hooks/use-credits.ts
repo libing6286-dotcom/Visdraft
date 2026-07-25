@@ -2,7 +2,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { CreditBalanceResponse } from "@scenva/shared";
+import type { CreditBalanceResponse } from "@visdraft/shared";
 import { useAuth } from "@/lib/auth-context";
 import { fetchCredits, claimDailyCredits } from "@/lib/credits-api";
 

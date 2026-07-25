@@ -15,7 +15,7 @@ import {
 import { useRouter } from "@/i18n/navigation";
 import { useCallback, useRef, useState } from "react";
 
-import { ScenvaLogo } from "@/components/icons/scenva-logo";
+import { VisdraftLogo } from "@/components/icons/visdraft-logo";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -184,7 +184,7 @@ export function CanvasLogoMenu({
           className="flex items-center justify-center size-8 rounded-xl bg-card/80 backdrop-blur-sm shadow-sm border border-border hover:bg-card transition-colors cursor-pointer outline-none"
           aria-label={t("menu")}
         >
-          <ScenvaLogo className="size-5 text-foreground" />
+          <VisdraftLogo className="size-5 text-foreground" />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="start" sideOffset={6} className="w-56">

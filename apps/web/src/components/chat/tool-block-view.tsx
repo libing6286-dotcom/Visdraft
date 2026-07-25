@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import type { ToolBlock } from "@scenva/shared";
+import type { ToolBlock } from "@visdraft/shared";
 import { ChatImage } from "./image-lightbox";
 import {
   formatModelDisplayName,

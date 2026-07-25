@@ -4,7 +4,7 @@ import type {
   ChatSessionSummary,
   ContentBlock,
   Json,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import type { AuthenticatedUser, UserSupabaseClient } from "../../supabase/user.js";
 import type { ThreadService } from "./thread-service.js";

@@ -10,7 +10,7 @@ import {
   brandKitAssetResponseSchema,
   brandKitUpdateRequestSchema,
   unauthenticatedErrorResponseSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   BrandKitServiceError,

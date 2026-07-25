@@ -9,8 +9,8 @@ import {
   ToolMessage as ToolMessageClass,
 } from "@langchain/core/messages";
 
-import { imageArtifactSchema, videoArtifactSchema } from "@scenva/shared";
-import type { StreamEvent, ToolArtifact } from "@scenva/shared";
+import { imageArtifactSchema, videoArtifactSchema } from "@visdraft/shared";
+import type { StreamEvent, ToolArtifact } from "@visdraft/shared";
 
 import { sanitizeErrorForClient } from "../utils/error-sanitizer.js";
 

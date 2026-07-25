@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { Database } from "@scenva/shared";
+import type { Database } from "@visdraft/shared";
 
 import { mapHomeDiscoveryRows } from "@/lib/home-discovery-library";
 

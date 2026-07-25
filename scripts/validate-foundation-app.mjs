@@ -19,10 +19,10 @@ if (
   !manifest.private ||
   manifest.type !== "module" ||
   typeof manifest.name !== "string" ||
-  !manifest.name.startsWith("@scenva/")
+  !manifest.name.startsWith("@visdraft/")
 ) {
   throw new Error(
-    "Task 1 app manifests must stay private, ESM, and scoped under @scenva/.",
+    "Task 1 app manifests must stay private, ESM, and scoped under @visdraft/.",
   );
 }
 
@@ -49,7 +49,7 @@ if (mode === "build") {
   const outputDir = path.join(cwd, "dist");
   await mkdir(outputDir, { recursive: true });
   await writeFile(
-    path.join(outputDir, ".scenva-build"),
+    path.join(outputDir, ".visdraft-build"),
     "Task 1 foundation build marker\n",
     "utf8",
   );

@@ -9,8 +9,8 @@ import {
   StoreBackend,
 } from "deepagents";
 
-const DEFAULT_SANDBOX_ROOT = "/tmp/scenva-sandbox";
-const DEFAULT_SKILLS_ROOT = "/opt/scenva/skills";
+const DEFAULT_SANDBOX_ROOT = "/tmp/visdraft-sandbox";
+const DEFAULT_SKILLS_ROOT = "/opt/visdraft/skills";
 
 /**
  * Create a production backend with per-project LocalShellBackend sandbox.

@@ -6,7 +6,7 @@ import {
   canvasSaveRequestSchema,
   canvasSaveResponseSchema,
   unauthenticatedErrorResponseSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   CanvasServiceError,

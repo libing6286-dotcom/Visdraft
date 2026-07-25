@@ -1,5 +1,5 @@
 {
-  "name": "@scenva/shared",
+  "name": "@visdraft/shared",
   "version": "0.0.0",
   "type": "module",
   "main": "./dist/index.js",

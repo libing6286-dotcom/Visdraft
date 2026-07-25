@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
-import { ScenvaLogo } from "@/components/icons/scenva-logo";
+import { VisdraftLogo } from "@/components/icons/visdraft-logo";
 import { buttonVariants } from "@/components/ui/button";
 
 export function PricingNav() {
@@ -15,9 +15,9 @@ export function PricingNav() {
     >
       <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 py-3">
         <Link href="/" className="flex items-center gap-2">
-          <ScenvaLogo className="size-7 text-foreground" />
+          <VisdraftLogo className="size-7 text-foreground" />
           <span className="text-base font-semibold tracking-tight">
-            Scenva
+            Visdraft
           </span>
         </Link>
 

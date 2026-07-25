@@ -5,7 +5,7 @@ import {
   assetSignedUrlResponseSchema,
   unauthenticatedErrorResponseSchema,
   uploadResponseSchema,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import {
   UploadServiceError,

@@ -80,7 +80,7 @@ export function createProjectSearchTool(
     {
       name: "project_search",
       description:
-        "Search the Scenva workspace for matching project text without using shell execution.",
+        "Search the Visdraft workspace for matching project text without using shell execution.",
       schema: projectSearchSchema,
     },
   );

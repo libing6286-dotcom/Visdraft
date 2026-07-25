@@ -137,7 +137,7 @@ VALUES (
   'system',
   '',  -- Content loaded from filesystem, this is just the registry entry
   true,
-  '{"adapted-for": "scenva", "requires": ["execute", "python"]}'::jsonb
+  '{"adapted-for": "visdraft", "requires": ["execute", "python"]}'::jsonb
 );
 
 -- Seed json-image-prompt skill
@@ -146,7 +146,7 @@ VALUES (
   'JSON Image Prompt',
   'json-image-prompt',
   'Use structured JSON prompts for AI image generation instead of free-form text. Produces more consistent, controllable, and high-quality results.',
-  'scenva',
+  'visdraft',
   '1.0',
   'Apache-2.0',
   'generation',

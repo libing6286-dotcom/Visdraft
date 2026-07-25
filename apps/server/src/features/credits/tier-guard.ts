@@ -5,7 +5,7 @@ import type {
   ImageQualityLevel,
   SubscriptionPlan,
   VideoResolution,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 import {
   canAccessModel,
   canUseResolution,
@@ -13,7 +13,7 @@ import {
   getImageCreditCost,
   getVideoCreditCost,
   PLAN_CONFIGS,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import type { AdminSupabaseClient } from "../../supabase/admin.js";
 

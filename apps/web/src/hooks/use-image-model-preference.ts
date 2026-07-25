@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
-import type { ImageGenerationPreference } from "@scenva/shared";
+import type { ImageGenerationPreference } from "@visdraft/shared";
 
-const STORAGE_KEY = "scenva:image-model-preference";
+const STORAGE_KEY = "visdraft:image-model-preference";
 const DEFAULT_MODEL = "google/nano-banana-2";
 
 export type ImageModelPreference = ImageGenerationPreference;

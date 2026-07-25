@@ -4,7 +4,7 @@ import type {
   BrandKitSummary,
   BrandKitDetail,
   BrandKitAssetType,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BrandKitSkeleton } from "../skeletons/brand-kit-skeleton";

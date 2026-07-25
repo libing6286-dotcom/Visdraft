@@ -6,7 +6,7 @@ import {
   getVideoCreditCost,
   MODEL_MIN_TIER,
   type SubscriptionPlan,
-} from "@scenva/shared";
+} from "@visdraft/shared";
 
 import type { CreditService } from "../features/credits/credit-service.js";
 import { getAvailableVideoModels } from "../generation/providers/registry.js";
