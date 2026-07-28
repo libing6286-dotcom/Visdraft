@@ -46,22 +46,22 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { labelKey: "colProductRoadmap", href: "/roadmap" },
     ],
   },
-  {
-    titleKey: "colResources",
-    links: [
-      { labelKey: "colResourcesDocs", href: "/docs" },
-      { labelKey: "colResourcesBlog", href: "/blog" },
-      { labelKey: "colResourcesCommunity", href: "/community" },
-      { labelKey: "colResourcesTemplates", href: "/templates" },
-    ],
-  },
+  // {
+  //   titleKey: "colResources",
+  //   links: [
+  //     { labelKey: "colResourcesDocs", href: "/docs" },
+  //     { labelKey: "colResourcesBlog", href: "/blog" },
+  //     { labelKey: "colResourcesCommunity", href: "/community" },
+  //     { labelKey: "colResourcesTemplates", href: "/templates" },
+  //   ],
+  // },
   {
     titleKey: "colAbout",
     links: [
-      { labelKey: "colAboutAbout", href: "/about" },
-      { labelKey: "colAboutCareers", href: "/careers" },
+      // { labelKey: "colAboutAbout", href: "/about" },
+      // { labelKey: "colAboutCareers", href: "/careers" },
       { labelKey: "colAboutContact", href: "/contact" },
-      { labelKey: "colAboutTerms", href: "/terms" },
+      // { labelKey: "colAboutTerms", href: "/terms" },
       { labelKey: "colAboutPrivacy", href: "/privacy" },
     ],
   },
@@ -137,7 +137,7 @@ export function LandingFooter() {
             </p>
 
             {/* Social links */}
-            <div className="mt-4 flex items-center gap-1">
+            {/* <div className="mt-4 flex items-center gap-1">
               <a
                 href="https://github.com"
                 target="_blank"
@@ -165,7 +165,7 @@ export function LandingFooter() {
               >
                 <DiscordIcon />
               </a>
-            </div>
+            </div> */}
           </div>
 
           {/* Link columns */}

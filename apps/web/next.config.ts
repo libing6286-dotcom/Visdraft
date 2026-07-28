@@ -8,6 +8,23 @@ if (process.argv.includes("dev")) {
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+const defaultLocale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en";
+const DEFAULT_LOCALE_REWRITE_PATHS = [
+  "/pricing",
+  "/privacy",
+  "/contact",
+  "/login",
+  "/register",
+  "/auth/callback",
+  "/home",
+  "/projects",
+  "/settings",
+  "/skills",
+  "/brand-kit",
+  "/canvas",
+  "/loading-preview",
+];
+
 const nextConfig: NextConfig = {
   // 注意：已从 output:"export"（静态导出）切换到 SSR，以支持 next-intl 的
   // as-needed 路由、middleware 语言协商与营销页 SSR/SEO。
@@ -28,6 +45,12 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_DEFAULT_LOCALE: process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  },
+  async rewrites() {
+    return DEFAULT_LOCALE_REWRITE_PATHS.map((source) => ({
+      source,
+      destination: `/${defaultLocale}${source}`,
+    }));
   },
 };
 

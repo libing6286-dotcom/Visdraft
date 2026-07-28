@@ -160,7 +160,7 @@ export function LoginForm({ initialErrorMessage = null }: LoginFormProps) {
             className="space-y-6"
           >
             <motion.div variants={fadeIn} className="space-y-2 text-center">
-              <h2 className="text-2xl font-semibold tracking-tight">{t("welcomeBack")}</h2>
+              <h1 className="text-2xl font-semibold tracking-tight">{t("welcomeBack")}</h1>
               <p className="text-sm text-muted-foreground">
                 {t("subtitle")}
               </p>

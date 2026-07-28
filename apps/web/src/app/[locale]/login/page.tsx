@@ -53,8 +53,11 @@ function LoginPageContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<LoadingScreen />}>
-      <LoginPageContent />
-    </Suspense>
+    <>
+      <h1 className="sr-only">Sign in to Visdraft</h1>
+      <Suspense fallback={<LoadingScreen />}>
+        <LoginPageContent />
+      </Suspense>
+    </>
   );
 }

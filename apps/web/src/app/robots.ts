@@ -4,8 +4,6 @@ import { defaultLocale, locales } from "@/i18n/routing";
 import { siteUrl } from "@/lib/seo";
 
 const PRIVATE_PATHS = [
-  "/login",
-  "/register",
   "/auth/",
   "/home",
   "/projects",

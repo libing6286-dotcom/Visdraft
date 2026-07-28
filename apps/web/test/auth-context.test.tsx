@@ -1,13 +1,15 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi, beforeEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { mockOnAuthStateChange, mockGetSession, mockSignOut } = vi.hoisted(() => ({
-  mockOnAuthStateChange: vi.fn(),
-  mockGetSession: vi.fn(),
-  mockSignOut: vi.fn(),
-}));
+const { mockOnAuthStateChange, mockGetSession, mockSignOut } = vi.hoisted(
+  () => ({
+    mockOnAuthStateChange: vi.fn(),
+    mockGetSession: vi.fn(),
+    mockSignOut: vi.fn(),
+  }),
+);
 
 vi.mock("../src/lib/supabase-browser", () => ({
   getSupabaseBrowserClient: vi.fn(() => ({
@@ -45,6 +47,7 @@ describe("AuthProvider", () => {
     mockOnAuthStateChange.mockReturnValue({
       data: { subscription: { unsubscribe: vi.fn() } },
     });
+    mockSignOut.mockResolvedValue({ error: null });
   });
 
   it("starts in loading state then resolves to no user", async () => {
@@ -79,5 +82,25 @@ describe("AuthProvider", () => {
     await waitFor(() => {
       expect(screen.getByTestId("user").textContent).toBe("test@test.com");
     });
+  });
+
+  it("clears stale auth storage when the initial session lookup fails", async () => {
+    mockGetSession.mockResolvedValue({
+      data: { session: null },
+      error: { message: "Invalid Refresh Token: Refresh Token Not Found" },
+    });
+
+    render(
+      <AuthProvider>
+        <TestConsumer />
+      </AuthProvider>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("loading").textContent).toBe("false");
+    });
+
+    expect(mockSignOut).toHaveBeenCalledWith({ scope: "local" });
+    expect(screen.getByTestId("user").textContent).toBe("none");
   });
 });

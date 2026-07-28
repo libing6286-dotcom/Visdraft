@@ -5,10 +5,10 @@ import { defaultLocale, locales, type AppLocale } from "@/i18n/routing";
 
 /**
  * 站点公开地址，用于 canonical / hreflang / OG 绝对 URL。
- * 部署时通过 NEXT_PUBLIC_SITE_URL 配置；本地缺省回退 localhost。
+ * 可通过 NEXT_PUBLIC_SITE_URL 覆盖；缺省使用生产域名，避免公开 SEO URL 回退到本地地址。
  */
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://visdraft.com"
 ).replace(/\/$/, "");
 
 /** as-needed 规则下，把内部路径转成某 locale 的绝对 URL（默认语言不带前缀）。 */
@@ -52,9 +52,10 @@ export function getMetadata(options: GetMetadataOptions = {}) {
   return async function generateMetadata({
     params,
   }: {
-    params: Promise<{ locale: string }>;
-  }): Promise<Metadata> {
-    const { locale } = await params;
+    params?: Promise<{ locale?: string }>;
+  } = {}): Promise<Metadata> {
+    const { locale: requestedLocale } = (await params) ?? {};
+    const locale = requestedLocale || defaultLocale;
     setRequestLocale(locale);
 
     // 取命名空间翻译，缺失字段回退 common.metadata

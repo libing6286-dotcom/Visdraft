@@ -58,6 +58,26 @@ describe("localized SEO metadata", () => {
     const pricingLayout = readFileSync(pricingLayoutPath, "utf8");
     expect(pricingLayout).toContain('namespace: "common.pages.pricing"');
     expect(pricingLayout).toContain('path: "/pricing"');
+
+    const privacyLayoutPath = path.join(
+      root,
+      "src/app/[locale]/privacy/layout.tsx",
+    );
+    expect(existsSync(privacyLayoutPath)).toBe(true);
+
+    const privacyLayout = readFileSync(privacyLayoutPath, "utf8");
+    expect(privacyLayout).toContain('namespace: "common.pages.privacy"');
+    expect(privacyLayout).toContain('path: "/privacy"');
+
+    const contactLayoutPath = path.join(
+      root,
+      "src/app/[locale]/contact/layout.tsx",
+    );
+    expect(existsSync(contactLayoutPath)).toBe(true);
+
+    const contactLayout = readFileSync(contactLayoutPath, "utf8");
+    expect(contactLayout).toContain('namespace: "common.pages.contact"');
+    expect(contactLayout).toContain('path: "/contact"');
   });
 
   it("keeps route metadata paths canonical", () => {
@@ -113,9 +133,10 @@ describe("localized SEO metadata", () => {
     expect(source).toContain("defaultLocale");
     expect(source).toContain("disallow.add(`/${locale}${privatePath}`)");
 
+    expect(source).not.toContain("\"/login\"");
+    expect(source).not.toContain("\"/register\"");
+
     for (const disallowedPath of [
-      "/login",
-      "/register",
       "/auth/",
       "/home",
       "/projects",
@@ -133,9 +154,70 @@ describe("localized SEO metadata", () => {
     const sitemap = readProjectFile("src/app/sitemap.ts");
 
     expect(sitemap).toContain('"/"');
-    expect(sitemap).toContain('"/pricing"');
+    expect(sitemap).not.toContain('"/pricing"');
     expect(sitemap).not.toContain('"/login"');
     expect(sitemap).not.toContain('"/register"');
     expect(sitemap).not.toContain('"/home"');
+  });
+
+  it("uses the production site URL as the SEO fallback", () => {
+    const seo = readProjectFile("src/lib/seo.ts");
+
+    expect(seo).toContain('"https://visdraft.com"');
+    expect(seo).not.toContain('"http://localhost:3000"');
+  });
+
+  it("falls back to the default locale for root metadata without route params", () => {
+    const seo = readProjectFile("src/lib/seo.ts");
+    const rootPage = readProjectFile("src/app/page.tsx");
+
+    expect(rootPage).toContain("getMetadata");
+    expect(seo).toContain("params?: Promise<{ locale?: string }>");
+    expect(seo).toContain("const locale = requestedLocale || defaultLocale");
+    expect(seo).toContain("setRequestLocale(locale)");
+  });
+
+  it("declares browser tab icons in the root layout", () => {
+    const rootLayout = readProjectFile("src/app/layout.tsx");
+
+    expect(rootLayout).toContain("export const metadata");
+    expect(rootLayout).toContain('url: "/favicon.svg"');
+    expect(rootLayout).toContain('url: "/apple-touch-icon.png"');
+  });
+
+  it("keeps a visible h1 on the login page", () => {
+    const authShell = readProjectFile("src/components/auth/auth-shell.tsx");
+    const loginForm = readProjectFile("src/components/login-form.tsx");
+    const loginPage = readProjectFile("src/app/[locale]/login/page.tsx");
+
+    expect(authShell).not.toContain("<h1");
+    expect(loginPage).toContain("<h1");
+    expect(loginForm).toContain("<h1");
+    expect(loginForm).toContain("{t(\"welcomeBack\")}");
+  });
+
+  it("rewrites default-locale routes that omit the locale prefix", () => {
+    const nextConfig = readProjectFile("next.config.ts");
+
+    expect(nextConfig).toContain("DEFAULT_LOCALE_REWRITE_PATHS");
+    expect(nextConfig).toContain('destination: `/${defaultLocale}${source}`');
+
+    for (const route of [
+      "/pricing",
+      "/privacy",
+      "/contact",
+      "/login",
+      "/register",
+      "/auth/callback",
+      "/home",
+      "/projects",
+      "/settings",
+      "/skills",
+      "/brand-kit",
+      "/canvas",
+      "/loading-preview",
+    ]) {
+      expect(nextConfig).toContain(`"${route}"`);
+    }
   });
 });

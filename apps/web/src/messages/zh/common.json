@@ -19,6 +19,16 @@
       "title": "Visdraft 定价 - 面向创作者的 AI 设计方案",
       "description": "比较 Visdraft 的 AI 图片生成、视频生成、品牌套件、项目空间、积分和团队创意工作流方案。",
       "keywords": "Visdraft 定价, AI 设计定价, AI 图片生成方案, AI 创意工具价格"
+    },
+    "privacy": {
+      "title": "隐私政策 - Visdraft",
+      "description": "了解 Visdraft 在你使用 AI 创意工作空间时如何收集、使用、保护和共享信息。",
+      "keywords": "Visdraft 隐私政策, 数据隐私, AI 创意工作空间隐私"
+    },
+    "contact": {
+      "title": "联系 - Visdraft",
+      "description": "通过电子邮件联系 Visdraft，咨询问题、支持、反馈或合作。",
+      "keywords": "Visdraft 联系方式, Visdraft 支持, AI 创意工作空间联系"
     }
   }
 }

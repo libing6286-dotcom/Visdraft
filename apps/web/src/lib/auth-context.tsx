@@ -2,11 +2,11 @@
 
 import type { Session, User } from "@supabase/supabase-js";
 import {
+  type ReactNode,
   createContext,
   useContext,
   useEffect,
   useState,
-  type ReactNode,
 } from "react";
 
 import { getSupabaseBrowserClient } from "./supabase-browser";
@@ -27,22 +27,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient();
+    let cancelled = false;
 
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
+    async function clearSession() {
+      await Promise.resolve(supabase.auth.signOut({ scope: "local" })).catch(
+        () => undefined,
+      );
+      if (cancelled) return;
+      setSession(null);
+      setUser(null);
       setLoading(false);
-    });
+    }
+
+    supabase.auth
+      .getSession()
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          void clearSession();
+          return;
+        }
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
+        setLoading(false);
+      })
+      .catch(() => {
+        void clearSession();
+      });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      if (cancelled) return;
       setSession(newSession);
       setUser(newSession?.user ?? null);
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
   }, []);
 
   async function signOut() {

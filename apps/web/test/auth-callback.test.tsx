@@ -32,7 +32,7 @@ vi.mock("../src/lib/server-api", () => ({
   fetchViewer: mockFetchViewer,
 }));
 
-import CallbackPage from "../src/app/auth/callback/page";
+import CallbackPage from "../src/app/[locale]/auth/callback/page";
 
 describe("Auth callback page", () => {
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe("Auth callback page", () => {
     vi.useRealTimers();
   });
 
-  it("exchanges the code, bootstraps viewer, and redirects to /home", async () => {
+  it("exchanges the code, bootstraps viewer, and redirects to home", async () => {
     currentSearchParams = new URLSearchParams("code=magic-code");
     mockExchangeCodeForSession.mockResolvedValue({
       data: {

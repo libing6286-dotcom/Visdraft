@@ -39,7 +39,7 @@ export function AuthShell({
             className="mb-4 flex items-center gap-4"
           >
             <VisdraftLogoInverted className="size-14" />
-            <h1 className="text-4xl font-bold tracking-tight">Visdraft</h1>
+            <span className="text-4xl font-bold tracking-tight">Visdraft</span>
           </motion.div>
 
           <motion.p variants={fadeUp} custom={1} className="mb-3 text-3xl font-semibold tracking-tight">

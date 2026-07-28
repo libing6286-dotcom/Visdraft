@@ -26,6 +26,6 @@ export const localeNames: Record<AppLocale, string> = {
 export const routing = defineRouting({
   locales,
   defaultLocale,
-  localePrefix: "always",
+  localePrefix: "as-needed",
   localeDetection: false,
 });
