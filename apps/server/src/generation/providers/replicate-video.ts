@@ -60,7 +60,7 @@ const REPLICATE_VIDEO_MODELS: readonly VideoModelInfo[] = [
     description: "Wan 2.6: T2V+I2V, audio, up to 10s, 1080p. Open-source, good value. Auto-routes to T2V or I2V endpoint.",
     iconUrl: ICON_WAN,
     capabilities: { textToVideo: true, imageToVideo: true, videoToVideo: false, audio: true },
-    limits: { maxDuration: 10, allowedDurations: [5, 10], maxResolution: "1080p", maxInputImages: 1 },
+    limits: { maxDuration: 10, allowedDurations: [5, 10, 15], maxResolution: "1080p", maxInputImages: 1 },
   },
   {
     id: "openai/sora-2",
@@ -127,7 +127,7 @@ function buildModelInput(
   let endpoint = params.model;
 
   const hasImage = (params.inputImages?.length ?? 0) > 0;
-  const duration = params.duration ?? 5;
+  const duration = normalizeDuration(params, model);
   const aspectRatio = params.aspectRatio ?? "16:9";
 
   switch (params.model) {
@@ -302,7 +302,7 @@ export class ReplicateVideoProvider implements VideoProvider {
       mimeType: "video/mp4",
       width,
       height,
-      durationSeconds: params.duration ?? 5,
+      durationSeconds: normalizeDuration(params, modelInfo),
     };
   }
 
@@ -339,4 +339,27 @@ export class ReplicateVideoProvider implements VideoProvider {
 
     throw new GenerationError("replicate", "timeout", "Video generation timed out waiting for Replicate");
   }
+}
+
+function normalizeDuration(
+  params: VideoGenerateParams,
+  model: VideoModelInfo,
+): number {
+  return clampToNearest(
+    params.duration ?? model.limits.allowedDurations?.[0] ?? 5,
+    model.limits.allowedDurations ?? [5],
+  );
+}
+
+function clampToNearest(requested: number, allowed: number[]): number {
+  let closest = allowed[0] ?? requested;
+  let minDiff = Math.abs(requested - closest);
+  for (const value of allowed) {
+    const diff = Math.abs(requested - value);
+    if (diff < minDiff) {
+      closest = value;
+      minDiff = diff;
+    }
+  }
+  return closest;
 }

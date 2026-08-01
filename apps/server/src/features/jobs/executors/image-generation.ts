@@ -41,7 +41,7 @@ registerExecutor("image_generation", async (jobId, _rawPayload, ctx: ExecutorCon
   const workspaceId: string = jobRow.workspace_id ?? jobId;
 
   // Resolve provider dynamically from model ID via registry
-  const model = payload.model ?? "black-forest-labs/flux-kontext-pro";
+  const model = payload.model ?? "google/nano-banana-2";
   const providerName = resolveImageProviderName(model);
 
   // Renew VT every 60s (half of the 120s image queue VT) to prevent

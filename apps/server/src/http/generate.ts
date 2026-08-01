@@ -75,7 +75,7 @@ export async function registerGenerateRoutes(
       );
     }
 
-    const model = payload.model ?? "black-forest-labs/flux-kontext-pro";
+    const model = payload.model ?? "google/nano-banana-2";
 
     try {
       // ── Tier guard + credit checks ──

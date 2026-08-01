@@ -1,21 +1,18 @@
 import type { BaseCheckpointSaver, BaseStore } from "@langchain/langgraph-checkpoint";
 import type { BaseLanguageModel } from "@langchain/core/language_models/base";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { ChatVertexAI } from "@langchain/google-vertexai";
-import { ChatOpenAI } from "@langchain/openai";
 import { ChatDeepSeek } from "@langchain/deepseek";
 import { createDeepAgent } from "deepagents";
 
 import {
   DEFAULT_AGENT_MODEL,
   DEFAULT_DEEPSEEK_AGENT_MODEL,
-  DEFAULT_GOOGLE_AGENT_MODEL,
   type ServerEnv,
 } from "../config/env.js";
 import type { ConnectionManager } from "../ws/connection-manager.js";
 import { createAgentBackend, type AgentBackendResult } from "./backends/index.js";
 import { VISDRAFT_SYSTEM_PROMPT } from "./prompts/visdraft-main.js";
 import { createVideoSubAgent } from "./sub-agents.js";
+import { KieChatModel } from "./kie-chat-model.js";
 import { createMainAgentTools } from "./tools/index.js";
 import type { PersistImageFn, SubmitImageJobFn } from "./tools/image-generate.js";
 import type { SubmitVideoJobFn } from "./tools/video-generate.js";
@@ -132,110 +129,80 @@ export function createVisdraftDeepAgent(options: {
  * Create a streaming chat model from a `<provider>:<model-id>` specifier.
  *
  * Supported providers:
- * - `openai` (default) — uses ChatOpenAI with `streamUsage: false` to work
- *   around the one-api proxy stripping `delta.role` from chunks.
- * - `google` — uses ChatGoogleGenerativeAI (Google AI Studio, API Key) or
- *   ChatVertexAI (Vertex AI, service account) depending on available config.
+ * - `kie` (default) — uses Kie's OpenAI-compatible API
+ * - `deepseek` — uses ChatDeepSeek for DeepSeek models
  */
 function createStreamingChatModel(specifier: string): BaseLanguageModel {
   const colonIdx = specifier.indexOf(":");
-  let provider = colonIdx > 0 ? specifier.slice(0, colonIdx) : "openai";
+  let provider = colonIdx > 0 ? specifier.slice(0, colonIdx) : "kie";
   let modelName = colonIdx > 0 ? specifier.slice(colonIdx + 1) : specifier;
 
-  const hasGoogleApiKey = !!process.env.GOOGLE_API_KEY;
-  const hasVertexAI = !!(process.env.GOOGLE_VERTEX_PROJECT && process.env.GOOGLE_VERTEX_LOCATION);
-  const hasGoogle = hasGoogleApiKey || hasVertexAI;
+  const hasKieApiKey = !!process.env.KIE_API_KEY;
   const hasDeepseekApiKey = !!process.env.DEEPSEEK_API_KEY;
 
   const fallbackProvider = (
-    candidates: Array<"openai" | "google" | "deepseek">,
-  ): "openai" | "google" | "deepseek" | null => {
+    candidates: Array<"kie" | "deepseek">,
+  ): "kie" | "deepseek" | null => {
     for (const candidate of candidates) {
-      if (candidate === "openai" && process.env.OPENAI_API_KEY) return "openai";
-      if (candidate === "google" && hasGoogle) return "google";
+      if (candidate === "kie" && hasKieApiKey) return "kie";
       if (candidate === "deepseek" && hasDeepseekApiKey) return "deepseek";
     }
     return null;
   };
 
-  const applyFallback = (nextProvider: "openai" | "google" | "deepseek" | null) => {
+  const applyFallback = (nextProvider: "kie" | "deepseek" | null) => {
     if (!nextProvider) {
       throw new Error(
         `No AI provider credentials configured for requested model: ${specifier}. ` +
-        "Set one of OPENAI_API_KEY, GOOGLE_API_KEY / GOOGLE_VERTEX_PROJECT, or DEEPSEEK_API_KEY.",
+        "Set one of KIE_API_KEY or DEEPSEEK_API_KEY.",
       );
     }
     provider = nextProvider;
     modelName =
-      nextProvider === "google"
-        ? DEFAULT_GOOGLE_AGENT_MODEL
-        : nextProvider === "deepseek"
-          ? DEFAULT_DEEPSEEK_AGENT_MODEL
-          : DEFAULT_AGENT_MODEL;
+      nextProvider === "deepseek"
+        ? DEFAULT_DEEPSEEK_AGENT_MODEL
+        : DEFAULT_AGENT_MODEL;
   };
 
   // Provider availability fallback
-  if (provider === "google" && !hasGoogle) {
+  if (provider === "kie" && !hasKieApiKey) {
     console.warn(
-      `[model] Google unavailable (no GOOGLE_API_KEY or Vertex AI config), falling back for: ${specifier}`,
+      `[model] Kie unavailable (no KIE_API_KEY), falling back for: ${specifier}`,
     );
-    applyFallback(fallbackProvider(["openai", "deepseek"]));
+    applyFallback(fallbackProvider(["deepseek"]));
   }
   if (provider === "deepseek" && !hasDeepseekApiKey) {
     console.warn(
       `[model] Deepseek unavailable (no DEEPSEEK_API_KEY), falling back for: ${specifier}`,
     );
-    applyFallback(fallbackProvider(["openai", "google"]));
+    applyFallback(fallbackProvider(["kie"]));
   }
-  if (provider === "openai" && !process.env.OPENAI_API_KEY) {
-    console.warn(
-      `[model] OpenAI unavailable (no OPENAI_API_KEY), falling back for: ${specifier}`,
-    );
-    applyFallback(fallbackProvider(["google", "deepseek"]));
+
+  // Legacy provider names compatibility — map OpenRouter-era providers to Kie.
+  if (provider === "openrouter" || provider === "openai" || provider === "google" || provider === "replicate") {
+    console.log(`[model] Legacy provider '${provider}' detected, using Kie API for: ${modelName}`);
+    provider = "kie";
   }
 
   switch (provider) {
-    case "google":
-      // Prefer Vertex AI (service account) when configured; fall back to Developer API key
-      if (hasVertexAI) {
-        const vertexProject = process.env.GOOGLE_VERTEX_PROJECT!;
-        const vertexLocation = process.env.GOOGLE_VERTEX_LOCATION!;
-        console.log(`[model] Using Vertex AI for: ${modelName} (project=${vertexProject}, location=${vertexLocation})`);
-        return new ChatVertexAI({
-          model: modelName,
-          location: vertexLocation,
-          authOptions: { projectId: vertexProject },
-          streaming: true,
-        });
-      }
-      return new ChatGoogleGenerativeAI({
-        model: modelName,
-        apiKey: process.env.GOOGLE_API_KEY!,
-        streaming: true,
-        thinkingConfig: {
-          includeThoughts: true,
-          thinkingBudget: -1, // dynamic — let the model decide
-        },
-      });
+    case "kie":
+      modelName = normalizeKieModelName(modelName);
+      console.log(`[model] Using Kie API for: ${modelName}`);
+      return createKieChatModel(modelName, process.env.KIE_API_KEY!, process.env.KIE_BASE_URL);
     case "deepseek":
       return new ChatDeepSeek({
         apiKey: process.env.DEEPSEEK_API_KEY!,
         model: modelName,
         streaming: true,
       });
-    case "openai":
     default:
-      return new ChatOpenAI({
-        model: modelName,
-        streaming: true,
-        streamUsage: false,
-      });
+      throw new Error(`Unknown provider: ${provider}`);
   }
 }
 
-/** Known model-name prefixes that map to Google Gemini. */
-const GOOGLE_MODEL_PREFIXES = ["gemini-"];
+/** Known model-name prefixes for auto-detection. */
 const DEEPSEEK_MODEL_PREFIXES = ["deepseek-"];
+const KIE_MODEL_PREFIXES = ["openai/", "google/", "anthropic/", "meta/"];
 
 export function createDefaultModelSpecifier(
   env: Pick<ServerEnv, "agentModel">,
@@ -243,23 +210,64 @@ export function createDefaultModelSpecifier(
   const model = env.agentModel;
   // Already has an explicit provider prefix — pass through as-is.
   if (model.includes(":")) return model;
-  // Auto-detect Google models by name prefix.
-  if (GOOGLE_MODEL_PREFIXES.some((p) => model.startsWith(p)))
-    return `google:${model}`;
+  // Auto-detect DeepSeek models by name prefix.
   if (DEEPSEEK_MODEL_PREFIXES.some((p) => model.startsWith(p)))
     return `deepseek:${model}`;
-  return `openai:${model}`;
+  // Auto-detect legacy owner/name model IDs and send them through Kie.
+  if (KIE_MODEL_PREFIXES.some((p) => model.startsWith(p)))
+    return `kie:${model}`;
+  return `kie:${model}`;
 }
 
+export function resolveKieOpenAIBaseUrl(modelName: string, baseUrl?: string): string {
+  const root = (baseUrl ?? "https://api.kie.ai").replace(/\/+$/, "");
+  const modelPath = normalizeKieModelName(modelName);
+  if (isKieCodexResponsesModel(modelPath)) {
+    return `${root}/codex/v1`;
+  }
+  return `${root}/${encodeURIComponent(modelPath)}/v1`;
+}
+
+export function normalizeKieModelName(modelName: string): string {
+  const providerlessModel = modelName.includes(":")
+    ? modelName.slice(modelName.indexOf(":") + 1)
+    : modelName;
+  const rawModel = providerlessModel.split("/").pop() ?? providerlessModel;
+  const model = rawModel
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/^chatgpt-/, "gpt-");
+  if (model === "gpt-5.6-terra") return DEFAULT_AGENT_MODEL;
+  if (model === "gemini-3-flash-preview") return DEFAULT_AGENT_MODEL;
+  return model;
+}
+
+export function createKieChatModel(
+  modelName: string,
+  apiKey: string,
+  baseUrl?: string,
+): KieChatModel {
+  const normalizedModel = normalizeKieModelName(modelName);
+  return new KieChatModel({
+    model: normalizedModel,
+    apiKey,
+    baseUrl: resolveKieOpenAIBaseUrl(normalizedModel, baseUrl),
+  });
+}
+
+function isKieCodexResponsesModel(modelName: string): boolean {
+  return modelName === "gpt-5-6-terra";
+}
+
+/**
+ * @deprecated This function is kept for backward compatibility but is no longer used.
+ * Agent models are now accessed via Kie (KIE_API_KEY).
+ */
 export function applyOpenAICompatEnv(
   env: Pick<ServerEnv, "openAIApiBase" | "openAIApiKey">,
   target: NodeJS.ProcessEnv = process.env,
 ) {
-  if (env.openAIApiKey) {
-    target.OPENAI_API_KEY = env.openAIApiKey;
-  }
-
-  if (env.openAIApiBase) {
-    target.OPENAI_BASE_URL = env.openAIApiBase;
-  }
+  // No-op: OpenAI SDK is no longer used directly
+  // This function is kept for backward compatibility
 }

@@ -83,6 +83,16 @@ export function buildUserMessage(
   return { text: `${prompt}\n\n${xmlBlocks.join("\n\n")}` };
 }
 
+export function supportsVisionMessageContent(modelSpecifier?: BaseLanguageModel | string): boolean {
+  if (typeof modelSpecifier !== "string") return true;
+  return (
+    modelSpecifier.startsWith("google:") ||
+    modelSpecifier.startsWith("openai:") ||
+    modelSpecifier.startsWith("gemini-") ||
+    modelSpecifier.startsWith("gpt-")
+  );
+}
+
 function buildInputImagesXml(attachments: ImageAttachment[]): string | null {
   if (attachments.length === 0) return null;
 
@@ -866,13 +876,12 @@ export function createAgentRunService(options: CreateAgentRuntimeOptions) {
 
       try {
       let agent: VisdraftAgent;
+      const resolvedModel = run.modelOverride
+        ? (run.modelOverride.includes(":")
+          ? run.modelOverride
+          : createDefaultModelSpecifier({ agentModel: run.modelOverride }))
+        : options.model;
       try {
-        const resolvedModel = run.modelOverride
-          ? (run.modelOverride.includes(":")
-            ? run.modelOverride
-            : createDefaultModelSpecifier({ agentModel: run.modelOverride }))
-          : options.model;
-
         // Build persistImage closure using the user's Supabase client.
         // Client creation is deferred into the closure so it only runs
         // when an image is actually generated (avoids throwing in tests
@@ -1034,6 +1043,7 @@ export function createAgentRunService(options: CreateAgentRuntimeOptions) {
         const hasAttachments = run.attachments && run.attachments.length > 0;
         let userMessage: HumanMessage;
         let attachmentDataMap: Record<string, string> = {};
+        const shouldSendVisionContent = supportsVisionMessageContent(resolvedModel);
 
         if (hasAttachments) {
           // Download images and build parallel data structures:
@@ -1090,12 +1100,14 @@ export function createAgentRunService(options: CreateAgentRuntimeOptions) {
           // Build assetId → data URI map for tool-level resolution
           attachmentDataMap = buildAttachmentDataMap(downloaded);
 
-          userMessage = new HumanMessage({
-            content: [
-              { type: "text" as const, text: enrichedPrompt },
-              ...imageBlocks,
-            ],
-          });
+          userMessage = shouldSendVisionContent
+            ? new HumanMessage({
+                content: [
+                  { type: "text" as const, text: enrichedPrompt },
+                  ...imageBlocks,
+                ],
+              })
+            : new HumanMessage(enrichedPrompt);
         } else {
           const { text: enrichedPrompt } = buildUserMessage(
             run.prompt,

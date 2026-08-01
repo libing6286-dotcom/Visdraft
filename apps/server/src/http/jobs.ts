@@ -47,7 +47,7 @@ export async function registerJobRoutes(
       const viewer = await options.viewerService.ensureViewer(user);
 
       // Credit checks (skip if credit system not configured)
-      const model = payload.model ?? "black-forest-labs/flux-kontext-pro";
+      const model = payload.model ?? "google/nano-banana-2";
       let creditsCost = 0;
 
       if (options.creditService && options.tierGuard) {

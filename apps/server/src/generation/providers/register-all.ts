@@ -10,8 +10,8 @@ import { GoogleImageProvider } from "./google-image.js";
 import { GoogleVertexImageProvider } from "./google-vertex-image.js";
 import { GoogleVertexVideoProvider } from "./google-vertex-video.js";
 import { GoogleVideoProvider } from "./google-video.js";
+import { KieImageProvider } from "./kie-image.js";
 import { OpenAIImageProvider } from "./openai-image.js";
-import { OpenRouterImageProvider } from "./openrouter-image.js";
 import { registerImageProvider, registerVideoProvider } from "./registry.js";
 import { ReplicateImageProvider } from "./replicate-image.js";
 import { ReplicateVideoProvider } from "./replicate-video.js";
@@ -61,9 +61,11 @@ export function registerAllProviders(env: ServerEnv): void {
     );
   }
 
-  // OpenRouter — image only
-  if (env.openRouterApiKey) {
-    registerImageProvider(new OpenRouterImageProvider(env.openRouterApiKey));
+  // Kie Market image APIs
+  if (env.kieApiKey) {
+    registerImageProvider(new KieImageProvider(env.kieApiKey, {
+      ...(env.kieBaseUrl ? { baseUrl: env.kieBaseUrl } : {}),
+    }));
   }
 
   // Volces — image only

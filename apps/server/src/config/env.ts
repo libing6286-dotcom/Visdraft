@@ -1,28 +1,27 @@
 import { readFileSync } from "node:fs";
 
 export const DEFAULT_AGENT_BACKEND_MODE = "state";
-export const DEFAULT_AGENT_MODEL = "gpt-4.1";
-export const DEFAULT_GOOGLE_AGENT_MODEL = "gemini-2.5-flash";
+export const DEFAULT_AGENT_MODEL = "gpt-5-6-terra";
+export const DEFAULT_GOOGLE_AGENT_MODEL = "google/gemini-2.5-flash";
 export const DEFAULT_DEEPSEEK_AGENT_MODEL = "deepseek-v4-flash";
 export const DEFAULT_SERVER_PORT = 3001;
 export const DEFAULT_WEB_ORIGIN = "http://localhost:3000";
 
 /**
  * Resolve the default agent model based on available provider configuration.
- * When Google/Vertex is configured but OpenAI is not, defaults to Gemini 2.5 Flash.
+ * When only DeepSeek is configured, defaults to DeepSeek v4 Flash.
+ * Otherwise defaults to Kie.
  */
 export function resolveDefaultAgentModel(
-  env: Pick<
-    ServerEnv,
-    "deepseekApiKey" | "googleApiKey" | "googleVertexProject" | "openAIApiKey"
-  >,
+  env: {
+    deepseekApiKey?: string | undefined;
+    kieApiKey?: string | undefined;
+  },
 ): string {
-  const hasOpenAI = !!env.openAIApiKey;
-  const hasGoogle = !!(env.googleApiKey || env.googleVertexProject);
+  const hasKie = !!env.kieApiKey;
   const hasDeepseek = !!env.deepseekApiKey;
 
-  if (!hasOpenAI && hasGoogle) return DEFAULT_GOOGLE_AGENT_MODEL;
-  if (!hasOpenAI && !hasGoogle && hasDeepseek) return DEFAULT_DEEPSEEK_AGENT_MODEL;
+  if (!hasKie && hasDeepseek) return DEFAULT_DEEPSEEK_AGENT_MODEL;
   return DEFAULT_AGENT_MODEL;
 }
 
@@ -39,9 +38,10 @@ export type ServerEnv = {
   googleVertexLocation?: string;
   googleVertexProject?: string;
   googleVertexVideoLocation?: string;
+  kieApiKey?: string;
+  kieBaseUrl?: string;
   openAIApiBase?: string;
   openAIApiKey?: string;
-  openRouterApiKey?: string;
   port: number;
   replicateApiToken?: string;
   supabaseAnonKey?: string;
@@ -87,8 +87,6 @@ export function loadServerEnv(
     overrides.openAIApiBase ?? normalizeOptionalString(source.OPENAI_API_BASE);
   const openAIApiKey =
     overrides.openAIApiKey ?? normalizeOptionalString(source.OPENAI_API_KEY);
-  const openRouterApiKey =
-    overrides.openRouterApiKey ?? normalizeOptionalString(source.OPENROUTER_API_KEY);
   const supabaseUrl =
     overrides.supabaseUrl ?? normalizeOptionalString(source.SUPABASE_URL);
   const supabaseAnonKey =
@@ -118,6 +116,10 @@ export function loadServerEnv(
     overrides.googleVertexLocation ?? normalizeOptionalString(source.GOOGLE_VERTEX_LOCATION);
   const googleVertexVideoLocation =
     overrides.googleVertexVideoLocation ?? normalizeOptionalString(source.GOOGLE_VERTEX_VIDEO_LOCATION);
+  const kieApiKey =
+    overrides.kieApiKey ?? normalizeOptionalString(source.KIE_API_KEY);
+  const kieBaseUrl =
+    overrides.kieBaseUrl ?? normalizeOptionalString(source.KIE_BASE_URL);
   const replicateApiToken =
     overrides.replicateApiToken ?? normalizeOptionalString(source.REPLICATE_API_TOKEN);
   const volcesApiKey =
@@ -171,7 +173,7 @@ export function loadServerEnv(
 
   // Resolve default agent model based on available provider keys.
   // Explicit VISDRAFT_AGENT_MODEL always takes precedence; otherwise fall back
-  // to Gemini 2.5 Flash when only Google/Vertex is configured.
+  // to appropriate model based on configured API tokens.
   const explicitModel =
     overrides.agentModel ??
     parseAgentModel(source.VISDRAFT_AGENT_MODEL ?? source.LOOMIC_AGENT_MODEL);
@@ -179,9 +181,7 @@ export function loadServerEnv(
     explicitModel ??
     resolveDefaultAgentModel({
       deepseekApiKey,
-      googleApiKey,
-      googleVertexProject,
-      openAIApiKey,
+      kieApiKey,
     });
 
   return {
@@ -206,9 +206,10 @@ export function loadServerEnv(
     ...(deepseekApiKey ? { deepseekApiKey } : {}),
     ...(googleApiKey ? { googleApiKey } : {}),
     ...(googleApplicationCredentials ? { googleApplicationCredentials } : {}),
+    ...(kieApiKey ? { kieApiKey } : {}),
+    ...(kieBaseUrl ? { kieBaseUrl } : {}),
     ...(openAIApiBase ? { openAIApiBase } : {}),
     ...(openAIApiKey ? { openAIApiKey } : {}),
-    ...(openRouterApiKey ? { openRouterApiKey } : {}),
     ...(supabaseUrl ? { supabaseUrl } : {}),
     ...(supabaseAnonKey ? { supabaseAnonKey } : {}),
     ...(supabaseDbUrl ? { supabaseDbUrl } : {}),
