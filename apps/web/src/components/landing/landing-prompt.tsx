@@ -134,13 +134,13 @@ export function LandingPrompt() {
         viewport={{ once: true, margin: "-80px" }}
         className="flex w-full flex-col items-center text-center"
       >
-        <motion.h2
+        <motion.h1
           variants={fadeUp}
           custom={0}
           className="mb-2 text-2xl font-bold text-foreground sm:text-3xl"
         >
-          {t("title")}
-        </motion.h2>
+          {t("seoHeadline")}
+        </motion.h1>
         <motion.p
           variants={fadeUp}
           custom={1}

@@ -11,6 +11,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const defaultLocale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en";
 const DEFAULT_LOCALE_REWRITE_PATHS = [
   "/pricing",
+  "/product-photo-to-ad-creative",
   "/privacy",
   "/contact",
   "/login",
@@ -51,6 +52,22 @@ const nextConfig: NextConfig = {
       source,
       destination: `/${defaultLocale}${source}`,
     }));
+  },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        has: [{ type: "host", value: "www.visdraft.com" }],
+        destination: "https://visdraft.com/",
+        permanent: true,
+      },
+      {
+        source: "/:path+",
+        has: [{ type: "host", value: "www.visdraft.com" }],
+        destination: "https://visdraft.com/:path+",
+        permanent: true,
+      },
+    ];
   },
 };
 

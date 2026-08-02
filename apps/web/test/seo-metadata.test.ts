@@ -23,7 +23,43 @@ describe("localized SEO metadata", () => {
       expect(messages.pages.pricing.title).toBeTruthy();
       expect(messages.pages.pricing.description).toBeTruthy();
       expect(messages.pages.pricing.keywords).toBeTruthy();
+      expect(messages.pages.productPhotoToAdCreative.title).toBeTruthy();
+      expect(messages.pages.productPhotoToAdCreative.description).toBeTruthy();
+      expect(messages.pages.productPhotoToAdCreative.keywords).toBeTruthy();
     }
+  });
+
+  it("targets public landing metadata by locale", () => {
+    const en = readJson("src/messages/en/common.json");
+    const zh = readJson("src/messages/zh/common.json");
+
+    expect(en.pages.landing.title).toBe(
+      "Visdraft - AI Design Workspace for Creative Teams",
+    );
+    expect(en.pages.landing.description).toContain(
+      "brand visuals, social content",
+    );
+    expect(en.pages.landing.keywords).toContain("AI design workspace");
+
+    expect(zh.pages.landing.title).toBe(
+      "Visdraft - AI 设计工作空间与品牌视觉生成工具",
+    );
+    expect(zh.pages.landing.description).toContain("AI 视觉创作工具");
+    expect(zh.pages.landing.keywords).toContain("AI 设计工作空间");
+  });
+
+  it("keeps the public landing page h1 detectable before animation runs", () => {
+    const landingPrompt = readProjectFile(
+      "src/components/landing/landing-prompt.tsx",
+    );
+    const heroSection = readProjectFile(
+      "src/components/landing/hero-section.tsx",
+    );
+
+    expect(landingPrompt).toContain("<motion.h1");
+    expect(landingPrompt).toContain('{t("seoHeadline")}');
+    expect(landingPrompt).not.toContain("<motion.h2");
+    expect(heroSection).not.toContain("<motion.h1");
   });
 
   it("uses page-specific metadata namespaces in route layouts", () => {
@@ -78,6 +114,23 @@ describe("localized SEO metadata", () => {
     const contactLayout = readFileSync(contactLayoutPath, "utf8");
     expect(contactLayout).toContain('namespace: "common.pages.contact"');
     expect(contactLayout).toContain('path: "/contact"');
+
+    const productPhotoToAdCreativeLayoutPath = path.join(
+      root,
+      "src/app/[locale]/product-photo-to-ad-creative/layout.tsx",
+    );
+    expect(existsSync(productPhotoToAdCreativeLayoutPath)).toBe(true);
+
+    const productPhotoToAdCreativeLayout = readFileSync(
+      productPhotoToAdCreativeLayoutPath,
+      "utf8",
+    );
+    expect(productPhotoToAdCreativeLayout).toContain(
+      'namespace: "common.pages.productPhotoToAdCreative"',
+    );
+    expect(productPhotoToAdCreativeLayout).toContain(
+      'path: "/product-photo-to-ad-creative"',
+    );
   });
 
   it("keeps route metadata paths canonical", () => {
@@ -95,6 +148,13 @@ describe("localized SEO metadata", () => {
     const pricingLayout = readFileSync(pricingLayoutPath, "utf8");
     expect(pricingLayout).toContain('namespace: "common.pages.pricing"');
     expect(pricingLayout).toContain('path: "/pricing"');
+
+    const productPhotoToAdCreativeLayout = readProjectFile(
+      "src/app/[locale]/product-photo-to-ad-creative/layout.tsx",
+    );
+    expect(productPhotoToAdCreativeLayout).toContain(
+      'path: "/product-photo-to-ad-creative"',
+    );
   });
 
   it("marks auth and workspace routes as noindex", () => {
@@ -136,9 +196,10 @@ describe("localized SEO metadata", () => {
     expect(source).not.toContain("\"/login\"");
     expect(source).not.toContain("\"/register\"");
 
+    expect(source).not.toContain('"/home"');
+
     for (const disallowedPath of [
       "/auth/",
-      "/home",
       "/projects",
       "/settings",
       "/skills",
@@ -154,10 +215,29 @@ describe("localized SEO metadata", () => {
     const sitemap = readProjectFile("src/app/sitemap.ts");
 
     expect(sitemap).toContain('"/"');
+    expect(sitemap).toContain('"/product-photo-to-ad-creative"');
     expect(sitemap).not.toContain('"/pricing"');
     expect(sitemap).not.toContain('"/login"');
     expect(sitemap).not.toContain('"/register"');
     expect(sitemap).not.toContain('"/home"');
+  });
+
+  it("ships the product photo to ad creative SEO page copy", () => {
+    const page = readProjectFile(
+      "src/app/[locale]/product-photo-to-ad-creative/page.tsx",
+    );
+    const en = readJson("src/messages/en/common.json");
+
+    expect(en.pages.productPhotoToAdCreative.title).toBe(
+      "Product Photo to Ad Creative | AI Product Ad Generator for Shopify",
+    );
+    expect(en.pages.productPhotoToAdCreative.description).toContain(
+      "Turn product photos into Facebook, TikTok, Instagram, and Shopify ad creatives",
+    );
+    expect(page).toContain("Turn Product Photos Into Ad Creatives");
+    expect(page).toContain("product image to ad generator");
+    expect(page).toContain("AI product photography for ads");
+    expect(page).toContain("<h1");
   });
 
   it("uses the production site URL as the SEO fallback", () => {
@@ -165,6 +245,45 @@ describe("localized SEO metadata", () => {
 
     expect(seo).toContain('"https://visdraft.com"');
     expect(seo).not.toContain('"http://localhost:3000"');
+  });
+
+  it("adds homepage structured data without FAQPage markup", () => {
+    const seo = readProjectFile("src/lib/seo.ts");
+    const rootPage = readProjectFile("src/app/page.tsx");
+
+    expect(seo).toContain("getLandingStructuredData");
+    expect(seo).toContain('"@graph"');
+    expect(seo).toContain('"Organization"');
+    expect(seo).toContain('"WebSite"');
+    expect(seo).toContain('"SoftwareApplication"');
+    expect(seo).toContain('"DesignApplication"');
+    expect(seo).toContain('"https://visdraft.com"');
+    expect(seo).not.toContain('"FAQPage"');
+
+    expect(rootPage).toContain("getLandingStructuredData");
+    expect(rootPage).toContain('type="application/ld+json"');
+    expect(rootPage).toContain("JSON.stringify(getLandingStructuredData())");
+  });
+
+  it("canonicalizes public domain and protocol at the edge", () => {
+    const nextConfig = readProjectFile("next.config.ts");
+    const wrangler = readProjectFile("wrangler.jsonc");
+
+    expect(wrangler).toContain('"pattern": "visdraft.com"');
+    expect(wrangler).toContain('"pattern": "www.visdraft.com"');
+    expect(wrangler).toContain('"custom_domain": true');
+
+    expect(nextConfig).toContain("async redirects()");
+    expect(nextConfig).toContain('source: "/"');
+    expect(nextConfig).toContain('destination: "https://visdraft.com/"');
+    expect(nextConfig).toContain('type: "host"');
+    expect(nextConfig).toContain('value: "www.visdraft.com"');
+    expect(nextConfig).toContain('source: "/:path+"');
+    expect(nextConfig).toContain('destination: "https://visdraft.com/:path+"');
+    expect(nextConfig).not.toContain('source: "/:path*"');
+    expect(nextConfig).not.toContain('destination: "https://visdraft.com/:path*"');
+    expect(nextConfig).not.toContain('key: "x-forwarded-proto"');
+    expect(nextConfig).toContain("permanent: true");
   });
 
   it("falls back to the default locale for root metadata without route params", () => {
@@ -204,6 +323,7 @@ describe("localized SEO metadata", () => {
 
     for (const route of [
       "/pricing",
+      "/product-photo-to-ad-creative",
       "/privacy",
       "/contact",
       "/login",

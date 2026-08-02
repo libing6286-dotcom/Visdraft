@@ -46,15 +46,16 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { labelKey: "colProductRoadmap", href: "/roadmap" },
     ],
   },
-  // {
-  //   titleKey: "colResources",
-  //   links: [
-  //     { labelKey: "colResourcesDocs", href: "/docs" },
-  //     { labelKey: "colResourcesBlog", href: "/blog" },
-  //     { labelKey: "colResourcesCommunity", href: "/community" },
-  //     { labelKey: "colResourcesTemplates", href: "/templates" },
-  //   ],
-  // },
+  {
+    titleKey: "colResources",
+    links: [
+      // { labelKey: "colResourcesDocs", href: "/docs" },
+      // { labelKey: "colResourcesBlog", href: "/blog" },
+      // { labelKey: "colResourcesCommunity", href: "/community" },
+      // { labelKey: "colResourcesTemplates", href: "/templates" },
+      { labelKey: "colProductPhotoToAdCreative", href: "/product-photo-to-ad-creative" },
+    ],
+  },
   {
     titleKey: "colAbout",
     links: [

@@ -5,7 +5,6 @@ import { siteUrl } from "@/lib/seo";
 
 const PRIVATE_PATHS = [
   "/auth/",
-  "/home",
   "/projects",
   "/settings",
   "/skills",

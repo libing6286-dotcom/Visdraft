@@ -28,6 +28,47 @@ export function languageAlternates(path: string): Record<string, string> {
   return languages;
 }
 
+export function getLandingStructuredData() {
+  const websiteId = `${siteUrl}/#website`;
+  const organizationId = `${siteUrl}/#organization`;
+  const applicationId = `${siteUrl}/#software`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": organizationId,
+        name: "Visdraft",
+        url: siteUrl,
+        logo: `${siteUrl}/favicon.svg`,
+      },
+      {
+        "@type": "WebSite",
+        "@id": websiteId,
+        name: "Visdraft",
+        url: siteUrl,
+        publisher: {
+          "@id": organizationId,
+        },
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": applicationId,
+        name: "Visdraft",
+        url: siteUrl,
+        applicationCategory: "DesignApplication",
+        operatingSystem: "Web",
+        description:
+          "AI design workspace for creating brand visuals, social content, and campaign-ready creative assets.",
+        publisher: {
+          "@id": organizationId,
+        },
+      },
+    ],
+  };
+}
+
 type GetMetadataOptions = {
   /** 翻译命名空间，含 title/description/keywords（默认回退 common.metadata） */
   namespace?: string;
@@ -37,6 +78,10 @@ type GetMetadataOptions = {
   imageUrl?: string;
   /** 是否禁止索引（如 authed 页面） */
   noIndex?: boolean;
+};
+
+type MetadataRouteProps = {
+  params?: Promise<{ locale?: string }>;
 };
 
 /**
@@ -49,11 +94,10 @@ type GetMetadataOptions = {
 export function getMetadata(options: GetMetadataOptions = {}) {
   const { namespace = "common.metadata", path = "/", imageUrl, noIndex } = options;
 
-  return async function generateMetadata({
-    params,
-  }: {
-    params?: Promise<{ locale?: string }>;
-  } = {}): Promise<Metadata> {
+  return async function generateMetadata(
+    props: MetadataRouteProps,
+  ): Promise<Metadata> {
+    const { params } = props;
     const { locale: requestedLocale } = (await params) ?? {};
     const locale = requestedLocale || defaultLocale;
     setRequestLocale(locale);

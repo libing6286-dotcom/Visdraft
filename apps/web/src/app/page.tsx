@@ -5,7 +5,7 @@ import LandingPage from "./[locale]/page";
 
 import { Providers } from "@/components/providers";
 import { defaultLocale } from "@/i18n/routing";
-import { getMetadata } from "@/lib/seo";
+import { getLandingStructuredData, getMetadata } from "@/lib/seo";
 
 export const generateMetadata = getMetadata({
   namespace: "common.pages.landing",
@@ -17,6 +17,12 @@ export default async function RootPage() {
 
   return (
     <NextIntlClientProvider>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getLandingStructuredData()),
+        }}
+      />
       <Providers>
         <LandingPage />
       </Providers>

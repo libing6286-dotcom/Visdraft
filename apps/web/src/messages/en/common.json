@@ -6,9 +6,9 @@
   },
   "pages": {
     "landing": {
-      "title": "Visdraft",
-      "description": "AI-powered creative workspace.",
-      "keywords": "AI, design, creative, canvas, Visdraft"
+      "title": "Visdraft - AI Design Workspace for Creative Teams",
+      "description": "Create brand visuals, social content, campaign concepts, and editable canvas projects with Visdraft, the AI design workspace for creative teams.",
+      "keywords": "AI design workspace, AI visual content tool, brand visual generator, AI design tool, creative team workspace, Visdraft"
     },
     "home": {
       "title": "Visdraft - AI Design Workspace for Creators",
@@ -19,6 +19,11 @@
       "title": "Visdraft Pricing - AI Design Plans for Creators",
       "description": "Compare Visdraft plans for AI image generation, video generation, brand kits, projects, credits, and team creative workflows.",
       "keywords": "Visdraft pricing, AI design pricing, AI image generation plans, AI creative tool pricing"
+    },
+    "productPhotoToAdCreative": {
+      "title": "Product Photo to Ad Creative | AI Product Ad Generator",
+      "description": "Turn product photos into ad creatives. Generate AI product ads, lifestyle product photography, and ad variations from one image.",
+      "keywords": "product photo to ad creative, product image to ad generator, AI product photography for ads"
     },
     "privacy": {
       "title": "Privacy Policy - Visdraft",

@@ -6,9 +6,9 @@
   },
   "pages": {
     "landing": {
-      "title": "Visdraft",
-      "description": "AI 驱动的创意工作空间。",
-      "keywords": "AI, 设计, 创意, 画布, Visdraft"
+      "title": "Visdraft - AI 设计工作空间与品牌视觉生成工具",
+      "description": "使用 Visdraft 这个 AI 设计工作空间和 AI 视觉创作工具，生成品牌视觉、社媒内容、活动创意和可编辑画布项目。",
+      "keywords": "AI 设计工作空间, AI 视觉创作工具, 品牌视觉生成, AI 设计工具, 社媒内容生成, Visdraft"
     },
     "home": {
       "title": "Visdraft - 面向创作者的 AI 设计工作空间",
@@ -19,6 +19,11 @@
       "title": "Visdraft 定价 - 面向创作者的 AI 设计方案",
       "description": "比较 Visdraft 的 AI 图片生成、视频生成、品牌套件、项目空间、积分和团队创意工作流方案。",
       "keywords": "Visdraft 定价, AI 设计定价, AI 图片生成方案, AI 创意工具价格"
+    },
+    "productPhotoToAdCreative": {
+      "title": "Product Photo to Ad Creative | AI Product Ad Generator for Shopify",
+      "description": "Turn product photos into Facebook, TikTok, Instagram, and Shopify ad creatives. Generate AI product ads, lifestyle product photography, and ad variations from one image.",
+      "keywords": "product photo to ad creative, product image to ad generator, AI product ad generator, Shopify product ad generator, product photo to Facebook ad, product photo to TikTok ad, AI product photography for ads"
     },
     "privacy": {
       "title": "隐私政策 - Visdraft",

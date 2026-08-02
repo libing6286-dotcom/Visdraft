@@ -96,6 +96,7 @@
     "note": "无需信用卡 · 永久免费版可用"
   },
   "prompt": {
+    "seoHeadline": "AI 设计工作空间，覆盖品牌视觉、社媒内容与视觉创作",
     "title": "现在就开始创作",
     "subtitle": "描述你的创意，让 Visdraft 帮你设计"
   },
@@ -116,6 +117,7 @@
     "colAboutCareers": "加入团队",
     "colAboutContact": "联系我们",
     "colAboutTerms": "服务条款",
-    "colAboutPrivacy": "隐私政策"
+    "colAboutPrivacy": "隐私政策",
+    "colProductPhotoToAdCreative": "广告创意"
   }
 }

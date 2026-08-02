@@ -248,16 +248,16 @@ export function HeroSection() {
         {/* Badge */}
         <HeroBadge />
 
-        {/* Headline -- gradient text + tighter tracking */}
-        <motion.h1
+        {/* Headline -- animated display text with tighter tracking */}
+        <motion.h2
           variants={fadeUp}
           initial="hidden"
           animate="visible"
           transition={{ delay: 0.1 }}
-          className="mt-6 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent"
+          className="mt-6 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-foreground"
         >
           <TypewriterText text={headline} speed={60} delay={200} />
-        </motion.h1>
+        </motion.h2>
 
         {/* English subtitle -- editorial style */}
         <AnimatedSubtitle show={showSub} />

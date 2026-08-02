@@ -21,6 +21,10 @@
     {
       "pattern": "visdraft.com",
       "custom_domain": true
+    },
+    {
+      "pattern": "www.visdraft.com",
+      "custom_domain": true
     }
   ]
 }
