@@ -4,12 +4,22 @@ import { describe, expect, it } from "vitest";
 
 const root = path.resolve(__dirname, "..");
 
+type PageMetadata = {
+  title: string;
+  description: string;
+  keywords: string;
+};
+
+type CommonMessages = {
+  pages: Record<string, PageMetadata>;
+};
+
 function readProjectFile(relativePath: string): string {
   return readFileSync(path.join(root, relativePath), "utf8");
 }
 
-function readJson(relativePath: string): any {
-  return JSON.parse(readProjectFile(relativePath));
+function readJson(relativePath: string): CommonMessages {
+  return JSON.parse(readProjectFile(relativePath)) as CommonMessages;
 }
 
 describe("localized SEO metadata", () => {
@@ -186,15 +196,15 @@ describe("localized SEO metadata", () => {
 
     const source = readFileSync(robotsPath, "utf8");
     expect(source).toContain("MetadataRoute.Robots");
-    expect(source).toContain("userAgent: \"*\"");
-    expect(source).toContain("allow: \"/\"");
+    expect(source).toContain('userAgent: "*"');
+    expect(source).toContain('allow: "/"');
     expect(source).toContain("sitemap: `${siteUrl}/sitemap.xml`");
     expect(source).toContain("locales");
     expect(source).toContain("defaultLocale");
     expect(source).toContain("disallow.add(`/${locale}${privatePath}`)");
 
-    expect(source).not.toContain("\"/login\"");
-    expect(source).not.toContain("\"/register\"");
+    expect(source).not.toContain('"/login"');
+    expect(source).not.toContain('"/register"');
 
     expect(source).not.toContain('"/home"');
 
@@ -229,12 +239,12 @@ describe("localized SEO metadata", () => {
     const en = readJson("src/messages/en/common.json");
 
     expect(en.pages.productPhotoToAdCreative.title).toBe(
-      "Product Photo to Ad Creative | AI Product Ad Generator for Shopify",
+      "Product Photo to Ads | AI Product Ad Generator",
     );
     expect(en.pages.productPhotoToAdCreative.description).toContain(
-      "Turn product photos into Facebook, TikTok, Instagram, and Shopify ad creatives",
+      "Turn one product photo into ad creatives",
     );
-    expect(page).toContain("Turn Product Photos Into Ad Creatives");
+    expect(page).toContain("Turn Product Photos Into Ads");
     expect(page).toContain("product image to ad generator");
     expect(page).toContain("AI product photography for ads");
     expect(page).toContain("<h1");
@@ -281,7 +291,9 @@ describe("localized SEO metadata", () => {
     expect(nextConfig).toContain('source: "/:path+"');
     expect(nextConfig).toContain('destination: "https://visdraft.com/:path+"');
     expect(nextConfig).not.toContain('source: "/:path*"');
-    expect(nextConfig).not.toContain('destination: "https://visdraft.com/:path*"');
+    expect(nextConfig).not.toContain(
+      'destination: "https://visdraft.com/:path*"',
+    );
     expect(nextConfig).not.toContain('key: "x-forwarded-proto"');
     expect(nextConfig).toContain("permanent: true");
   });
@@ -312,14 +324,14 @@ describe("localized SEO metadata", () => {
     expect(authShell).not.toContain("<h1");
     expect(loginPage).toContain("<h1");
     expect(loginForm).toContain("<h1");
-    expect(loginForm).toContain("{t(\"welcomeBack\")}");
+    expect(loginForm).toContain('{t("welcomeBack")}');
   });
 
   it("rewrites default-locale routes that omit the locale prefix", () => {
     const nextConfig = readProjectFile("next.config.ts");
 
     expect(nextConfig).toContain("DEFAULT_LOCALE_REWRITE_PATHS");
-    expect(nextConfig).toContain('destination: `/${defaultLocale}${source}`');
+    expect(nextConfig).toContain("destination: `/${defaultLocale}${source}`");
 
     for (const route of [
       "/pricing",

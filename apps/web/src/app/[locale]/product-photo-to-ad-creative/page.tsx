@@ -15,21 +15,21 @@ import type { ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 
 const useCases = [
-  "Product photo to Facebook ad creative",
-  "Product photo to TikTok ad concept",
-  "Product image to lifestyle ad",
-  "Shopify product ad variations",
+  "Facebook ad creatives",
+  "TikTok ad concepts",
+  "Lifestyle product shots",
+  "Shopify ad variations",
   "AI product photography for ads",
-  "Fresh creatives for A/B testing",
+  "A/B test creatives",
 ];
 
 const creativeBasics = [
-  "Keep the product recognizable",
-  "Show a clear use case or benefit",
-  "Create scroll-stopping contrast",
-  "Leave space for headline and CTA",
-  "Match formats used on paid social",
-  "Generate multiple creative angles for testing",
+  "Recognizable product",
+  "Clear use case",
+  "Strong contrast",
+  "Headline and CTA space",
+  "Paid-social ratios",
+  "Testable angles",
 ];
 
 const channels = [
@@ -45,37 +45,37 @@ const channels = [
 
 const workflow = [
   {
-    title: "Upload your product photo",
+    title: "Upload a product photo",
     description:
-      "Start with a clean product image, packaging shot, model photo, or existing store asset.",
+      "Start with a product image, packaging shot, model photo, or store asset.",
   },
   {
     title: "Choose your ad goal",
     description:
-      "Generate creatives for awareness, product launch, discount promotion, retargeting, or seasonal campaigns.",
+      "Pick awareness, launch, discount, retargeting, or seasonal campaigns.",
   },
   {
     title: "Pick your platform",
     description:
-      "Create Facebook, TikTok, Instagram, Google, or Shopify-ready ad formats.",
+      "Create Facebook, TikTok, Instagram, Google, or Shopify formats.",
   },
   {
     title: "Generate variations",
     description:
-      "Get multiple layouts, backgrounds, headlines, and visual directions for testing.",
+      "Generate layouts, backgrounds, headlines, and creative angles.",
   },
   {
     title: "Export and launch",
-    description: "Download ad creatives ready for your campaign workflow.",
+    description: "Download creatives for your campaign workflow.",
   },
 ];
 
 const trustItems = [
-  "Product-first compositions",
-  "Multiple ad variations from one upload",
+  "Product-first layouts",
+  "Variations from one upload",
   "Export-ready formats",
-  "Clear commercial use cases",
-  "Fast creative testing workflow",
+  "Commercial use cases",
+  "Fast creative testing",
   "No design experience required",
 ];
 
@@ -83,27 +83,27 @@ const faqs = [
   {
     question: "Can I create ads from one product photo?",
     answer:
-      "Yes. Upload one product photo and generate multiple ad creative variations with different backgrounds, layouts, headlines, and formats.",
+      "Yes. Upload one product photo and generate ad variations with different backgrounds, layouts, headlines, and formats.",
   },
   {
     question: "Is this for Shopify product ads?",
     answer:
-      "Yes. Visdraft is designed for Shopify sellers and ecommerce teams that need product ad creatives for campaigns, store promotions, and paid social testing.",
+      "Yes. Visdraft helps Shopify sellers and ecommerce teams create campaign, store, and paid-social ads.",
   },
   {
     question: "Can I make Facebook or TikTok ads from a product image?",
     answer:
-      "Yes. You can generate product photo to Facebook ad and product photo to TikTok ad concepts using your existing product image.",
+      "Yes. Use an existing product image to generate Facebook and TikTok ad concepts.",
   },
   {
     question: "Is this different from an AI image generator?",
     answer:
-      "Yes. A general AI image generator creates images. Visdraft creates ad-focused product visuals with ecommerce layouts, campaign angles, and platform-ready formats.",
+      "Yes. Visdraft focuses on ecommerce layouts, campaign angles, and platform-ready formats.",
   },
   {
     question: "Do I need design skills?",
     answer:
-      "No. Visdraft is built for founders, marketers, and ecommerce operators who need ad creatives without starting from a blank design tool.",
+      "No. It is built for founders, marketers, and ecommerce operators who need ads quickly.",
   },
 ];
 
@@ -190,15 +190,15 @@ export default function ProductPhotoToAdCreativePage() {
           <div className="max-w-3xl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-sm text-muted-foreground">
               <Sparkles className="size-4 text-foreground" aria-hidden />
-              AI product ad generator for ecommerce teams
+              AI product ad generator for ecommerce
             </div>
             <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-              Turn Product Photos Into Ad Creatives
+              Turn Product Photos Into Ads
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-              Upload one product photo. Visdraft turns it into polished ad
-              creatives, lifestyle product shots, platform-ready layouts,
-              headlines, and CTA variations built for ecommerce testing.
+              Upload one product photo. Visdraft turns it into ad creatives,
+              lifestyle shots, platform layouts, headlines, and CTA variations
+              for ecommerce testing.
             </p>
             <p className="mt-4 text-base font-medium text-foreground">
               No photoshoot. No designer. No blank canvas.
@@ -213,9 +213,8 @@ export default function ProductPhotoToAdCreativePage() {
               </Link>
             </div>
             <p className="mt-6 max-w-xl text-sm leading-6 text-muted-foreground">
-              AI product ad generator for Shopify stores, ecommerce brands, and
-              performance marketers who need fresh ad creatives from existing
-              product images.
+              For Shopify stores, ecommerce brands, and marketers who need fresh
+              ads from existing product images.
             </p>
           </div>
 
@@ -225,17 +224,12 @@ export default function ProductPhotoToAdCreativePage() {
 
       <section className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <SectionIntro title="Built Around the Real Workflow of Product Advertising">
-            <p>
-              Most ecommerce teams do not need one perfect ad. They need 20
-              clear variations they can test quickly.
-            </p>
+          <SectionIntro title="Built for Product Ad Workflows">
+            <p>Ecommerce teams need clear variations they can test quickly.</p>
             <p className="mt-4">
-              Visdraft is built around the real workflow of product advertising:
-              upload a product image, choose the channel, generate multiple
-              ad-ready concepts, compare angles, and export creatives for Meta,
-              TikTok, Instagram, Google Display, or your Shopify product
-              campaigns.
+              Upload a product image, choose a channel, generate concepts,
+              compare angles, and export creatives for Meta, TikTok, Instagram,
+              Google Display, or Shopify campaigns.
             </p>
           </SectionIntro>
 
@@ -245,7 +239,10 @@ export default function ProductPhotoToAdCreativePage() {
                 key={item}
                 className="flex items-center gap-3 rounded-lg border bg-card p-4"
               >
-                <Check className="size-4 shrink-0 text-foreground" aria-hidden />
+                <Check
+                  className="size-4 shrink-0 text-foreground"
+                  aria-hidden
+                />
                 <span className="text-sm font-medium">{item}</span>
               </div>
             ))}
@@ -255,17 +252,15 @@ export default function ProductPhotoToAdCreativePage() {
 
       <section className="border-y bg-muted/40">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 lg:grid-cols-[1fr_1fr] lg:px-8">
-          <SectionIntro title="Designed for Ecommerce Ad Creative, Not Just Image Generation">
+          <SectionIntro title="Ecommerce Ads, Not Generic Images">
             <p>
-              Generic AI image tools make attractive visuals. Visdraft focuses on
-              ad creative structure: product clarity, visual hierarchy, offer
-              framing, headline placement, CTA space, platform ratio, and
+              Visdraft focuses on ad structure: product clarity, visual
+              hierarchy, offer framing, CTA space, platform ratios, and
               variation volume.
             </p>
             <p className="mt-4">
-              From one product photo, you can create ad concepts for discounts,
-              feature highlights, lifestyle scenes, seasonal campaigns,
-              UGC-style ads, launch promotions, and retargeting creatives.
+              Create concepts for discounts, feature highlights, lifestyle
+              scenes, UGC-style ads, launches, and retargeting.
             </p>
           </SectionIntro>
 
@@ -280,7 +275,10 @@ export default function ProductPhotoToAdCreativePage() {
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {creativeBasics.map((item) => (
-                <div key={item} className="text-sm leading-6 text-muted-foreground">
+                <div
+                  key={item}
+                  className="text-sm leading-6 text-muted-foreground"
+                >
                   {item}
                 </div>
               ))}
@@ -290,16 +288,14 @@ export default function ProductPhotoToAdCreativePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
-        <SectionIntro title="Built for the Channels Ecommerce Teams Actually Use">
+        <SectionIntro title="Ready for Ecommerce Channels">
           <p>
-            Whether you sell through Shopify, Amazon, WooCommerce, Etsy, or your
-            own DTC site, Visdraft helps turn product images into campaign-ready
-            creative assets.
+            Use product images to create campaign-ready assets for Shopify,
+            Amazon, WooCommerce, Etsy, or your DTC site.
           </p>
           <p className="mt-4">
-            Instead of starting from templates, Visdraft starts from your actual
-            product photo, so every output stays anchored to the item you are
-            selling.
+            Visdraft starts from the product photo, so every output stays tied
+            to the item you sell.
           </p>
         </SectionIntro>
 
@@ -316,10 +312,10 @@ export default function ProductPhotoToAdCreativePage() {
       <section className="border-y bg-muted/40">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-            <SectionIntro title="From Product Image to Ad Generator in Minutes">
+            <SectionIntro title="From Product Image to Ad in Minutes">
               <p>
-                Move from one uploaded product image to multiple campaign-ready
-                directions without leaving the creative workspace.
+                Move from one uploaded image to multiple campaign-ready
+                directions in the same creative workspace.
               </p>
             </SectionIntro>
 
@@ -333,7 +329,9 @@ export default function ProductPhotoToAdCreativePage() {
                     {index + 1}
                   </div>
                   <div>
-                    <h3 className="font-semibold tracking-tight">{step.title}</h3>
+                    <h3 className="font-semibold tracking-tight">
+                      {step.title}
+                    </h3>
                     <p className="mt-1 text-sm leading-6 text-muted-foreground">
                       {step.description}
                     </p>
@@ -349,16 +347,18 @@ export default function ProductPhotoToAdCreativePage() {
         <div>
           <SectionIntro title="Your Product Remains the Focus">
             <p>
-              Ad creatives only work when customers can immediately understand
-              what is being sold. Visdraft keeps the product visible, clean, and
-              central while generating backgrounds, scenes, copy angles, and
-              layouts around it.
+              Ads work when customers understand the product fast. Visdraft
+              keeps it visible while generating scenes, copy angles, and layouts
+              around it.
             </p>
           </SectionIntro>
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             {trustItems.map((item) => (
               <div key={item} className="flex items-center gap-3 text-sm">
-                <Check className="size-4 shrink-0 text-foreground" aria-hidden />
+                <Check
+                  className="size-4 shrink-0 text-foreground"
+                  aria-hidden
+                />
                 {item}
               </div>
             ))}
@@ -381,16 +381,15 @@ export default function ProductPhotoToAdCreativePage() {
             </div>
           </div>
           <h2 className="text-2xl font-semibold tracking-tight">
-            More Than AI Product Photography
+            Beyond AI Product Photography
           </h2>
           <p className="mt-4 text-base leading-7 text-muted-foreground">
-            AI product photography helps you create better product visuals.
-            Visdraft goes further by turning those visuals into advertising
-            assets.
+            AI product photography improves product visuals. Visdraft turns them
+            into advertising assets.
           </p>
           <p className="mt-4 text-base leading-7 text-muted-foreground">
-            You do not just get a prettier product image. You get ad creative
-            concepts with layout, message, visual context, and platform intent.
+            You get creative concepts with layout, message, visual context, and
+            platform intent.
           </p>
         </div>
       </section>
@@ -398,25 +397,23 @@ export default function ProductPhotoToAdCreativePage() {
       <section className="border-y bg-muted/40">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <SectionIntro title="AI Product Ad Generator for Faster Creative Testing">
+            <SectionIntro title="AI Product Ad Generator for Creative Testing">
               <p>
-                Visdraft is an AI product ad generator that helps ecommerce
-                teams convert product photos into ad creatives for paid social
-                and online stores.
+                Visdraft helps ecommerce teams convert product photos into ads
+                for paid social and online stores.
               </p>
             </SectionIntro>
             <div className="rounded-xl border bg-background p-6 text-base leading-7 text-muted-foreground">
               <p>
-                Upload a product image and generate Facebook ads, TikTok ad
-                creatives, Instagram promotions, Shopify product banners, and
-                lifestyle product photography for ads.
+                Upload a product image and generate Facebook ads, TikTok
+                creatives, Instagram promotions, Shopify banners, and lifestyle
+                product photography for ads.
               </p>
               <p className="mt-4">
-                If you are searching for a product image to ad generator,
-                product photo ad generator, Shopify product ad generator, or AI
-                product photography for ads, Visdraft helps you move from a
-                single product photo to multiple campaign-ready creative
-                variations without hiring a designer or scheduling a photoshoot.
+                If you need a product image to ad generator, product photo ad
+                generator, Shopify product ad generator, or AI product
+                photography for ads, Visdraft turns one photo into multiple
+                campaign-ready variations.
               </p>
             </div>
           </div>
@@ -425,7 +422,7 @@ export default function ProductPhotoToAdCreativePage() {
 
       <section className="mx-auto max-w-4xl px-6 py-16 lg:px-8">
         <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-          Questions Product Marketers Ask Before Generating Ads
+          Product Ad Generator FAQ
         </h2>
         <div className="mt-8 divide-y rounded-xl border bg-card">
           {faqs.map((faq) => (
@@ -452,7 +449,7 @@ export default function ProductPhotoToAdCreativePage() {
               Start with one product photo.
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Generate ad-ready creative directions inside Visdraft.
+              Generate ad-ready directions inside Visdraft.
             </p>
           </div>
           <Link
