@@ -11,6 +11,8 @@ import {
   runCreateRequestSchema,
   runCreateResponseSchema,
   streamEventSchema,
+  createVideoJobRequestSchema,
+  videoGenerationPayloadSchema,
 } from "./index.js";
 import * as sharedExports from "./index.js";
 
@@ -506,6 +508,20 @@ describe("@visdraft/shared contracts", () => {
 
   it("tracks server-owned thread_id in shared Supabase typings", () => {
     expect(databaseTypeSource).toMatch(/thread_id:\s*string \| null/);
+  });
+
+  it("coerces video job duration strings to numbers", () => {
+    const request = createVideoJobRequestSchema.parse({
+      prompt: "Generate a short video",
+      duration: "10",
+    });
+    const payload = videoGenerationPayloadSchema.parse({
+      prompt: "Generate a short video",
+      duration: "10",
+    });
+
+    expect(request.duration).toBe(10);
+    expect(payload.duration).toBe(10);
   });
 
   it("declares shared agent_runs persistence typings", () => {

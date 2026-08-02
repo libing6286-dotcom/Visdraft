@@ -7,7 +7,7 @@ describe("ReplicateVideoProvider", () => {
     vi.restoreAllMocks();
   });
 
-  test("uses the nearest allowed duration for the selected model", async () => {
+  test("sends Kling duration as a number after clamping to an allowed value", async () => {
     let requestBody: unknown;
     vi.spyOn(globalThis, "fetch").mockImplementation(async (_url, init) => {
       requestBody = JSON.parse(String(init?.body));
@@ -31,7 +31,7 @@ describe("ReplicateVideoProvider", () => {
 
     expect(requestBody).toMatchObject({
       input: {
-        duration: "10",
+        duration: 10,
       },
     });
   });

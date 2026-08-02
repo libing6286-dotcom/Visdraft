@@ -122,8 +122,8 @@ function resolveWanEndpoint(hasImage: boolean): string {
 function buildModelInput(
   params: VideoGenerateParams,
   model: VideoModelInfo,
-): { endpoint: string; input: Record<string, unknown> } {
-  const input: Record<string, unknown> = { prompt: params.prompt };
+): { endpoint: string; input: Record<string, any> } {
+  const input: Record<string, any> = { prompt: params.prompt };
   let endpoint = params.model;
 
   const hasImage = (params.inputImages?.length ?? 0) > 0;
@@ -134,7 +134,7 @@ function buildModelInput(
     case "kwaivgi/kling-v3-video":
     case "kwaivgi/kling-v3-omni-video":
     case "kwaivgi/kling-v2.6": {
-      input.duration = String(duration);
+      input.duration = duration;
       input.aspect_ratio = aspectRatio;
       if (hasImage) input.image_url = params.inputImages![0];
       if (params.enableAudio !== false) input.audio = true;
@@ -146,7 +146,7 @@ function buildModelInput(
         throw new GenerationError("replicate", "invalid_input", "Kling O1 requires inputVideo for V2V editing");
       }
       input.input_video = params.inputVideo;
-      input.duration = String(duration);
+      input.duration = duration;
       break;
     }
 
