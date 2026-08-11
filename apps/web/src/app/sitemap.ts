@@ -9,7 +9,7 @@ import { localizedUrl, languageAlternates } from "@/lib/seo";
  * 收录可公开索引的营销页面（中英版本）。
  * 每条目带 hreflang alternates，帮助搜索引擎理解中英版本对应关系。
  */
-const PUBLIC_PATHS = ["/", "/product-photo-to-ad-creative"];
+const PUBLIC_PATHS = ["/", "/home", "/product-photo-to-ad-creative"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return PUBLIC_PATHS.flatMap((path) =>

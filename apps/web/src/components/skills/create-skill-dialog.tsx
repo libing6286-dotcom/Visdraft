@@ -164,15 +164,16 @@ export function CreateSkillDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
+      <DialogContent className="flex max-h-[calc(100dvh-2rem)] flex-col overflow-hidden sm:max-w-lg">
+        <DialogHeader className="shrink-0 pr-8">
           <DialogTitle>添加自定义技能</DialogTitle>
           <DialogDescription>
             创建新的技能来扩展智能体的能力。
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col gap-4">
+          <div data-skill-dialog-scroll className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
           {/* Name */}
           <div className="space-y-1.5">
             <Label htmlFor="skill-name">名称</Label>
@@ -316,7 +317,9 @@ export function CreateSkillDialog({
             )}
           </div>
 
-          <DialogFooter>
+          </div>
+
+          <DialogFooter className="shrink-0">
             <Button
               type="button"
               variant="outline"

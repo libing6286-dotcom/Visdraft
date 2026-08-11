@@ -5,7 +5,7 @@ import { getMetadata } from "@/lib/seo";
 export const generateMetadata = getMetadata({
   namespace: "common.pages.home",
   path: "/home",
-  noIndex: true,
+  noIndex: false,
 });
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
