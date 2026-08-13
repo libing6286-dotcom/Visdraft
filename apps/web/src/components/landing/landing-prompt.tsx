@@ -43,7 +43,7 @@ const fadeUp = {
 // a creative idea and jump straight into the canvas. Anonymous visitors are
 // routed to /login on submit (createNewProject no-ops without a session token).
 // ---------------------------------------------------------------------------
-export function LandingPrompt() {
+export function LandingPrompt({ compact = false }: { compact?: boolean }) {
   const t = useTranslations("landing.prompt");
   const { session } = useAuth();
   const router = useRouter();
@@ -126,28 +126,27 @@ export function LandingPrompt() {
     setSelectedExample(null);
   }, []);
 
-  return (
-    <section className="mx-auto w-full max-w-3xl px-4 pt-32 pb-12 sm:px-6 md:pb-16">
+  const content = (
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         className="flex w-full flex-col items-center text-center"
       >
-        <motion.h1
+        {!compact && <motion.h1
           variants={fadeUp}
           custom={0}
           className="mb-2 text-2xl font-bold text-foreground sm:text-3xl"
         >
           {t("seoHeadline")}
-        </motion.h1>
-        <motion.p
+        </motion.h1>}
+        {!compact && <motion.p
           variants={fadeUp}
           custom={1}
           className="mb-6 text-sm text-muted-foreground sm:text-base md:mb-8"
         >
           {t("subtitle")}
-        </motion.p>
+        </motion.p>}
 
         <motion.div variants={fadeUp} custom={2} className="w-full">
           <HomePrompt
@@ -163,14 +162,25 @@ export function LandingPrompt() {
           />
         </motion.div>
 
-        <motion.div variants={fadeUp} custom={3} className="w-full">
-          <HomeExampleBrowser
-            categories={homeExampleCategories}
-            selectedExample={selectedExample}
-            onExampleSelect={handleExampleSelect}
-          />
-        </motion.div>
+        {!compact && (
+          <motion.div variants={fadeUp} custom={3} className="w-full">
+            <HomeExampleBrowser
+              categories={homeExampleCategories}
+              selectedExample={selectedExample}
+              onExampleSelect={handleExampleSelect}
+            />
+          </motion.div>
+        )}
       </motion.div>
+  );
+
+  if (compact) {
+    return <div className="w-full">{content}</div>;
+  }
+
+  return (
+    <section className="mx-auto w-full max-w-3xl px-4 pt-32 pb-12 sm:px-6 md:pb-16">
+      {content}
     </section>
   );
 }

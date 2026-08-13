@@ -173,7 +173,6 @@ describe("localized SEO metadata", () => {
       "src/app/[locale]/register/layout.tsx",
       "src/app/[locale]/auth/callback/layout.tsx",
       "src/app/[locale]/(workspace)/layout.tsx",
-      "src/app/[locale]/(workspace)/home/layout.tsx",
     ];
 
     for (const relativePath of noIndexRoutes) {
@@ -188,6 +187,17 @@ describe("localized SEO metadata", () => {
         "noIndex: true",
       );
     }
+  });
+
+  it("allows the home route to be indexed", () => {
+    const homeLayout = readProjectFile(
+      "src/app/[locale]/(workspace)/home/layout.tsx",
+    );
+
+    expect(homeLayout).toContain("getMetadata");
+    expect(homeLayout).toContain('path: "/home"');
+    expect(homeLayout).toContain("noIndex: false");
+    expect(homeLayout).not.toContain("noIndex: true");
   });
 
   it("defines robots rules for public and private routes", () => {
@@ -225,11 +235,11 @@ describe("localized SEO metadata", () => {
     const sitemap = readProjectFile("src/app/sitemap.ts");
 
     expect(sitemap).toContain('"/"');
+    expect(sitemap).toContain('"/home"');
     expect(sitemap).toContain('"/product-photo-to-ad-creative"');
     expect(sitemap).not.toContain('"/pricing"');
     expect(sitemap).not.toContain('"/login"');
     expect(sitemap).not.toContain('"/register"');
-    expect(sitemap).not.toContain('"/home"');
   });
 
   it("ships the product photo to ad creative SEO page copy", () => {

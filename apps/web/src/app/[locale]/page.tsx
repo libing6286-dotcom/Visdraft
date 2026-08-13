@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { FloatingNav } from "@/components/landing/floating-nav";
 import { HeroSection } from "@/components/landing/hero-section";
-import { LandingPrompt } from "@/components/landing/landing-prompt";
 import { TrustBar } from "@/components/landing/trust-bar";
 
 // ---------------------------------------------------------------------------
@@ -61,8 +60,6 @@ export default function LandingPage() {
     <div className="relative">
       <FloatingNav />
       <main>
-        {/* Interactive prompt — let visitors start designing from the landing page */}
-        <LandingPrompt />
         {/* Above-fold: eagerly loaded for fast LCP */}
         <HeroSection />
         <TrustBar />

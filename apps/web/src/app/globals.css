@@ -56,6 +56,10 @@
 }
 
 :root {
+    --landing-paper: oklch(0.985 0 0);
+    --landing-ink: oklch(0.18 0 0);
+    --landing-rule: oklch(0.82 0 0 / 0.7);
+    --landing-accent: oklch(0.90 0.17 115);
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
@@ -99,6 +103,9 @@
 }
 
 .dark {
+    --landing-paper: oklch(0.18 0 0);
+    --landing-ink: oklch(0.95 0 0);
+    --landing-rule: oklch(0.94 0 0 / 0.18);
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -147,7 +154,42 @@
     }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
     }
+}
+
+@utility landing-shell {
+  background: var(--landing-paper);
+  color: var(--landing-ink);
+}
+
+@utility landing-grid {
+  width: min(100% - 2rem, 80rem);
+  margin-inline: auto;
+}
+
+@utility landing-rule {
+  border-color: var(--landing-rule);
+}
+
+@utility landing-action {
+  border-radius: 0.5rem;
+  transition: transform 200ms ease, background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.landing-shell :focus-visible {
+  outline: 3px solid oklch(0.90 0.17 115 / 0.55);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .landing-shell *, .landing-shell *::before, .landing-shell *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ── Shadow utilities ── */
