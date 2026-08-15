@@ -65,8 +65,33 @@ export function createCanvasService(options: {
     async saveCanvasContent(user, canvasId, content) {
       const client = options.createUserClient(user.accessToken);
 
+      const { data: canvas, error: canvasError } = await client
+        .from("canvases")
+        .select("project_id")
+        .eq("id", canvasId)
+        .single();
+
+      if (canvasError || !canvas) {
+        throw new CanvasServiceError("canvas_save_failed", "Unable to save canvas.", 500);
+      }
+
+      const { data: project, error: projectError } = await client
+        .from("projects")
+        .select("workspace_id")
+        .eq("id", canvas.project_id)
+        .single();
+
+      if (projectError || !project) {
+        throw new CanvasServiceError("canvas_save_failed", "Unable to save canvas.", 500);
+      }
+
       // Extract base64 files to Storage, replacing dataURLs with oss:// markers
-      const leanContent = await extractFilesToStorage(client, canvasId, content);
+      const leanContent = await extractFilesToStorage(
+        client,
+        project.workspace_id,
+        canvasId,
+        content,
+      );
 
       const { error } = await client
         .from("canvases")
@@ -88,6 +113,7 @@ type CanvasFileRecord = Record<string, Record<string, unknown>>;
 
 async function extractFilesToStorage(
   client: UserSupabaseClient,
+  workspaceId: string,
   canvasId: string,
   content: CanvasContent,
 ): Promise<CanvasContent> {
@@ -117,7 +143,7 @@ async function extractFilesToStorage(
       try {
         const { buffer, mimeType } = parseDataURL(dataURL);
         const ext = mimeToExt(mimeType);
-        const objectPath = `canvas-files/${canvasId}/${fileId}.${ext}`;
+        const objectPath = `${workspaceId}/canvas-files/${canvasId}/${fileId}.${ext}`;
 
         // Upsert: the same file ID may be re-saved
         const { error: uploadError } = await client.storage

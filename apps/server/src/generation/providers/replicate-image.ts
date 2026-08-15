@@ -12,36 +12,25 @@ const REPLICATE_API_BASE = "https://api.replicate.com/v1";
  * - `image_input`  (array of URL strings) → Google Nano Banana, ByteDance Seedream (default)
  */
 const SINGLE_IMAGE_INPUT_MODELS = new Set([
-  "black-forest-labs/flux-kontext-pro",
-  "black-forest-labs/flux-kontext-max",
   "black-forest-labs/flux-1.1-pro",
   "black-forest-labs/flux-pro",
 ]);
 
 const INPUT_IMAGES_MODELS = new Set([
-  "openai/gpt-image-1.5",
-  "openai/gpt-image-1",
+  "openai/gpt-image-2",
 ]);
 
 /**
  * Models that don't support any image input.
  */
 const TEXT_ONLY_MODELS = new Set([
-  "google/imagen-4",
   "google/imagen-3",
   "recraft-ai/recraft-v3",
 ]);
 
-/**
- * Recraft uses `size` (e.g. "1024x1024") instead of `aspect_ratio`.
- */
-const RECRAFT_MODELS = new Set(["recraft-ai/recraft-v3"]);
-
 const ICON_GOOGLE = "https://tjzk.replicate.delivery/models_organizations_avatar/27e1e3fe-f766-4748-83b3-777bc282d8dd/1342004.png";
 const ICON_OPENAI = "https://github.com/openai.png";
-const ICON_BFL = "https://tjzk.replicate.delivery/models_organizations_avatar/01ed70be-0d47-4a4a-85fb-32c02cdd4ab5/bfl.png";
 const ICON_BYTEDANCE = "https://github.com/bytedance.png";
-const ICON_RECRAFT = "https://github.com/recraft-ai.png";
 
 const REPLICATE_IMAGE_MODELS: readonly ModelInfo[] = [
   // Google
@@ -57,37 +46,12 @@ const REPLICATE_IMAGE_MODELS: readonly ModelInfo[] = [
     description: "Fast image generation with conversational editing and character consistency. Image input: up to 14 images. Good for multi-image fusion.",
     iconUrl: ICON_GOOGLE,
   },
-  {
-    id: "google/nano-banana",
-    displayName: "Nano Banana",
-    description: "Google's image editing model in Gemini 2.5. Image input: up to 14 images. Best for editing & transformation tasks.",
-    iconUrl: ICON_GOOGLE,
-  },
-  {
-    id: "google/imagen-4",
-    displayName: "Imagen 4",
-    description: "Google's Imagen 4 flagship text-to-image model. Image input: NONE (text-only). Best pure text-to-image quality.",
-    iconUrl: ICON_GOOGLE,
-  },
   // OpenAI
   {
-    id: "openai/gpt-image-1.5",
-    displayName: "GPT Image 1.5",
-    description: "OpenAI's latest image model with better instruction following. Image input: multiple images. Supports background transparency.",
+    id: "openai/gpt-image-2",
+    displayName: "GPT Image 2",
+    description: "OpenAI's latest image model with strong instruction following and image editing. Image input: multiple images. Supports background transparency.",
     iconUrl: ICON_OPENAI,
-  },
-  // Black Forest Labs
-  {
-    id: "black-forest-labs/flux-kontext-max",
-    displayName: "Flux Kontext Max",
-    description: "Premium text-based image editing with maximum performance and improved typography. Image input: 1 image only. Best for single-image editing.",
-    iconUrl: ICON_BFL,
-  },
-  {
-    id: "black-forest-labs/flux-kontext-pro",
-    displayName: "Flux Kontext Pro",
-    description: "SOTA text-based image editing with excellent prompt following and consistent results. Image input: 1 image only. Best for single-image editing.",
-    iconUrl: ICON_BFL,
   },
   // ByteDance
   {
@@ -97,23 +61,16 @@ const REPLICATE_IMAGE_MODELS: readonly ModelInfo[] = [
     iconUrl: ICON_BYTEDANCE,
   },
   {
-    id: "bytedance/seedream-4.5",
-    displayName: "Seedream 4.5",
-    description: "Upgraded ByteDance model with stronger spatial understanding. Image input: multiple images. Up to 4K resolution.",
+    id: "bytedance/seedream-5-pro",
+    displayName: "Seedream 5.0 Pro",
+    description: "ByteDance's high-quality image generation and editing model. Image input: multiple images. Supports 1K and 2K output.",
     iconUrl: ICON_BYTEDANCE,
   },
+  // xAI
   {
-    id: "bytedance/seedream-4",
-    displayName: "Seedream 4",
-    description: "Unified text-to-image generation and precise editing. Image input: multiple images. Up to 4K resolution.",
-    iconUrl: ICON_BYTEDANCE,
-  },
-  // Recraft
-  {
-    id: "recraft-ai/recraft-v3",
-    displayName: "Recraft V3",
-    description: "SOTA text-to-image with long text rendering and wide style variety. Image input: NONE (text-only). #1 by Artificial Analysis benchmark.",
-    iconUrl: ICON_RECRAFT,
+    id: "xai/grok-imagine-image-2",
+    displayName: "Grok Imagine Image 2",
+    description: "xAI's image generation model for prompt-based creative image generation.",
   },
 ];
 
@@ -137,29 +94,17 @@ const QUALITY_MAP: QualityMap = {
     hd:       { param: "resolution", value: "2K" },
     ultra:    { param: "resolution", value: "4K" },
   },
-  // Google Imagen 4: uses `image_size`
-  "google/imagen-4": {
-    standard: { param: "image_size", value: "1K" },
-    hd:       { param: "image_size", value: "2K" },
-    ultra:    { param: "image_size", value: "2K" }, // max 2K, cap silently
-  },
   // ByteDance Seedream 5 Lite: uses `size`, max 3K
   "bytedance/seedream-5-lite": {
     standard: { param: "size", value: "2K" },
     hd:       { param: "size", value: "2K" },
     ultra:    { param: "size", value: "3K" },
   },
-  // ByteDance Seedream 4.5: uses `size`, max 4K
-  "bytedance/seedream-4.5": {
-    standard: { param: "size", value: "2K" },
-    hd:       { param: "size", value: "2K" },
-    ultra:    { param: "size", value: "4K" },
-  },
-  // ByteDance Seedream 4: uses `size`, max 4K
-  "bytedance/seedream-4": {
+  // ByteDance Seedream 5 Pro: uses `size`, max 2K
+  "bytedance/seedream-5-pro": {
     standard: { param: "size", value: "1K" },
     hd:       { param: "size", value: "2K" },
-    ultra:    { param: "size", value: "4K" },
+    ultra:    { param: "size", value: "2K" },
   },
 };
 
@@ -191,7 +136,7 @@ function applyQuality(
       input[entry.param] = entry.value;
     }
   }
-  // Models not in QUALITY_MAP (Flux, Nano Banana, Recraft): no resolution param, skip
+  // Models not in QUALITY_MAP: no resolution param, skip.
 }
 
 // ── Aspect ratio normalization ────────────────────────────────────────────
@@ -201,8 +146,8 @@ function applyQuality(
  * Models NOT listed here accept all ratios the tool exposes.
  */
 const MODEL_ASPECT_RATIOS: Record<string, string[]> = {
-  "openai/gpt-image-1.5": ["1:1", "3:2", "2:3"],
-  "openai/gpt-image-1":   ["1:1", "3:2", "2:3"],
+  "openai/gpt-image-2":   ["1:1", "3:2", "2:3", "16:9", "9:16", "4:3", "3:4"],
+  "bytedance/seedream-5-pro": ["1:1", "4:3", "3:4", "16:9", "9:16", "3:2", "2:3", "21:9"],
 };
 
 function parseRatio(ratio: string): number {
@@ -234,19 +179,11 @@ function normalizeAspectRatio(model: string, ratio: string): string {
 
 // ── Output format translation ────────────────────────────────────────────
 
-/** Models that don't accept output_format */
-const NO_OUTPUT_FORMAT_MODELS = new Set([
-  "bytedance/seedream-4.5",
-  "bytedance/seedream-4",
-  "recraft-ai/recraft-v3",
-]);
-
 function applyOutputFormat(
   input: Record<string, unknown>,
-  model: string,
   format: string | undefined,
 ): void {
-  if (!format || NO_OUTPUT_FORMAT_MODELS.has(model)) return;
+  if (!format) return;
   input.output_format = format;
 }
 
@@ -270,12 +207,7 @@ export class ReplicateImageProvider implements ImageProvider {
       prompt: params.prompt,
     };
 
-    // Aspect ratio / size — Recraft uses pixel `size`, others use `aspect_ratio`
-    if (RECRAFT_MODELS.has(params.model)) {
-      input.size = `${width}x${height}`;
-    } else {
-      input.aspect_ratio = aspectRatio;
-    }
+    input.aspect_ratio = aspectRatio;
 
     // Image input — parameter name varies by model
     if (params.inputImages?.length && !TEXT_ONLY_MODELS.has(params.model)) {
@@ -290,7 +222,7 @@ export class ReplicateImageProvider implements ImageProvider {
 
     // Semantic params → model-specific translation
     applyQuality(input, params.model, params.quality);
-    applyOutputFormat(input, params.model, params.outputFormat);
+    applyOutputFormat(input, params.outputFormat);
 
     const response = await fetch(
       `${REPLICATE_API_BASE}/models/${params.model}/predictions`,
@@ -299,7 +231,7 @@ export class ReplicateImageProvider implements ImageProvider {
         headers: {
           Authorization: `Bearer ${this.apiToken}`,
           "Content-Type": "application/json",
-          Prefer: "wait",
+          Prefer: "wait=59",
         },
         body: JSON.stringify({ input }),
         signal: AbortSignal.timeout(120_000), // 120s — guard against Replicate hanging
@@ -316,16 +248,25 @@ export class ReplicateImageProvider implements ImageProvider {
     }
 
     const data = (await response.json()) as {
-      output: string[] | string;
+      id: string;
+      output: string[] | string | null;
       status: string;
+      error?: string;
+      urls?: { get?: string };
     };
-    const outputUrl = Array.isArray(data.output) ? data.output[0] : data.output;
+    let output = data.output;
+    const isNonTerminal = data.status !== "succeeded" && data.status !== "failed" && data.status !== "canceled";
+    if (!output && isNonTerminal && data.urls?.get) {
+      output = await this.pollForResult(data.urls.get);
+    }
+
+    const outputUrl = Array.isArray(output) ? output[0] : output;
 
     if (!outputUrl) {
       throw new GenerationError(
         "replicate",
         "no_output",
-        "Replicate returned no output URL",
+        `Replicate returned no output URL (prediction ${data.id}, status ${data.status}${data.error ? `: ${data.error}` : ""})`,
       );
     }
 
@@ -334,5 +275,44 @@ export class ReplicateImageProvider implements ImageProvider {
       : "image/png";
 
     return { url: outputUrl, mimeType, width, height };
+  }
+
+  private async pollForResult(predictionUrl: string, maxWaitMs = 300_000): Promise<string | null> {
+    const start = Date.now();
+    const interval = 5_000;
+    let firstPoll = true;
+
+    while (Date.now() - start < maxWaitMs) {
+      if (!firstPoll) {
+        await new Promise((resolve) => setTimeout(resolve, interval));
+      }
+      firstPoll = false;
+
+      const response = await fetch(predictionUrl, {
+        headers: { Authorization: `Bearer ${this.apiToken}` },
+        signal: AbortSignal.timeout(15_000),
+      });
+      if (!response.ok) continue;
+
+      const prediction = (await response.json()) as {
+        output: string | string[] | null;
+        status: string;
+        error?: string;
+      };
+      if (prediction.status === "succeeded" && prediction.output) {
+        return Array.isArray(prediction.output)
+          ? (prediction.output[0] ?? null)
+          : prediction.output;
+      }
+      if (prediction.status === "failed" || prediction.status === "canceled") {
+        throw new GenerationError(
+          "replicate",
+          "prediction_failed",
+          `Image prediction failed: ${prediction.error ?? prediction.status}`,
+        );
+      }
+    }
+
+    throw new GenerationError("replicate", "timeout", "Image generation timed out waiting for Replicate");
   }
 }
