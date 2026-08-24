@@ -126,6 +126,7 @@ function GradientBorderCard({ children }: { children: React.ReactNode }) {
 interface Feature {
   icon: LucideIcon;
   titleKey: string;
+  subtitleKey: string;
   descKey: string;
   visual: React.ReactNode;
   reversed: boolean;
@@ -136,8 +137,9 @@ interface Feature {
 const FEATURES: Feature[] = [
   {
     icon: Layout,
-    titleKey: "canvasTitle",
-    descKey: "canvasDesc",
+    titleKey: "launchTitle",
+    subtitleKey: "launchSubtitle",
+    descKey: "launchDesc",
     visual: <CanvasVisual />,
     reversed: false,
     textVariants: slideInLeft,
@@ -145,8 +147,9 @@ const FEATURES: Feature[] = [
   },
   {
     icon: MessageSquare,
-    titleKey: "chatTitle",
-    descKey: "chatDesc",
+    titleKey: "seasonalTitle",
+    subtitleKey: "seasonalSubtitle",
+    descKey: "seasonalDesc",
     visual: <ChatVisual />,
     reversed: true,
     textVariants: slideInRight,
@@ -154,8 +157,9 @@ const FEATURES: Feature[] = [
   },
   {
     icon: Palette,
-    titleKey: "brandTitle",
-    descKey: "brandDesc",
+    titleKey: "productAdsTitle",
+    subtitleKey: "productAdsSubtitle",
+    descKey: "productAdsDesc",
     visual: <BrandVisual />,
     reversed: false,
     textVariants: slideInLeft,
@@ -163,12 +167,23 @@ const FEATURES: Feature[] = [
   },
   {
     icon: MousePointer,
-    titleKey: "editTitle",
-    descKey: "editDesc",
+    titleKey: "socialTitle",
+    subtitleKey: "socialSubtitle",
+    descKey: "socialDesc",
     visual: <EditVisual />,
     reversed: true,
     textVariants: slideInRight,
     visualVariants: slideInLeft,
+  },
+  {
+    icon: Palette,
+    titleKey: "brandStoryTitle",
+    subtitleKey: "brandStorySubtitle",
+    descKey: "brandStoryDesc",
+    visual: <BrandVisual />,
+    reversed: false,
+    textVariants: slideInLeft,
+    visualVariants: slideInRight,
   },
 ];
 
@@ -191,6 +206,11 @@ function FeatureItem({ feature }: { feature: Feature }) {
       <h3 className="text-2xl md:text-3xl font-bold text-foreground leading-tight">
         {t(feature.titleKey)}
       </h3>
+
+      {/* Subtitle */}
+      <p className="text-lg font-medium text-foreground/80 -mt-2">
+        {t(feature.subtitleKey)}
+      </p>
 
       {/* Description */}
       <p className="text-muted-foreground leading-relaxed text-base">

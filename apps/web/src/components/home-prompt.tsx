@@ -40,6 +40,7 @@ type HomePromptProps = {
   readyAttachments?: ReadyAttachment[];
   selectedSeed?: HomeExampleSelection | null;
   onClearSelectedSeed?: () => void;
+  compact?: boolean;
 };
 
 const toolbarButtons = [
@@ -72,6 +73,7 @@ export const HomePrompt = forwardRef<HomePromptHandle, HomePromptProps>(
       readyAttachments,
       selectedSeed,
       onClearSelectedSeed,
+      compact = false,
     },
     ref,
   ) {
@@ -243,7 +245,7 @@ export const HomePrompt = forwardRef<HomePromptHandle, HomePromptProps>(
           onInput={handleInput}
           placeholder={t("placeholder")}
           disabled={disabled}
-          rows={2}
+          rows={compact ? 4 : 2}
           className="w-full resize-none bg-transparent px-3 pt-3 pb-2 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50 sm:px-4 sm:pt-4"
         />
 

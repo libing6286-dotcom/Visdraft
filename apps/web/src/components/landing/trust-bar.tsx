@@ -1,37 +1,34 @@
 "use client";
 
-import React from "react";
+import { Layers, ShieldCheck, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { AnimatedCounter } from "@/components/landing/animated-counter";
 import { StaggerContainer, FadeUp } from "@/components/landing/motion";
 
-interface StatItem {
-  target: number;
-  suffix: string;
-  labelKey: string;
-  decimals?: boolean;
+interface PromiseItem {
+  icon: typeof Sparkles;
+  titleKey: string;
+  descriptionKey: string;
 }
 
-const STATS: StatItem[] = [
-  { target: 10000, suffix: "+", labelKey: "creators" },
-  { target: 100000, suffix: "+", labelKey: "artworks" },
-  { target: 50, suffix: "+", labelKey: "models" },
-  { target: 99.9, suffix: "%", labelKey: "uptime", decimals: true },
+const PROMISES: PromiseItem[] = [
+  { icon: Sparkles, titleKey: "generateTitle", descriptionKey: "generateDescription" },
+  { icon: Layers, titleKey: "composeTitle", descriptionKey: "composeDescription" },
+  { icon: ShieldCheck, titleKey: "ownTitle", descriptionKey: "ownDescription" },
 ];
 
-function StatCard({ stat }: { stat: StatItem }) {
+function PromiseItem({ item }: { item: PromiseItem }) {
   const t = useTranslations("landing.trustBar");
+  const Icon = item.icon;
 
   return (
-    <FadeUp className="flex flex-col items-start gap-1.5 px-5 md:px-8">
-      <span className="text-3xl font-bold tracking-tight text-foreground tabular-nums md:text-4xl">
-        <AnimatedCounter
-          target={stat.target}
-          suffix={stat.suffix}
-          duration={stat.decimals ? 1800 : 2000}
-        />
-      </span>
-      <span className="text-sm text-muted-foreground">{t(stat.labelKey)}</span>
+    <FadeUp className="flex gap-3 px-5 py-5 md:px-8 md:py-7">
+      <Icon className="mt-0.5 size-5 shrink-0 text-accent" />
+      <div>
+        <p className="font-semibold text-foreground">{t(item.titleKey)}</p>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+          {t(item.descriptionKey)}
+        </p>
+      </div>
     </FadeUp>
   );
 }
@@ -39,9 +36,9 @@ function StatCard({ stat }: { stat: StatItem }) {
 export function TrustBar() {
   return (
     <section className="landing-shell border-y border-border py-8 md:py-10">
-      <StaggerContainer className="landing-grid grid grid-cols-2 divide-x divide-y divide-border px-4 md:grid-cols-4 md:divide-y-0 md:px-6">
-        {STATS.map((stat) => (
-          <StatCard key={stat.labelKey} stat={stat} />
+      <StaggerContainer className="landing-grid grid divide-y divide-border px-4 md:grid-cols-3 md:divide-x md:divide-y-0 md:px-6">
+        {PROMISES.map((item) => (
+          <PromiseItem key={item.titleKey} item={item} />
         ))}
       </StaggerContainer>
     </section>

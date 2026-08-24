@@ -57,7 +57,7 @@ const LandingFooter = dynamic(
 
 export default function LandingPage() {
   return (
-    <div className="relative">
+    <div className="relative overflow-x-clip">
       <FloatingNav />
       <main>
         {/* Above-fold: eagerly loaded for fast LCP */}
@@ -65,8 +65,8 @@ export default function LandingPage() {
         <TrustBar />
 
         {/* Below-fold: code-split, loaded on demand */}
-        <FeatureShowcase />
         <ShowcaseGallery />
+        <FeatureShowcase />
         <HowItWorks />
         <PricingPreview />
         <FinalCTA />

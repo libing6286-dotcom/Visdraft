@@ -111,7 +111,7 @@ function NavCTA() {
     <Link
       href="/login"
       className={cn(
-        "hidden md:inline-flex items-center justify-center h-8 px-4 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/80 transition-colors",
+        "hidden lg:inline-flex items-center justify-center h-8 px-4 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/80 transition-colors",
         glowActive && "landing-nav-cta-glow",
       )}
     >
@@ -138,7 +138,7 @@ export function FloatingNav() {
   return (
     <motion.header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 overflow-x-clip transition-all duration-300",
         scrolled
           ? "bg-background/80 backdrop-blur-xl backdrop-saturate-150 border-b border-border"
           : "bg-transparent",
@@ -148,7 +148,7 @@ export function FloatingNav() {
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex min-w-0 items-center justify-between h-16">
           {/* Logo with hover animation */}
           <Link
             href="/"
@@ -159,7 +159,7 @@ export function FloatingNav() {
           </Link>
 
           {/* Desktop Nav Links with underline animation */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
             {NAV_LINKS.map(({ labelKey, href }) => (
               <a
                 key={href}
@@ -177,7 +177,7 @@ export function FloatingNav() {
           </nav>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <LocaleSelector />
             <ThemeToggle />
             <NavCTA />
@@ -185,7 +185,7 @@ export function FloatingNav() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="lg:hidden"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Toggle menu"
               aria-expanded={mobileOpen}
@@ -208,7 +208,7 @@ export function FloatingNav() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl"
+            className="lg:hidden overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl"
           >
             <nav className="px-4 py-3 flex flex-col gap-1" aria-label="Mobile navigation">
               {NAV_LINKS.map(({ labelKey, href }) => (

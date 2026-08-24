@@ -1,6 +1,26 @@
 {
   "hero": {
-    "headline": "Where Ideas Grow Freely",
+    "badge": "An AI creative workspace for ideas in motion",
+    "modeLabel": "Choose a creation mode",
+    "previewStatus": "Live draft",
+    "canvasSelection": "Canvas selection",
+    "modes": {
+      "image": {
+        "label": "Generate an image",
+        "support": "Start with a prompt, reference image, or rough direction. Visdraft turns it into a strong first visual.",
+        "previewTitle": "Image generation",
+        "previewAlt": "AI generated creative artwork",
+        "previewCaption": "A first draft, ready for your direction"
+      },
+      "canvas": {
+        "label": "Design on canvas",
+        "support": "Arrange, edit, and refine every element after generation, without leaving the same workspace.",
+        "previewTitle": "Infinite canvas",
+        "previewAlt": "Visdraft infinite canvas design workspace",
+        "previewCaption": "Move from generated asset to finished composition"
+      }
+    },
+    "headline": "The AI Creative Agent\nfor Brand Ads",
     "description": "From spark to finished work, Visdraft is your AI design partner. It understands your creative intent and generates professional-grade designs — turning every idea into reality.",
     "ctaStart": "Start Creating",
     "ctaShowcase": "View Showcase"
@@ -12,6 +32,12 @@
     "ctaStart": "Start Creating"
   },
   "trustBar": {
+    "generateTitle": "Generate",
+    "generateDescription": "Turn a clear idea into images and visual directions in seconds.",
+    "composeTitle": "Compose",
+    "composeDescription": "Arrange, edit, and iterate on an infinite canvas with AI beside you.",
+    "ownTitle": "Stay in control",
+    "ownDescription": "Choose your models, keep your assets, and decide when the work is ready.",
     "creators": "Creators",
     "artworks": "Designs Created",
     "models": "AI Models",
@@ -37,7 +63,22 @@
     "brandTitle": "Consistent Style -- Brand Design System",
     "brandDesc": "Upload your brand assets and the AI automatically grasps your brand tone. No matter how much you create, the style stays consistent.",
     "editTitle": "Precise Editing -- Pixel-Level Control",
-    "editDesc": "AI generation is just the starting point. Edit every element directly on the canvas, fine-tuning until you're satisfied."
+    "editDesc": "AI generation is just the starting point. Edit every element directly on the canvas, fine-tuning until you're satisfied.",
+    "launchTitle": "Launch a New Product",
+    "launchSubtitle": "Turn your product idea into a launch campaign.",
+    "launchDesc": "Create product visuals, promo videos, and social ads from one brief.",
+    "seasonalTitle": "Run a Seasonal Campaign",
+    "seasonalSubtitle": "Create timely ads for every big moment.",
+    "seasonalDesc": "Produce campaign concepts and ready-to-publish assets for holidays, sales, and events.",
+    "productAdsTitle": "Sell More with Product Ads",
+    "productAdsSubtitle": "Turn product photos into scroll-stopping ads.",
+    "productAdsDesc": "Generate multiple ad variations for different audiences, formats, and platforms.",
+    "socialTitle": "Create Social Content",
+    "socialSubtitle": "Keep your brand active across every channel.",
+    "socialDesc": "Make short videos, posts, and visuals for TikTok, Instagram, and YouTube.",
+    "brandStoryTitle": "Build Your Brand Story",
+    "brandStorySubtitle": "Turn your brand direction into creative.",
+    "brandStoryDesc": "Develop a consistent visual style for campaigns, launches, and everyday content."
   },
   "showcase": {
     "title": "Creativity Without Limits",

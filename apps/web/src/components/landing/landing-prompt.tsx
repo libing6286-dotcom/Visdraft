@@ -148,7 +148,11 @@ export function LandingPrompt({ compact = false }: { compact?: boolean }) {
           {t("subtitle")}
         </motion.p>}
 
-        <motion.div variants={fadeUp} custom={2} className="w-full">
+        <motion.div
+          variants={fadeUp}
+          custom={2}
+          className={compact ? "mx-auto w-full max-w-2xl" : "w-full"}
+        >
           <HomePrompt
             ref={promptRef}
             onSubmit={handlePromptSubmit}
@@ -159,6 +163,7 @@ export function LandingPrompt({ compact = false }: { compact?: boolean }) {
             readyAttachments={readyAttachments}
             selectedSeed={selectedExample}
             onClearSelectedSeed={handleExampleClear}
+            compact={compact}
           />
         </motion.div>
 

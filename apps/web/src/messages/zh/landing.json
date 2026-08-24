@@ -1,5 +1,25 @@
 {
   "hero": {
+    "badge": "让想法持续生长的 AI 创意工作空间",
+    "modeLabel": "选择创作方式",
+    "previewStatus": "实时草稿",
+    "canvasSelection": "画布选区",
+    "modes": {
+      "image": {
+        "label": "生成图片",
+        "support": "输入提示词、参考图或一个模糊方向，Visdraft 会先为你做出有质量的视觉草稿。",
+        "previewTitle": "图片生成",
+        "previewAlt": "AI 生成的创意视觉作品",
+        "previewCaption": "第一版草稿，等待你的方向"
+      },
+      "canvas": {
+        "label": "画布设计",
+        "support": "生成之后继续排列、编辑和细化每个元素，不用离开同一个工作空间。",
+        "previewTitle": "无限画布",
+        "previewAlt": "Visdraft 无限画布设计工作空间",
+        "previewCaption": "从生成素材继续到完整构图"
+      }
+    },
     "headline": "让创意，自由生长",
     "description": "从灵感到作品，Visdraft 是你的 AI 设计伙伴。智能理解你的创意意图，生成专业级设计，让每一个想法都能成为现实。",
     "ctaStart": "开始创作",
@@ -12,6 +32,12 @@
     "ctaStart": "开始创作"
   },
   "trustBar": {
+    "generateTitle": "生成",
+    "generateDescription": "把清晰的想法快速变成图片和视觉方向。",
+    "composeTitle": "编排",
+    "composeDescription": "和 AI 一起在无限画布上排列、编辑并持续迭代。",
+    "ownTitle": "掌握主动权",
+    "ownDescription": "自由选择模型，保留你的素材，并决定作品何时完成。",
     "creators": "创作者",
     "artworks": "设计作品",
     "models": "AI 模型",
@@ -28,6 +54,21 @@
     "step3Desc": "在画布上自由编辑任何元素。满意后一键导出，支持多种格式。"
   },
   "features": {
+    "launchTitle": "发布新产品",
+    "launchSubtitle": "将你的产品创意变成发布营销活动。",
+    "launchDesc": "从一份简报中创建产品视觉、宣传视频和社交广告。",
+    "seasonalTitle": "开展季节性营销活动",
+    "seasonalSubtitle": "为每个重要时刻制作及时的广告。",
+    "seasonalDesc": "为节日、促销和活动制作营销概念及可直接发布的素材。",
+    "productAdsTitle": "用产品广告提升销量",
+    "productAdsSubtitle": "将产品照片变成吸睛广告。",
+    "productAdsDesc": "针对不同受众、格式和平台生成多种广告变体。",
+    "socialTitle": "创作社交媒体内容",
+    "socialSubtitle": "让你的品牌活跃于每个渠道。",
+    "socialDesc": "为 TikTok、Instagram 和 YouTube 制作短视频、帖子和视觉内容。",
+    "brandStoryTitle": "构建品牌故事",
+    "brandStorySubtitle": "将你的品牌方向转化为创意。",
+    "brandStoryDesc": "为营销活动、产品发布和日常内容打造一致的视觉风格。",
     "title": "设计，超越生成",
     "subtitle": "Visdraft 不只是生成工具，更是你的智能设计伙伴",
     "canvasTitle": "AI Canvas -- 画布级创作",
