@@ -55,6 +55,30 @@ export async function createCheckout(
   return (await response.json()) as { checkoutUrl: string };
 }
 
+export async function createPayPalOrder(
+  accessToken: string,
+  plan: string,
+  billingPeriod: string,
+): Promise<{ orderId: string; approveUrl: string }> {
+  const response = await fetch(`${getServerBaseUrl()}/api/payments/paypal/create-order`, {
+    method: "POST",
+    headers: authJsonHeaders(accessToken),
+    body: JSON.stringify({ plan, billingPeriod }),
+  });
+  if (!response.ok) return handleErrorResponse(response);
+  return (await response.json()) as { orderId: string; approveUrl: string };
+}
+
+export async function capturePayPalOrder(accessToken: string, orderId: string): Promise<{ success: boolean; credits?: number }> {
+  const response = await fetch(`${getServerBaseUrl()}/api/payments/paypal/capture-order`, {
+    method: "POST",
+    headers: authJsonHeaders(accessToken),
+    body: JSON.stringify({ orderId }),
+  });
+  if (!response.ok) return handleErrorResponse(response);
+  return (await response.json()) as { success: boolean; credits?: number };
+}
+
 export async function getSubscription(
   accessToken: string,
 ): Promise<SubscriptionStatus> {

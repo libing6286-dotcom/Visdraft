@@ -64,6 +64,10 @@ export type ServerEnv = {
   lemonSqueezyVariantUltraYearly?: string;
   lemonSqueezyVariantBusinessMonthly?: string;
   lemonSqueezyVariantBusinessYearly?: string;
+  paypalClientId?: string;
+  paypalClientSecret?: string;
+  paypalEnvironment?: "sandbox" | "live";
+  paypalCurrency?: string;
   skillsRoot?: string;
   webOrigin: string;
   workerConcurrency?: number;
@@ -148,6 +152,10 @@ export function loadServerEnv(
     overrides.lemonSqueezyVariantBusinessMonthly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_BUSINESS_MONTHLY);
   const lemonSqueezyVariantBusinessYearly =
     overrides.lemonSqueezyVariantBusinessYearly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_BUSINESS_YEARLY);
+  const paypalClientId = overrides.paypalClientId ?? normalizeOptionalString(source.PAYPAL_CLIENT_ID);
+  const paypalClientSecret = overrides.paypalClientSecret ?? normalizeOptionalString(source.PAYPAL_CLIENT_SECRET);
+  const paypalEnvironment = overrides.paypalEnvironment ?? (source.PAYPAL_ENVIRONMENT === "live" ? "live" : "sandbox");
+  const paypalCurrency = overrides.paypalCurrency ?? normalizeOptionalString(source.PAYPAL_CURRENCY) ?? "USD";
   const skillsRoot =
     overrides.skillsRoot ??
     normalizeOptionalString(
@@ -234,6 +242,10 @@ export function loadServerEnv(
     ...(lemonSqueezyVariantUltraYearly ? { lemonSqueezyVariantUltraYearly } : {}),
     ...(lemonSqueezyVariantBusinessMonthly ? { lemonSqueezyVariantBusinessMonthly } : {}),
     ...(lemonSqueezyVariantBusinessYearly ? { lemonSqueezyVariantBusinessYearly } : {}),
+    ...(paypalClientId ? { paypalClientId } : {}),
+    ...(paypalClientSecret ? { paypalClientSecret } : {}),
+    paypalEnvironment,
+    paypalCurrency,
     ...(skillsRoot ? { skillsRoot } : {}),
     ...(workerConcurrency ? { workerConcurrency } : {}),
     ...(workerImageConcurrency ? { workerImageConcurrency } : {}),

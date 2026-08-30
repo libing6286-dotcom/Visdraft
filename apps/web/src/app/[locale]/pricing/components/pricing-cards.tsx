@@ -10,12 +10,14 @@ interface PricingCardsProps {
   billingPeriod: BillingPeriod;
   currentPlan?: string | null | undefined;
   onCheckout?: ((plan: string, billingPeriod: BillingPeriod) => Promise<void>) | undefined;
+  onPayPalCheckout?: ((plan: string, billingPeriod: BillingPeriod) => Promise<void>) | undefined;
 }
 
 export function PricingCards({
   billingPeriod,
   currentPlan,
   onCheckout,
+  onPayPalCheckout,
 }: PricingCardsProps) {
   return (
     <motion.div
@@ -33,6 +35,7 @@ export function PricingCards({
           index={index}
           {...(currentPlan !== undefined ? { currentPlan } : {})}
           {...(onCheckout !== undefined ? { onCheckout } : {})}
+          {...(onPayPalCheckout !== undefined ? { onPayPalCheckout } : {})}
         />
       ))}
     </motion.div>

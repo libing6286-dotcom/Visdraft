@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Settings } from "lucide-react";
 
 import { useAuth } from "@/lib/auth-context";
-import { createCheckout } from "@/lib/payments-api";
+import { capturePayPalOrder, createCheckout, createPayPalOrder } from "@/lib/payments-api";
 import { useSubscription } from "@/hooks/use-subscription";
 
 import type { BillingPeriod } from "./components/pricing-data";
@@ -30,6 +30,16 @@ export default function PricingPage() {
   const { session } = useAuth();
   const { subscription } = useSubscription();
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("token");
+    if (params.get("paypal") !== "success" || !orderId || !session?.access_token) return;
+    void capturePayPalOrder(session.access_token, orderId).then(() => {
+      window.history.replaceState({}, "", window.location.pathname);
+      window.location.reload();
+    }).catch(() => undefined);
+  }, [session?.access_token]);
+
   const handleCheckout = useCallback(
     async (plan: string, period: BillingPeriod) => {
       const token = session?.access_token;
@@ -44,6 +54,16 @@ export default function PricingPage() {
     },
     [session?.access_token],
   );
+
+  const handlePayPalCheckout = useCallback(async (plan: string, period: BillingPeriod) => {
+    const token = session?.access_token;
+    if (!token) {
+      window.location.href = "/login?redirect=/pricing";
+      return;
+    }
+    const { approveUrl } = await createPayPalOrder(token, plan, period);
+    window.location.href = approveUrl;
+  }, [session?.access_token]);
 
   const hasActiveSubscription =
     subscription?.plan && subscription.plan !== "free";
@@ -84,6 +104,7 @@ export default function PricingPage() {
             billingPeriod={billingPeriod}
             currentPlan={subscription?.plan ?? null}
             onCheckout={handleCheckout}
+            onPayPalCheckout={handlePayPalCheckout}
           />
         </section>
 

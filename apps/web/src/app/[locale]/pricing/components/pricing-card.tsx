@@ -15,6 +15,7 @@ interface PricingCardProps {
   index: number;
   currentPlan?: string | null | undefined;
   onCheckout?: (plan: string, billingPeriod: BillingPeriod) => Promise<void> | undefined;
+  onPayPalCheckout?: (plan: string, billingPeriod: BillingPeriod) => Promise<void> | undefined;
 }
 
 export function PricingCard({
@@ -23,6 +24,7 @@ export function PricingCard({
   index,
   currentPlan,
   onCheckout,
+  onPayPalCheckout,
 }: PricingCardProps) {
   const price =
     billingPeriod === "monthly" ? tier.monthlyPrice : tier.yearlyPrice;
@@ -167,6 +169,11 @@ export function PricingCard({
 
       {/* CTA */}
       <div className="mt-6">{renderCta()}</div>
+      {onPayPalCheckout && tier.id !== "free" && tier.id !== "business" && (
+        <button type="button" className="mt-2 w-full rounded-md border px-3 py-2 text-sm font-medium hover:bg-muted" onClick={() => void onPayPalCheckout(tier.id, billingPeriod)}>
+          Pay with PayPal
+        </button>
+      )}
     </motion.div>
   );
 }

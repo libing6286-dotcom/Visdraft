@@ -67,6 +67,8 @@ import {
   type PaymentService,
 } from "./features/payments/payment-service.js";
 import { registerPaymentRoutes } from "./http/payments.js";
+import { registerPayPalRoutes } from "./http/payments.js";
+import { createPayPalClient } from "./features/payments/paypal-client.js";
 import { registerPaymentWebhookRoute } from "./http/payments-webhook.js";
 import { registerCreditRoutes } from "./http/credits.js";
 import { registerFontsRoutes } from "./http/fonts.js";
@@ -319,10 +321,10 @@ export function buildApp(options: BuildAppOptions = {}): FastifyInstance {
   void registerMarketplaceRoutes(app, { auth, createUserClient, viewerService });
 
   // Payment routes — only registered when Lemon Squeezy is configured
-  if (paymentService) {
-    void registerPaymentRoutes(app, { auth, paymentService, viewerService });
+  if (paymentService || (env.paypalClientId && env.paypalClientSecret)) {
+    void registerPaymentRoutes(app, { auth, viewerService, ...(paymentService ? { paymentService } : {}) });
 
-    if (env.lemonSqueezyWebhookSecret) {
+    if (paymentService && env.lemonSqueezyWebhookSecret) {
       // Webhook route is registered in an encapsulated plugin so the custom
       // content-type parser (needed for raw body access) does not leak to
       // other routes.
@@ -334,6 +336,9 @@ export function buildApp(options: BuildAppOptions = {}): FastifyInstance {
         });
       });
     }
+  }
+  if (env.paypalClientId && env.paypalClientSecret) {
+    void registerPayPalRoutes(app, { auth, paypal: createPayPalClient({ clientId: env.paypalClientId, clientSecret: env.paypalClientSecret, ...(env.paypalEnvironment ? { environment: env.paypalEnvironment } : {}) }), viewerService, getAdminClient, currency: env.paypalCurrency ?? "USD", webOrigin: env.webOrigin });
   }
 
   return app;
