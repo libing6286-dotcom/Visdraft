@@ -54,6 +54,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       // { labelKey: "colResourcesCommunity", href: "/community" },
       // { labelKey: "colResourcesTemplates", href: "/templates" },
       { labelKey: "colProductPhotoToAdCreative", href: "/product-photo-to-ad-creative" },
+      { labelKey: "aiProductPhotoGenerator", href: "/ai-product-photo-generator" },
     ],
   },
   {

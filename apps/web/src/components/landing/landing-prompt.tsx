@@ -43,7 +43,13 @@ const fadeUp = {
 // a creative idea and jump straight into the canvas. Anonymous visitors are
 // routed to /login on submit (createNewProject no-ops without a session token).
 // ---------------------------------------------------------------------------
-export function LandingPrompt({ compact = false }: { compact?: boolean }) {
+export function LandingPrompt({
+  compact = false,
+  templateSelection,
+}: {
+  compact?: boolean;
+  templateSelection?: HomeExampleSelection | null;
+}) {
   const t = useTranslations("landing.prompt");
   const { session } = useAuth();
   const router = useRouter();
@@ -126,6 +132,23 @@ export function LandingPrompt({ compact = false }: { compact?: boolean }) {
     setSelectedExample(null);
   }, []);
 
+  useEffect(() => {
+    if (!templateSelection) return;
+    setSelectedExample(templateSelection);
+    promptRef.current?.fill(templateSelection.prompt);
+  }, [templateSelection]);
+
+  useEffect(() => {
+    const handleRecreate = (event: Event) => {
+      const selection = (event as CustomEvent<HomeExampleSelection>).detail;
+      if (!selection) return;
+      setSelectedExample(selection);
+      promptRef.current?.fill(selection.prompt);
+    };
+    window.addEventListener("visdraft:recreate-template", handleRecreate);
+    return () => window.removeEventListener("visdraft:recreate-template", handleRecreate);
+  }, []);
+
   const content = (
       <motion.div
         initial="hidden"
@@ -171,9 +194,10 @@ export function LandingPrompt({ compact = false }: { compact?: boolean }) {
           <motion.div variants={fadeUp} custom={3} className="w-full">
             <HomeExampleBrowser
               categories={homeExampleCategories}
-              selectedExample={selectedExample}
-              onExampleSelect={handleExampleSelect}
-            />
+            selectedExample={selectedExample}
+            onExampleSelect={handleExampleSelect}
+            onExampleRecreate={handleExampleSelect}
+          />
           </motion.div>
         )}
       </motion.div>

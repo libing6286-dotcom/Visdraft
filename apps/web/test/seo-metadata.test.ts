@@ -237,6 +237,7 @@ describe("localized SEO metadata", () => {
     expect(sitemap).toContain('"/"');
     expect(sitemap).toContain('"/home"');
     expect(sitemap).toContain('"/product-photo-to-ad-creative"');
+    expect(sitemap).toContain('"/ai-product-photo-generator"');
     expect(sitemap).not.toContain('"/pricing"');
     expect(sitemap).not.toContain('"/login"');
     expect(sitemap).not.toContain('"/register"');

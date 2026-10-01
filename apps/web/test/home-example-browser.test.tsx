@@ -87,4 +87,27 @@ describe("HomeExampleBrowser", () => {
       }),
     );
   });
+
+  it("shows Recreate and sends the full template payload", async () => {
+    const onExampleRecreate = vi.fn();
+
+    render(
+      <HomeExampleBrowser
+        categories={homeExampleSeedCategories}
+        onExampleSelect={vi.fn()}
+        onExampleRecreate={onExampleRecreate}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "E-Commerce" }));
+    await userEvent.click(screen.getAllByRole("button", { name: "Recreate" })[0]!);
+
+    expect(onExampleRecreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        categoryKey: "e-commerce",
+        prompt: expect.any(String),
+        inputMentions: expect.any(Array),
+      }),
+    );
+  });
 });

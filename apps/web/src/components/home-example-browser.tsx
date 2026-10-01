@@ -13,6 +13,7 @@ type HomeExampleBrowserProps = {
   categories: HomeExampleCategory[];
   selectedExample?: HomeExampleSelection | null;
   onExampleSelect: (selection: HomeExampleSelection) => void;
+  onExampleRecreate?: (selection: HomeExampleSelection) => void;
 };
 
 type ExampleChipProps = {
@@ -63,16 +64,25 @@ function ExamplePreviewCard({
   previewImages,
   selected,
   onClick,
+  onRecreate,
 }: {
   title: string;
   previewImages: string[];
   selected: boolean;
   onClick: () => void;
+  onRecreate?: () => void;
 }) {
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick();
+        }
+      }}
       aria-label={title}
       aria-pressed={selected}
       className={cn(
@@ -107,8 +117,22 @@ function ExamplePreviewCard({
             />
           );
         })}
+        {onRecreate ? (
+          <span className="pointer-events-none absolute inset-x-0 bottom-2 flex justify-center opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                onRecreate();
+              }}
+              className="pointer-events-auto inline-flex items-center rounded-md bg-foreground px-3 py-1.5 text-xs font-medium text-background shadow-lg transition-colors hover:bg-foreground/85"
+            >
+              Recreate
+            </button>
+          </span>
+        ) : null}
       </div>
-    </button>
+    </div>
   );
 }
 
@@ -130,6 +154,7 @@ export function HomeExampleBrowser({
   categories,
   selectedExample,
   onExampleSelect,
+  onExampleRecreate,
 }: HomeExampleBrowserProps) {
   const [internalSelection, setInternalSelection] =
     useState<HomeExampleSelection | null>(null);
@@ -200,6 +225,9 @@ export function HomeExampleBrowser({
                   ? handleExampleClick(activeCategory, example)
                   : undefined
               }
+              {...(activeCategory && onExampleRecreate
+                ? { onRecreate: () => onExampleRecreate(toSelection(activeCategory, example)) }
+                : {})}
             />
           ))}
         </div>

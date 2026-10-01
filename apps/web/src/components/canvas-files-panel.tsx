@@ -51,9 +51,11 @@ type ImageFile = { id: string; name: string; dataURL: string };
 const FileRow = memo(function FileRow({
   file,
   onDownload,
+  downloadLabel,
 }: {
   file: ImageFile;
   onDownload: (file: ImageFile) => void;
+  downloadLabel: string;
 }) {
   const handleDownload = useCallback(() => onDownload(file), [onDownload, file]);
 
@@ -82,7 +84,7 @@ const FileRow = memo(function FileRow({
         type="button"
         onClick={handleDownload}
         className="flex h-4 w-4 shrink-0 items-center justify-center text-foreground hover:text-muted-foreground transition-colors"
-        title={t("download")}
+        title={downloadLabel}
         aria-label={`Download ${file.name}`}
       >
         <DownloadIcon className="h-4 w-4" />
@@ -170,7 +172,12 @@ export function CanvasFilesPanel({ excalidrawApi, open, onClose }: CanvasFilesPa
         ) : (
           <div className="flex flex-col gap-1">
             {imageFiles.map((file) => (
-              <FileRow key={file.id} file={file} onDownload={handleDownload} />
+              <FileRow
+                key={file.id}
+                file={file}
+                onDownload={handleDownload}
+                downloadLabel={t("download")}
+              />
             ))}
             <p className="py-2 text-center text-sm text-muted-foreground">{t("end")}</p>
           </div>

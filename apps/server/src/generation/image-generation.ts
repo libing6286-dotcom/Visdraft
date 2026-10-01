@@ -6,5 +6,6 @@ export async function generateImage(
   params: ImageGenerateParams,
 ): Promise<GeneratedImage> {
   const provider = getImageProvider(providerName);
+  console.log(`###Generating image with provider ${provider.name} and model ${params.model}`);
   return provider.generate(params);
 }

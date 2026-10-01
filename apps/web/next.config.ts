@@ -11,6 +11,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const defaultLocale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en";
 const DEFAULT_LOCALE_REWRITE_PATHS = [
   "/pricing",
+  "/ai-product-photo-generator",
   "/product-photo-to-ad-creative",
   "/privacy",
   "/contact",
