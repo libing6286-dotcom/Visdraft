@@ -28,6 +28,8 @@ export const runCancelResponseSchema = z.object({
 
 export const viewerCreditsSchema = z.object({
   balance: z.number().int(),
+  dailyBalance: z.number().int(),
+  totalBalance: z.number().int().optional(),
   plan: z.string(),
   dailyClaimed: z.boolean(),
   limits: z.object({

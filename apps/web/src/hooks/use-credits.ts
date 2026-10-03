@@ -8,6 +8,7 @@ import { fetchCredits, claimDailyCredits } from "@/lib/credits-api";
 
 interface UseCreditsReturn {
   balance: number;
+  dailyBalance: number;
   plan: string;
   dailyClaimed: boolean;
   limits: CreditBalanceResponse["limits"] | null;
@@ -81,6 +82,7 @@ export function useCredits(): UseCreditsReturn {
 
   return {
     balance: data?.balance ?? 0,
+    dailyBalance: data?.dailyBalance ?? 0,
     plan: data?.plan ?? "free",
     dailyClaimed: data?.dailyClaimed ?? false,
     limits: data?.limits ?? null,

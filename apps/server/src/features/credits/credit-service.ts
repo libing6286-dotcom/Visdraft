@@ -36,6 +36,7 @@ export class CreditServiceError extends Error {
 
 export type BalanceInfo = {
   balance: number;
+  dailyBalance: number;
   plan: SubscriptionPlan;
   dailyClaimed: boolean;
 };
@@ -68,7 +69,7 @@ export type CreditService = {
   ): Promise<string>;
   claimDailyCredits(
     workspaceId: string,
-  ): Promise<{ success: boolean; balance?: number }>;
+  ): Promise<{ success: boolean; balance?: number; dailyBalance?: number }>;
   getTransactions(
     workspaceId: string,
     limit?: number,
@@ -90,7 +91,7 @@ export function createCreditService(options: {
         await Promise.all([
           admin
             .from("credit_balances")
-            .select("balance")
+            .select("balance, daily_balance, daily_credit_date")
             .eq("workspace_id", workspaceId)
             .maybeSingle(),
           admin
@@ -132,6 +133,10 @@ export function createCreditService(options: {
 
       return {
         balance: balanceResult.data?.balance ?? 0,
+        dailyBalance:
+          balanceResult.data?.daily_credit_date === new Date().toISOString().slice(0, 10)
+            ? (balanceResult.data?.daily_balance ?? 0)
+            : 0,
         plan: (subscriptionResult.data?.plan as SubscriptionPlan) ?? "free",
         dailyClaimed: dailyClaimResult.data !== null,
       };
@@ -236,13 +241,17 @@ export function createCreditService(options: {
       // Fetch updated balance
       const { data: balanceRow } = await admin
         .from("credit_balances")
-        .select("balance")
+        .select("balance, daily_balance, daily_credit_date")
         .eq("workspace_id", workspaceId)
         .maybeSingle();
 
       return {
         success: true,
-        balance: balanceRow?.balance ?? 0,
+        balance: (balanceRow?.balance ?? 0) +
+          (balanceRow?.daily_credit_date === new Date().toISOString().slice(0, 10)
+            ? (balanceRow?.daily_balance ?? 0) : 0),
+        dailyBalance: balanceRow?.daily_credit_date === new Date().toISOString().slice(0, 10)
+          ? (balanceRow?.daily_balance ?? 0) : 0,
       };
     },
 

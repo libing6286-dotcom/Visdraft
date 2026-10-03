@@ -66,7 +66,9 @@ export async function registerViewerRoutes(
           );
           const config = PLAN_CONFIGS[updatedBalance.plan as SubscriptionPlan];
           credits = {
-            balance: updatedBalance.balance,
+            balance: updatedBalance.balance + updatedBalance.dailyBalance,
+            dailyBalance: updatedBalance.dailyBalance,
+            totalBalance: updatedBalance.balance + updatedBalance.dailyBalance,
             plan: updatedBalance.plan,
             dailyClaimed: updatedBalance.dailyClaimed,
             limits: {

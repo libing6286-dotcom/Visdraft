@@ -500,9 +500,10 @@ export function createAgentRunService(options: CreateAgentRuntimeOptions) {
           // ── Balance pre-check: stop run immediately if insufficient ──
           if (options.creditService && creditsCost > 0) {
             const balanceInfo = await options.creditService.getBalance(workspaceId);
-            if (balanceInfo.balance < creditsCost) {
+            const totalBalance = balanceInfo.balance + balanceInfo.dailyBalance;
+            if (totalBalance < creditsCost) {
               pushBillingErrorAndAbort(run, canvasId, options, "insufficient_credits", "Insufficient credits", {
-                currentBalance: balanceInfo.balance,
+                currentBalance: totalBalance,
                 requiredAmount: creditsCost,
                 plan: balanceInfo.plan,
                 dailyClaimed: balanceInfo.dailyClaimed,
@@ -698,9 +699,10 @@ export function createAgentRunService(options: CreateAgentRuntimeOptions) {
           // ── Balance pre-check: stop run immediately if insufficient ──
           if (options.creditService && creditsCost > 0) {
             const balanceInfo = await options.creditService.getBalance(workspaceId);
-            if (balanceInfo.balance < creditsCost) {
+            const totalBalance = balanceInfo.balance + balanceInfo.dailyBalance;
+            if (totalBalance < creditsCost) {
               pushBillingErrorAndAbort(run, canvasId, options, "insufficient_credits", "Insufficient credits", {
-                currentBalance: balanceInfo.balance,
+                currentBalance: totalBalance,
                 requiredAmount: creditsCost,
                 plan: balanceInfo.plan,
                 dailyClaimed: balanceInfo.dailyClaimed,

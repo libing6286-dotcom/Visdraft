@@ -363,6 +363,8 @@ export function canUseVideoResolution(
 
 export const creditBalanceResponseSchema = z.object({
   balance: z.number().int(),
+  dailyBalance: z.number().int(),
+  totalBalance: z.number().int().optional(),
   plan: subscriptionPlanSchema,
   dailyClaimed: z.boolean(),
   limits: z.object({
@@ -395,6 +397,7 @@ export type CreditTransactionsResponse = z.infer<
 export const claimDailyResponseSchema = z.object({
   success: z.boolean(),
   balance: z.number().int().optional(),
+  dailyBalance: z.number().int().optional(),
   message: z.string().optional(),
 });
 export type ClaimDailyResponse = z.infer<typeof claimDailyResponseSchema>;

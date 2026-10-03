@@ -348,6 +348,8 @@ export type Database = {
           id: string
           workspace_id: string
           balance: number
+          daily_balance: number
+          daily_credit_date: string | null
           version: number
           updated_at: string
         }
@@ -355,6 +357,8 @@ export type Database = {
           id?: string
           workspace_id: string
           balance?: number
+          daily_balance?: number
+          daily_credit_date?: string | null
           version?: number
           updated_at?: string
         }
@@ -362,6 +366,8 @@ export type Database = {
           id?: string
           workspace_id?: string
           balance?: number
+          daily_balance?: number
+          daily_credit_date?: string | null
           version?: number
           updated_at?: string
         }

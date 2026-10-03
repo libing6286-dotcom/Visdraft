@@ -40,7 +40,9 @@ export async function registerCreditRoutes(
 
       return reply.code(200).send(
         creditBalanceResponseSchema.parse({
-          balance: balance.balance,
+          balance: balance.balance + balance.dailyBalance,
+          dailyBalance: balance.dailyBalance,
+          totalBalance: balance.balance + balance.dailyBalance,
           plan: balance.plan,
           dailyClaimed: balance.dailyClaimed,
           limits: {
@@ -103,6 +105,7 @@ export async function registerCreditRoutes(
         claimDailyResponseSchema.parse({
           success: true,
           balance: result.balance,
+          dailyBalance: result.dailyBalance,
         }),
       );
     } catch (error) {
@@ -129,7 +132,9 @@ export async function registerCreditRoutes(
 
       return reply.code(200).send(
         creditBalanceResponseSchema.parse({
-          balance: balance.balance,
+          balance: balance.balance + balance.dailyBalance,
+          dailyBalance: balance.dailyBalance,
+          totalBalance: balance.balance + balance.dailyBalance,
           plan: balance.plan,
           dailyClaimed: balance.dailyClaimed,
           limits: {
