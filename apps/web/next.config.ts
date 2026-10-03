@@ -6,6 +6,15 @@ if (process.argv.includes("dev")) {
   initOpenNextCloudflareForDev();
 }
 
+if (
+  process.env.NODE_ENV === "production" &&
+  !process.env.NEXT_PUBLIC_SERVER_BASE_URL?.trim()
+) {
+  throw new Error(
+    "Missing required production env: NEXT_PUBLIC_SERVER_BASE_URL must point to the deployed API origin.",
+  );
+}
+
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const defaultLocale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en";
