@@ -188,6 +188,7 @@ function sendCreditError(
       }),
     );
   }
+  console.error("[CreditRoutes] unexpected credit request error:", error);
   return reply.code(500).send(
     applicationErrorResponseSchema.parse({
       error: {

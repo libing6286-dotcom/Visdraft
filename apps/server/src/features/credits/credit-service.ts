@@ -122,6 +122,13 @@ export function createCreditService(options: {
           code: subscriptionResult.error.code,
         });
       }
+      if (dailyClaimResult.error) {
+        console.error("[CreditService] daily claim query error:", {
+          workspaceId,
+          error: dailyClaimResult.error.message,
+          code: dailyClaimResult.error.code,
+        });
+      }
 
       if (balanceResult.error || subscriptionResult.error) {
         throw new CreditServiceError(
