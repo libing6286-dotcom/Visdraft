@@ -74,7 +74,7 @@ CMD ["sh", "-c", "\
     export GOOGLE_APPLICATION_CREDENTIALS=/app/apps/server/credentials/vertex-ai-service-account.json; \
   fi && \
   if [ \"$SERVICE_MODE\" = \"worker\" ]; then \
-    exec node --import tsx src/worker.ts; \
+    node --import tsx src/worker.ts; \
   else \
-    exec node --import tsx src/server.ts; \
+    node --import tsx src/server.ts; \
   fi"]
