@@ -13,6 +13,12 @@ import { buildApp } from "./app.js";
 import { loadServerEnv } from "./config/env.js";
 
 const env = loadServerEnv();
+console.log("[Config] Supabase env presence:", {
+  url: Boolean(env.supabaseUrl),
+  anonKey: Boolean(env.supabaseAnonKey),
+  serviceRoleKey: Boolean(env.supabaseServiceRoleKey),
+  jwtSecret: Boolean(env.supabaseJwtSecret),
+});
 const app = buildApp({
   env,
 });
