@@ -6,6 +6,7 @@ export const DEFAULT_GOOGLE_AGENT_MODEL = "google/gemini-2.5-flash";
 export const DEFAULT_DEEPSEEK_AGENT_MODEL = "deepseek-v4-flash";
 export const DEFAULT_SERVER_PORT = 3001;
 export const DEFAULT_WEB_ORIGIN = "http://localhost:3000";
+export const DEFAULT_PRODUCTION_WEB_ORIGIN = "https://visdraft.com";
 
 /**
  * Resolve the default agent model based on available provider configuration.
@@ -205,11 +206,14 @@ export function loadServerEnv(
         source.VISDRAFT_SERVER_PORT ?? source.LOOMIC_SERVER_PORT ?? source.PORT,
       ),
     version: overrides.version ?? readServerVersion(),
-    webOrigin:
+    webOrigin: normalizeWebOrigin(
       overrides.webOrigin ??
-      source.VISDRAFT_WEB_ORIGIN ??
-      source.LOOMIC_WEB_ORIGIN ??
-      DEFAULT_WEB_ORIGIN,
+        source.VISDRAFT_WEB_ORIGIN ??
+        source.LOOMIC_WEB_ORIGIN ??
+        (source.NODE_ENV === "production"
+          ? DEFAULT_PRODUCTION_WEB_ORIGIN
+          : DEFAULT_WEB_ORIGIN),
+    ),
     ...(agentFilesRoot ? { agentFilesRoot } : {}),
     ...(deepseekApiKey ? { deepseekApiKey } : {}),
     ...(googleApiKey ? { googleApiKey } : {}),
@@ -254,6 +258,11 @@ export function loadServerEnv(
     ...(workerPollIntervalMs ? { workerPollIntervalMs } : {}),
     ...(workerMaxBatchSize ? { workerMaxBatchSize } : {}),
   };
+}
+
+function normalizeWebOrigin(value: string) {
+  const origin = value.trim();
+  return origin.replace(/\/+$/, "");
 }
 
 function parseAgentBackendMode(rawMode: string | undefined): AgentBackendMode {
