@@ -1,15 +1,6 @@
 # ── Stage 1: Install dependencies ──────────────────────────────────
 FROM node:22-slim AS deps
 
-ARG SUPABASE_URL
-ENV SUPABASE_URL=$SUPABASE_URL
-ARG SUPABASE_ANON_KEY
-ENV SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY
-ARG SUPABASE_SERVICE_ROLE_KEY
-ENV SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY
-ARG VISDRAFT_WEB_ORIGIN
-ENV VISDRAFT_WEB_ORIGIN=$VISDRAFT_WEB_ORIGIN
-
 RUN corepack enable && corepack prepare pnpm@10.26.2 --activate
 
 WORKDIR /app
@@ -50,6 +41,20 @@ FROM node:22-slim AS production
 
 WORKDIR /app
 
+# Build arguments are stage-local. Re-declare the server configuration in the
+# runtime stage so the process receives the same values used during the image
+# build (deployment platforms may provide these as Docker build arguments).
+ARG SUPABASE_URL
+ENV SUPABASE_URL=$SUPABASE_URL
+ARG SUPABASE_ANON_KEY
+ENV SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY
+ARG SUPABASE_SERVICE_ROLE_KEY
+ENV SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY
+ARG SUPABASE_JWT_SECRET
+ENV SUPABASE_JWT_SECRET=$SUPABASE_JWT_SECRET
+ARG VISDRAFT_WEB_ORIGIN
+ENV VISDRAFT_WEB_ORIGIN=$VISDRAFT_WEB_ORIGIN
+
 # Copy everything from builder
 COPY --from=builder /app ./
 
@@ -74,10 +79,6 @@ COPY skills/ /opt/visdraft/skills/
 # SERVICE_MODE: "api" (default) or "worker"
 ENV SERVICE_MODE=api
 
-# 临时测试命令：打印出变量，再启动服务
-CMD ["sh", "-c", "echo \"[TEST] VISDRAFT_WEB_ORIGIN 实际值为: $VISDRAFT_WEB_ORIGIN\"; node --import tsx src/server.ts"]
-
-
 # Write Google service account JSON from env var to file (for Vertex AI auth in cloud).
 # Set GOOGLE_SERVICE_ACCOUNT_JSON in Railway/cloud env vars with the full JSON content.
 CMD ["sh", "-c", "\
@@ -87,7 +88,7 @@ CMD ["sh", "-c", "\
     export GOOGLE_APPLICATION_CREDENTIALS=/app/apps/server/credentials/vertex-ai-service-account.json; \
   fi && \
   if [ \"$SERVICE_MODE\" = \"worker\" ]; then \
-    node --import tsx src/worker.ts; \
+    exec node --import tsx src/worker.ts; \
   else \
-    node --import tsx src/server.ts; \
+    exec node --import tsx src/server.ts; \
   fi"]
