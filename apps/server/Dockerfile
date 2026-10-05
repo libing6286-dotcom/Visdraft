@@ -74,6 +74,10 @@ COPY skills/ /opt/visdraft/skills/
 # SERVICE_MODE: "api" (default) or "worker"
 ENV SERVICE_MODE=api
 
+# 临时测试命令：打印出变量，再启动服务
+CMD ["sh", "-c", "echo \"[TEST] VISDRAFT_WEB_ORIGIN 实际值为: $VISDRAFT_WEB_ORIGIN\"; node --import tsx src/server.ts"]
+
+
 # Write Google service account JSON from env var to file (for Vertex AI auth in cloud).
 # Set GOOGLE_SERVICE_ACCOUNT_JSON in Railway/cloud env vars with the full JSON content.
 CMD ["sh", "-c", "\
