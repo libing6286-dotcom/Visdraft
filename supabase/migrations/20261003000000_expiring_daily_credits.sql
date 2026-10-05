@@ -49,7 +49,7 @@ CREATE OR REPLACE FUNCTION public.deduct_credits(
   p_workspace_id uuid,
   p_user_id uuid,
   p_amount integer,
-  p_job_id uuid,
+  p_job_id uuid DEFAULT NULL,
   p_description text DEFAULT NULL
 ) RETURNS uuid
 LANGUAGE plpgsql
