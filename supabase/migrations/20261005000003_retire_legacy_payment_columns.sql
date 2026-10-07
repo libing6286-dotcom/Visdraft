@@ -1,0 +1,3 @@
+-- Legacy Lemon Squeezy and PayPal tables are no longer written by the app.
+-- Keep historical columns readable for old records; remove the dedicated
+-- PayPal order table after archival in a later operational migration.

@@ -65,7 +65,11 @@ export function useSubscription(): UseSubscriptionReturn {
     async (plan: string, billingPeriod: string) => {
       const token = accessTokenRef.current;
       if (!token) throw new Error("Not authenticated");
-      await apiChangePlan(token, plan, billingPeriod);
+      const result = await apiChangePlan(token, plan, billingPeriod);
+      if (result.checkoutUrl) {
+        window.location.assign(result.checkoutUrl);
+        return;
+      }
       await refresh();
     },
     [refresh],

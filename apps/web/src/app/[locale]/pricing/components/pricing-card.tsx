@@ -26,13 +26,17 @@ export function PricingCard({
   onCheckout,
   onPayPalCheckout,
 }: PricingCardProps) {
-  const price =
-    billingPeriod === "monthly" ? tier.monthlyPrice : tier.yearlyPrice;
+  const price = billingPeriod === "monthly"
+    ? tier.monthlyPrice
+    : billingPeriod === "yearly"
+      ? tier.yearlyPrice
+      : tier.lifetimePrice;
+  const credits = billingPeriod === "lifetime" ? tier.lifetimeCredits : tier.credits;
   const isCurrentPlan = currentPlan === tier.id;
   const [loading, setLoading] = useState(false);
 
   async function handleCheckout() {
-    if (!onCheckout || tier.id === "free" || tier.id === "business") return;
+    if (!onCheckout || tier.id === "free") return;
     setLoading(true);
     try {
       await onCheckout(tier.id, billingPeriod);
@@ -87,7 +91,7 @@ export function PricingCard({
         variant={tier.ctaVariant === "outline" ? "outline" : "default"}
         disabled={loading || (tier.id === "free" && !onCheckout)}
         onClick={
-          tier.id === "free" || tier.id === "business"
+          tier.id === "free"
             ? undefined
             : handleCheckout
         }
@@ -107,14 +111,14 @@ export function PricingCard({
           ? "shadow-card-hover z-10 scale-[1.02] border-2"
           : "shadow-card hover:shadow-card-hover border"
       }`}
-      style={
-        tier.highlighted
-          ? {
+      {...(tier.highlighted
+        ? {
+            style: {
               borderColor: "oklch(0.90 0.17 115)",
               boxShadow: "0 0 20px oklch(0.90 0.17 115 / 0.15)",
-            }
-          : undefined
-      }
+            },
+          }
+        : {})}
     >
       {/* Badge */}
       {tier.badge && (
@@ -143,7 +147,9 @@ export function PricingCard({
             <span className="text-foreground text-4xl font-bold">
               ${price}
             </span>
-            <span className="text-muted-foreground text-sm">/month</span>
+            <span className="text-muted-foreground text-sm">
+              /{billingPeriod === "monthly" ? "month" : billingPeriod === "yearly" ? "year" : "once"}
+            </span>
           </motion.div>
         </AnimatePresence>
         {billingPeriod === "yearly" && tier.yearlyPrice > 0 && (
@@ -152,7 +158,9 @@ export function PricingCard({
       </div>
 
       {/* Credit label */}
-      <p className="text-muted-foreground mt-2 text-sm">{tier.creditLabel}</p>
+      <p className="text-muted-foreground mt-2 text-sm">
+        {billingPeriod === "lifetime" ? `${credits.toLocaleString()} lifetime credits` : tier.creditLabel}
+      </p>
 
       {/* Divider */}
       <div className="bg-border my-5 h-px" />
@@ -169,7 +177,7 @@ export function PricingCard({
 
       {/* CTA */}
       <div className="mt-6">{renderCta()}</div>
-      {onPayPalCheckout && tier.id !== "free" && tier.id !== "business" && (
+      {onPayPalCheckout && tier.id !== "free" && (
         <button type="button" className="mt-2 w-full rounded-md border px-3 py-2 text-sm font-medium hover:bg-muted" onClick={() => void onPayPalCheckout(tier.id, billingPeriod)}>
           Pay with PayPal
         </button>

@@ -1,4 +1,4 @@
-// @credits-system — Payment API routes: checkout, subscription status, plan change, cancellation
+// @credits-system 鈥?Payment API routes: checkout, subscription status, plan change, cancellation
 import type { FastifyInstance, FastifyReply } from "fastify";
 import type { BillingPeriod, SubscriptionPlan } from "@visdraft/shared";
 import {
@@ -8,35 +8,58 @@ import {
   unauthenticatedErrorResponseSchema,
 } from "@visdraft/shared";
 
-import {
-  PaymentServiceError,
-  type PaymentService,
-} from "../features/payments/payment-service.js";
+import { PaymentServiceError } from "../features/payments/payment-errors.js";
 import type { ViewerService } from "../features/bootstrap/ensure-user-foundation.js";
 import type { RequestAuthenticator } from "../supabase/user.js";
-import type { PayPalClient } from "../features/payments/paypal-client.js";
 import { PLAN_CONFIGS } from "@visdraft/shared";
+import type { PaymentManager } from "../features/payments/payment-manager.js";
+import { createPaymentOrder, attachCheckoutSession } from "../features/payments/unified-payment-service.js";
+import { randomUUID } from "node:crypto";
 
 export async function registerPaymentRoutes(
   app: FastifyInstance,
   options: {
     auth: RequestAuthenticator;
-    paymentService?: PaymentService;
+    paymentManager?: PaymentManager;
+    getAdminClient?: any;
+    webOrigin?: string;
     viewerService: ViewerService;
   },
 ) {
-  // POST /api/payments/checkout — create a checkout session
+  // POST /api/payments/checkout 鈥?create a checkout session
   app.post("/api/payments/checkout", async (request, reply) => {
     try {
-      if (!options.paymentService) return reply.code(503).send({ error: { code: "payment_not_configured", message: "Lemon Squeezy subscriptions are not configured." } });
       const user = await options.auth.authenticate(request);
       if (!user) return sendUnauthenticated(reply);
+      const viewer = await options.viewerService.ensureViewer(user);
+      if (options.paymentManager && options.getAdminClient) {
+        const body = request.body as { plan?: string; billingPeriod?: string; provider?: string };
+        const planParsed = subscriptionPlanSchema.safeParse(body.plan);
+        const periodParsed = billingPeriodSchema.safeParse(body.billingPeriod);
+        if (!planParsed.success || !periodParsed.success || planParsed.data === "free") return reply.code(400).send({ error: { code: "invalid_request", message: "Invalid paid plan or billing period." } });
+        const plan = planParsed.data as SubscriptionPlan;
+        const period = periodParsed.data as BillingPeriod;
+        const config = PLAN_CONFIGS[plan];
+        const paymentType = period === "lifetime" ? "one-time" : "subscription";
+        const amount = Math.round((period === "lifetime" ? (plan === "starter" ? 149 : plan === "pro" ? 499 : 1999) : period === "yearly" ? (plan === "starter" ? 86 : plan === "pro" ? 278 : 950) : config.monthlyPrice) * 100);
+        const orderNo = `ord_${randomUUID()}`;
+        const provider = options.paymentManager.get(body.provider as any);
+        if (!provider) return reply.code(503).send({ error: { code: "payment_not_configured", message: "No payment provider configured." } });
+        const productId = `${plan}_${period}`;
+        const providerProductId = provider.name === "waffo" ? (provider as any).configuredProductId(productId) : productId;
+        if (provider.name === "waffo" && !providerProductId) return reply.code(503).send({ error: { code: "payment_not_configured", message: `Waffo product is not configured for ${productId}.` } });
+        await createPaymentOrder(options.getAdminClient(), { orderNo, workspaceId: viewer.workspace.id, userId: user.id, provider: provider.name, productId: providerProductId ?? productId, plan, billingPeriod: period, paymentType, amount, currency: "usd" });
+        const session = await provider.createCheckout({ orderNo, workspaceId: viewer.workspace.id, productId, plan, billingPeriod: period, paymentType, amount, currency: "usd", successUrl: `${options.webOrigin ?? "http://localhost:3000"}/pricing?payment=success&order_no=${orderNo}`, cancelUrl: `${options.webOrigin ?? "http://localhost:3000"}/pricing?payment=cancelled`, customerEmail: user.email });
+        await attachCheckoutSession(options.getAdminClient(), orderNo, session.providerSessionId, session.raw ?? {});
+        return reply.code(200).send({ checkoutUrl: session.checkoutUrl, orderNo, provider: provider.name });
+      }
+      if (!options.paymentManager || !options.getAdminClient) return reply.code(503).send({ error: { code: "payment_not_configured", message: "Payment service is not configured." } });
 
       const body = request.body as { plan?: string; billingPeriod?: string };
       const planParsed = subscriptionPlanSchema.safeParse(body.plan);
       const periodParsed = billingPeriodSchema.safeParse(body.billingPeriod);
 
-      if (!planParsed.success || !periodParsed.success) {
+      if (!planParsed.success || !periodParsed.success || periodParsed.data === "lifetime") {
         return reply.code(400).send(
           applicationErrorResponseSchema.parse({
             error: {
@@ -59,29 +82,22 @@ export async function registerPaymentRoutes(
         );
       }
 
-      const viewer = await options.viewerService.ensureViewer(user);
-      const result = await options.paymentService.createCheckout(
-        viewer.workspace.id,
-        planParsed.data as SubscriptionPlan,
-        periodParsed.data as BillingPeriod,
-      );
-
-      return reply.code(200).send({ checkoutUrl: result.checkoutUrl });
+      return reply.code(503).send({ error: { code: "payment_not_configured", message: "Payment service is not configured." } });
     } catch (error) {
       return sendPaymentError(error, reply, "checkout_failed");
     }
   });
 
-  // GET /api/payments/subscription — get current subscription status
+  // GET /api/payments/subscription 鈥?get current subscription status
   app.get("/api/payments/subscription", async (request, reply) => {
     try {
       const user = await options.auth.authenticate(request);
       if (!user) return sendUnauthenticated(reply);
 
       const viewer = await options.viewerService.ensureViewer(user);
-      const status = options.paymentService
-        ? await options.paymentService.getSubscriptionStatus(viewer.workspace.id)
-        : { plan: "free", billingPeriod: null, status: null, lemonSqueezySubscriptionId: null, currentPeriodEnd: null, canceledAt: null, customerPortalUrl: null };
+      const admin = options.getAdminClient?.();
+      const { data } = admin ? await admin.from("subscriptions").select("plan, billing_period, payment_provider, provider_subscription_id, current_period_end, canceled_at").eq("workspace_id", viewer.workspace.id).maybeSingle() : { data: null };
+      const status = { plan: data?.plan ?? "free", billingPeriod: data?.billing_period ?? null, status: data?.provider_subscription_id || (data?.plan && data.plan !== "free") ? "active" : null, provider: data?.payment_provider ?? null, providerSubscriptionId: data?.provider_subscription_id ?? null, currentPeriodEnd: data?.current_period_end ?? null, canceledAt: data?.canceled_at ?? null };
 
       return reply.code(200).send(status);
     } catch (error) {
@@ -89,26 +105,29 @@ export async function registerPaymentRoutes(
     }
   });
 
-  // POST /api/payments/cancel — cancel subscription at period end
+  // POST /api/payments/cancel 鈥?cancel subscription at period end
   app.post("/api/payments/cancel", async (request, reply) => {
     try {
-      if (!options.paymentService) return reply.code(503).send({ error: { code: "payment_not_configured", message: "Lemon Squeezy subscriptions are not configured." } });
+      if (!options.paymentManager) return reply.code(503).send({ error: { code: "payment_not_configured", message: "Payment service is not configured." } });
       const user = await options.auth.authenticate(request);
       if (!user) return sendUnauthenticated(reply);
 
       const viewer = await options.viewerService.ensureViewer(user);
-      await options.paymentService.cancelSubscription(viewer.workspace.id);
-
+      const admin = options.getAdminClient?.();
+      const { data: subscription } = admin ? await admin.from("subscriptions").select("payment_provider, provider_subscription_id").eq("workspace_id", viewer.workspace.id).maybeSingle() : { data: null };
+      if (!subscription?.payment_provider || !subscription.provider_subscription_id) return reply.code(404).send({ error: { code: "subscription_not_found", message: "No active provider subscription found." } });
+      await options.paymentManager.cancel(subscription.payment_provider, subscription.provider_subscription_id);
+      await admin.from("subscriptions").update({ canceled_at: new Date().toISOString(), status: "pending_cancel", updated_at: new Date().toISOString() }).eq("workspace_id", viewer.workspace.id);
       return reply.code(200).send({ success: true });
     } catch (error) {
       return sendPaymentError(error, reply, "subscription_update_failed");
     }
   });
 
-  // POST /api/payments/change-plan — change to a different plan
+  // POST /api/payments/change-plan 鈥?change to a different plan
   app.post("/api/payments/change-plan", async (request, reply) => {
     try {
-      if (!options.paymentService) return reply.code(503).send({ error: { code: "payment_not_configured", message: "Lemon Squeezy subscriptions are not configured." } });
+      if (!options.paymentManager) return reply.code(503).send({ error: { code: "payment_not_configured", message: "Payment service is not configured." } });
       const user = await options.auth.authenticate(request);
       if (!user) return sendUnauthenticated(reply);
 
@@ -116,7 +135,7 @@ export async function registerPaymentRoutes(
       const planParsed = subscriptionPlanSchema.safeParse(body.plan);
       const periodParsed = billingPeriodSchema.safeParse(body.billingPeriod);
 
-      if (!planParsed.success || !periodParsed.success) {
+      if (!planParsed.success || !periodParsed.success || periodParsed.data === "lifetime") {
         return reply.code(400).send(
           applicationErrorResponseSchema.parse({
             error: {
@@ -141,68 +160,18 @@ export async function registerPaymentRoutes(
       }
 
       const viewer = await options.viewerService.ensureViewer(user);
-      await options.paymentService.changePlan(
-        viewer.workspace.id,
-        planParsed.data as SubscriptionPlan,
-        periodParsed.data as BillingPeriod,
-      );
-
-      return reply.code(200).send({ success: true });
+      const admin = options.getAdminClient?.();
+      const { data: subscription } = admin ? await admin.from("subscriptions").select("payment_provider, provider_subscription_id").eq("workspace_id", viewer.workspace.id).maybeSingle() : { data: null };
+      if (!subscription?.payment_provider || !subscription.provider_subscription_id) return reply.code(404).send({ error: { code: "subscription_not_found", message: "No active provider subscription found." } });
+      const result = await options.paymentManager.change(subscription.payment_provider, subscription.provider_subscription_id, { productId: `${planParsed.data}_${periodParsed.data}`, plan: planParsed.data, billingPeriod: periodParsed.data });
+      return reply.code(200).send({ success: true, ...(result && typeof result === "object" && "checkoutUrl" in result ? { checkoutUrl: result.checkoutUrl } : {}) });
     } catch (error) {
       return sendPaymentError(error, reply, "subscription_update_failed");
     }
   });
 }
 
-export async function registerPayPalRoutes(app: FastifyInstance, options: { auth: RequestAuthenticator; paypal: PayPalClient; viewerService: ViewerService; getAdminClient: any; currency: string; webOrigin: string }) {
-  app.post("/api/payments/paypal/create-order", async (request, reply) => {
-    try {
-      const user = await options.auth.authenticate(request);
-      if (!user) return sendUnauthenticated(reply);
-      const body = request.body as { plan?: string; billingPeriod?: string };
-      const plan = body.plan as keyof typeof PLAN_CONFIGS;
-      const period = body.billingPeriod === "yearly" ? "yearly" : body.billingPeriod === "monthly" ? "monthly" : null;
-      if (!period || !plan || plan === "free" || !PLAN_CONFIGS[plan]) return reply.code(400).send({ error: { code: "invalid_request", message: "Invalid plan or billing period." } });
-      const viewer = await options.viewerService.ensureViewer(user);
-      // PayPal single-purchase checkout charges the displayed monthly amount,
-      // including when the pricing toggle is set to yearly. Lemon Squeezy keeps
-      // its separate annual subscription pricing unchanged.
-      const amount = PLAN_CONFIGS[plan].monthlyPrice.toFixed(2);
-      const customId = `${viewer.workspace.id}:${plan}:${period}`;
-      const order = await options.paypal.createOrder({ amount, currency: options.currency, customId, returnUrl: `${options.webOrigin}/pricing?paypal=success`, cancelUrl: `${options.webOrigin}/pricing?paypal=cancelled` });
-      const { error } = await options.getAdminClient().from("paypal_orders").upsert({ paypal_order_id: order.id, workspace_id: viewer.workspace.id, plan, billing_period: period, amount, currency: options.currency }, { onConflict: "paypal_order_id", ignoreDuplicates: true });
-      if (error) throw new Error(`Failed to save PayPal order: ${error.message}`);
-      return reply.send({ orderId: order.id, approveUrl: order.approveUrl });
-    } catch (error) {
-      console.error("[PayPal] Create order failed:", error);
-      return reply.code(502).send({ error: { code: "paypal_order_failed", message: error instanceof Error ? error.message : "PayPal order creation failed." } });
-    }
-  });
-
-  app.post("/api/payments/paypal/capture-order", async (request, reply) => {
-    const user = await options.auth.authenticate(request);
-    if (!user) return sendUnauthenticated(reply);
-    const orderId = (request.body as { orderId?: string }).orderId;
-    if (!orderId) return reply.code(400).send({ error: { code: "invalid_request", message: "orderId is required." } });
-    const viewer = await options.viewerService.ensureViewer(user);
-    const admin = options.getAdminClient();
-    const { data: row } = await admin.from("paypal_orders").select("*").eq("paypal_order_id", orderId).eq("workspace_id", viewer.workspace.id).maybeSingle();
-    if (!row) return reply.code(404).send({ error: { code: "order_not_found", message: "PayPal order not found." } });
-    if (row.status === "completed") return reply.send({ success: true, status: "COMPLETED" });
-    const captured = await options.paypal.captureOrder(orderId);
-    if (captured.status !== "COMPLETED" || captured.amount !== Number(row.amount).toFixed(2) || captured.currency !== row.currency) return reply.code(400).send({ error: { code: "payment_verification_failed", message: "PayPal payment could not be verified." } });
-    const credits = PLAN_CONFIGS[row.plan as keyof typeof PLAN_CONFIGS].monthlyCredits * (row.billing_period === "yearly" ? 12 : 1);
-    const { data: balance } = await admin.from("credit_balances").select("balance,version").eq("workspace_id", viewer.workspace.id).maybeSingle();
-    const next = (balance?.balance ?? 0) + credits;
-    if (balance) await admin.from("credit_balances").update({ balance: next, version: (balance.version ?? 0) + 1, updated_at: new Date().toISOString() }).eq("workspace_id", viewer.workspace.id);
-    else await admin.from("credit_balances").insert({ workspace_id: viewer.workspace.id, balance: credits, version: 1 });
-    await admin.from("credit_transactions").insert({ workspace_id: viewer.workspace.id, transaction_type: "purchase", amount: credits, balance_after: next, description: `PayPal ${row.plan} ${row.billing_period} purchase` });
-    await admin.from("paypal_orders").update({ status: "completed", processed_at: new Date().toISOString() }).eq("paypal_order_id", orderId);
-    return reply.send({ success: true, status: captured.status, credits });
-  });
-}
-
-// ── Helpers ──────────────────────────────────────────────────
+// 鈹€鈹€ Helpers 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 
 function sendUnauthenticated(reply: FastifyReply) {
   return reply.code(401).send(

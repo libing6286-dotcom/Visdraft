@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Script from "next/script";
 import { Geist } from "next/font/google";
 
 import { defaultLocale } from "@/i18n/routing";
@@ -37,10 +36,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     >
       <body className="min-h-screen bg-background font-sans antialiased">
         {children}
-        <Script
-          src="https://app.lemonsqueezy.com/js/lemon.js"
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   );

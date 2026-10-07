@@ -4,9 +4,10 @@ import { randomUUID } from "node:crypto";
 export type PayPalClient = {
   createOrder(input: { amount: string; currency: string; customId: string; returnUrl: string; cancelUrl: string }): Promise<{ id: string; approveUrl: string }>;
   captureOrder(orderId: string): Promise<{ id: string; status: string; amount: string; currency: string; customId?: string | undefined }>;
+  verifyWebhook(input: { event: unknown; headers: Record<string, string>; webhookId: string }): Promise<boolean>;
 };
 
-export function createPayPalClient(options: { clientId: string; clientSecret: string; environment?: string }): PayPalClient {
+export function createPayPalClient(options: { clientId: string; clientSecret: string; environment?: string; webhookId?: string }): PayPalClient {
   const base = options.environment === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
   const checkoutBase = options.environment === "live" ? "https://www.paypal.com" : "https://www.sandbox.paypal.com";
   let token: { value: string; expiresAt: number } | null = null;
@@ -38,6 +39,11 @@ export function createPayPalClient(options: { clientId: string; clientSecret: st
       const unit = body.purchase_units?.[0];
       const capture = unit?.payments?.captures?.[0];
       return { id: body.id as string, status: body.status as string, amount: capture?.amount?.value as string, currency: capture?.amount?.currency_code as string, customId: unit?.custom_id as string | undefined };
+    },
+    async verifyWebhook(input) {
+      const response = await request(`${base}/v1/notifications/verify-webhook-signature`, { method: "POST", headers: { Authorization: `Bearer ${await accessToken()}`, "Content-Type": "application/json" }, body: JSON.stringify({ auth_algo: input.headers["paypal-auth-algo"], cert_url: input.headers["paypal-cert-url"], transmission_id: input.headers["paypal-transmission-id"], transmission_sig: input.headers["paypal-transmission-sig"], transmission_time: input.headers["paypal-transmission-time"], webhook_id: input.webhookId, webhook_event: input.event }) });
+      const body = await response.body.json() as { verification_status?: string };
+      return response.statusCode < 400 && body.verification_status === "SUCCESS";
     },
   };
 }

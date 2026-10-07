@@ -54,21 +54,31 @@ export type ServerEnv = {
   version: string;
   volcesApiKey?: string;
   volcesBaseUrl?: string;
-  lemonSqueezyApiKey?: string;
-  lemonSqueezyStoreId?: string;
-  lemonSqueezyWebhookSecret?: string;
-  lemonSqueezyVariantStarterMonthly?: string;
-  lemonSqueezyVariantStarterYearly?: string;
-  lemonSqueezyVariantProMonthly?: string;
-  lemonSqueezyVariantProYearly?: string;
-  lemonSqueezyVariantUltraMonthly?: string;
-  lemonSqueezyVariantUltraYearly?: string;
-  lemonSqueezyVariantBusinessMonthly?: string;
-  lemonSqueezyVariantBusinessYearly?: string;
   paypalClientId?: string;
   paypalClientSecret?: string;
   paypalEnvironment?: "sandbox" | "live";
   paypalCurrency?: string;
+  paypalWebhookId?: string;
+  paymentDefaultProvider?: "stripe" | "creem" | "paypal" | "waffo" | "alipay" | "wechat";
+  paymentSelectEnabled?: boolean;
+  stripeSecretKey?: string;
+  stripeWebhookSecret?: string;
+  creemApiKey?: string;
+  creemWebhookSecret?: string;
+  waffoMerchantId?: string;
+  waffoPrivateKey?: string;
+  waffoStoreId?: string;
+  waffoWebhookPublicKey?: string;
+  waffoEnvironment?: "test" | "prod";
+  waffoProducts?: Partial<Record<"starter_monthly" | "starter_yearly" | "starter_lifetime" | "pro_monthly" | "pro_yearly" | "pro_lifetime" | "ultra_monthly" | "ultra_yearly" | "ultra_lifetime" | "business_monthly" | "business_yearly" | "business_lifetime", string>>;
+  alipayAppId?: string;
+  alipayPrivateKey?: string;
+  alipayPublicKey?: string;
+  wechatAppId?: string;
+  wechatMchId?: string;
+  wechatApiV3Key?: string;
+  wechatPrivateKey?: string;
+  wechatSerialNo?: string;
   skillsRoot?: string;
   webOrigin: string;
   workerConcurrency?: number;
@@ -131,32 +141,37 @@ export function loadServerEnv(
     overrides.volcesApiKey ?? normalizeOptionalString(source.VOLCES_API_KEY);
   const volcesBaseUrl =
     overrides.volcesBaseUrl ?? normalizeOptionalString(source.VOLCES_BASE_URL);
-  const lemonSqueezyApiKey =
-    overrides.lemonSqueezyApiKey ?? normalizeOptionalString(source.LEMONSQUEEZY_API_KEY);
-  const lemonSqueezyStoreId =
-    overrides.lemonSqueezyStoreId ?? normalizeOptionalString(source.LEMONSQUEEZY_STORE_ID);
-  const lemonSqueezyWebhookSecret =
-    overrides.lemonSqueezyWebhookSecret ?? normalizeOptionalString(source.LEMONSQUEEZY_WEBHOOK_SECRET);
-  const lemonSqueezyVariantStarterMonthly =
-    overrides.lemonSqueezyVariantStarterMonthly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_STARTER_MONTHLY);
-  const lemonSqueezyVariantStarterYearly =
-    overrides.lemonSqueezyVariantStarterYearly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_STARTER_YEARLY);
-  const lemonSqueezyVariantProMonthly =
-    overrides.lemonSqueezyVariantProMonthly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_PRO_MONTHLY);
-  const lemonSqueezyVariantProYearly =
-    overrides.lemonSqueezyVariantProYearly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_PRO_YEARLY);
-  const lemonSqueezyVariantUltraMonthly =
-    overrides.lemonSqueezyVariantUltraMonthly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_ULTRA_MONTHLY);
-  const lemonSqueezyVariantUltraYearly =
-    overrides.lemonSqueezyVariantUltraYearly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_ULTRA_YEARLY);
-  const lemonSqueezyVariantBusinessMonthly =
-    overrides.lemonSqueezyVariantBusinessMonthly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_BUSINESS_MONTHLY);
-  const lemonSqueezyVariantBusinessYearly =
-    overrides.lemonSqueezyVariantBusinessYearly ?? normalizeOptionalString(source.LEMONSQUEEZY_VARIANT_BUSINESS_YEARLY);
   const paypalClientId = overrides.paypalClientId ?? normalizeOptionalString(source.PAYPAL_CLIENT_ID);
   const paypalClientSecret = overrides.paypalClientSecret ?? normalizeOptionalString(source.PAYPAL_CLIENT_SECRET);
   const paypalEnvironment = overrides.paypalEnvironment ?? (source.PAYPAL_ENVIRONMENT === "live" ? "live" : "sandbox");
   const paypalCurrency = overrides.paypalCurrency ?? normalizeOptionalString(source.PAYPAL_CURRENCY) ?? "USD";
+  const paypalWebhookId = overrides.paypalWebhookId ?? normalizeOptionalString(source.PAYPAL_WEBHOOK_ID);
+  const paymentDefaultProvider = overrides.paymentDefaultProvider ??
+    (source.PAYMENT_DEFAULT_PROVIDER as ServerEnv["paymentDefaultProvider"] | undefined);
+  const paymentSelectEnabled = overrides.paymentSelectEnabled ?? source.PAYMENT_SELECT_ENABLED === "true";
+  const stripeSecretKey = overrides.stripeSecretKey ?? normalizeOptionalString(source.STRIPE_SECRET_KEY);
+  const stripeWebhookSecret = overrides.stripeWebhookSecret ?? normalizeOptionalString(source.STRIPE_WEBHOOK_SECRET);
+  const creemApiKey = overrides.creemApiKey ?? normalizeOptionalString(source.CREEM_API_KEY);
+  const creemWebhookSecret = overrides.creemWebhookSecret ?? normalizeOptionalString(source.CREEM_WEBHOOK_SECRET);
+  const waffoMerchantId = overrides.waffoMerchantId ?? normalizeOptionalString(source.WAFFO_MERCHANT_ID);
+  const waffoPrivateKey = overrides.waffoPrivateKey ?? normalizeOptionalString(source.WAFFO_PRIVATE_KEY)?.replace(/\\n/g, "\n");
+  const waffoStoreId = overrides.waffoStoreId ?? normalizeOptionalString(source.WAFFO_STORE_ID);
+  const waffoWebhookPublicKey = overrides.waffoWebhookPublicKey ?? normalizeOptionalString(source.WAFFO_WEBHOOK_PUBLIC_KEY);
+  const waffoEnvironment = overrides.waffoEnvironment ?? (source.WAFFO_ENVIRONMENT === "prod" ? "prod" : "test");
+  const waffoProducts = overrides.waffoProducts ?? Object.fromEntries(
+    (["starter", "pro", "ultra", "business"] as const).flatMap((plan) => (["monthly", "yearly", "lifetime"] as const).flatMap((period) => {
+      const value = normalizeOptionalString(source[`WAFFO_PRODUCT_${plan.toUpperCase()}_${period.toUpperCase()}`]);
+      return value ? [[`${plan}_${period}`, value]] : [];
+    })),
+  );
+  const alipayAppId = overrides.alipayAppId ?? normalizeOptionalString(source.ALIPAY_APP_ID);
+  const alipayPrivateKey = overrides.alipayPrivateKey ?? normalizeOptionalString(source.ALIPAY_PRIVATE_KEY);
+  const alipayPublicKey = overrides.alipayPublicKey ?? normalizeOptionalString(source.ALIPAY_PUBLIC_KEY);
+  const wechatAppId = overrides.wechatAppId ?? normalizeOptionalString(source.WECHAT_APP_ID);
+  const wechatMchId = overrides.wechatMchId ?? normalizeOptionalString(source.WECHAT_MCH_ID);
+  const wechatApiV3Key = overrides.wechatApiV3Key ?? normalizeOptionalString(source.WECHAT_API_V3_KEY);
+  const wechatPrivateKey = overrides.wechatPrivateKey ?? normalizeOptionalString(source.WECHAT_PRIVATE_KEY);
+  const wechatSerialNo = overrides.wechatSerialNo ?? normalizeOptionalString(source.WECHAT_SERIAL_NO);
   const skillsRoot =
     overrides.skillsRoot ??
     normalizeOptionalString(
@@ -235,21 +250,31 @@ export function loadServerEnv(
     ...(replicateApiToken ? { replicateApiToken } : {}),
     ...(volcesApiKey ? { volcesApiKey } : {}),
     ...(volcesBaseUrl ? { volcesBaseUrl } : {}),
-    ...(lemonSqueezyApiKey ? { lemonSqueezyApiKey } : {}),
-    ...(lemonSqueezyStoreId ? { lemonSqueezyStoreId } : {}),
-    ...(lemonSqueezyWebhookSecret ? { lemonSqueezyWebhookSecret } : {}),
-    ...(lemonSqueezyVariantStarterMonthly ? { lemonSqueezyVariantStarterMonthly } : {}),
-    ...(lemonSqueezyVariantStarterYearly ? { lemonSqueezyVariantStarterYearly } : {}),
-    ...(lemonSqueezyVariantProMonthly ? { lemonSqueezyVariantProMonthly } : {}),
-    ...(lemonSqueezyVariantProYearly ? { lemonSqueezyVariantProYearly } : {}),
-    ...(lemonSqueezyVariantUltraMonthly ? { lemonSqueezyVariantUltraMonthly } : {}),
-    ...(lemonSqueezyVariantUltraYearly ? { lemonSqueezyVariantUltraYearly } : {}),
-    ...(lemonSqueezyVariantBusinessMonthly ? { lemonSqueezyVariantBusinessMonthly } : {}),
-    ...(lemonSqueezyVariantBusinessYearly ? { lemonSqueezyVariantBusinessYearly } : {}),
     ...(paypalClientId ? { paypalClientId } : {}),
     ...(paypalClientSecret ? { paypalClientSecret } : {}),
     paypalEnvironment,
     paypalCurrency,
+    ...(paypalWebhookId ? { paypalWebhookId } : {}),
+    ...(paymentDefaultProvider ? { paymentDefaultProvider } : {}),
+    paymentSelectEnabled,
+    ...(stripeSecretKey ? { stripeSecretKey } : {}),
+    ...(stripeWebhookSecret ? { stripeWebhookSecret } : {}),
+    ...(creemApiKey ? { creemApiKey } : {}),
+    ...(creemWebhookSecret ? { creemWebhookSecret } : {}),
+    ...(waffoMerchantId ? { waffoMerchantId } : {}),
+    ...(waffoPrivateKey ? { waffoPrivateKey } : {}),
+    ...(waffoStoreId ? { waffoStoreId } : {}),
+    ...(waffoWebhookPublicKey ? { waffoWebhookPublicKey } : {}),
+    waffoEnvironment,
+    ...(Object.keys(waffoProducts).length ? { waffoProducts } : {}),
+    ...(alipayAppId ? { alipayAppId } : {}),
+    ...(alipayPrivateKey ? { alipayPrivateKey } : {}),
+    ...(alipayPublicKey ? { alipayPublicKey } : {}),
+    ...(wechatAppId ? { wechatAppId } : {}),
+    ...(wechatMchId ? { wechatMchId } : {}),
+    ...(wechatApiV3Key ? { wechatApiV3Key } : {}),
+    ...(wechatPrivateKey ? { wechatPrivateKey } : {}),
+    ...(wechatSerialNo ? { wechatSerialNo } : {}),
     ...(skillsRoot ? { skillsRoot } : {}),
     ...(workerConcurrency ? { workerConcurrency } : {}),
     ...(workerImageConcurrency ? { workerImageConcurrency } : {}),

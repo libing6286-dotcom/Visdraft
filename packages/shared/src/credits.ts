@@ -12,7 +12,7 @@ export const subscriptionPlanSchema = z.enum([
 ]);
 export type SubscriptionPlan = z.infer<typeof subscriptionPlanSchema>;
 
-export const billingPeriodSchema = z.enum(["monthly", "yearly"]);
+export const billingPeriodSchema = z.enum(["monthly", "yearly", "lifetime"]);
 export type BillingPeriod = z.infer<typeof billingPeriodSchema>;
 
 export const creditTransactionTypeSchema = z.enum([
@@ -74,7 +74,7 @@ export const PLAN_CONFIGS: Record<SubscriptionPlan, PlanConfig> = {
   },
   starter: {
     plan: "starter",
-    monthlyCredits: 1200,
+    monthlyCredits: 5000,
     dailyCredits: 0,
     maxConcurrentJobs: 2,
     maxResolution: "standard",
@@ -82,12 +82,12 @@ export const PLAN_CONFIGS: Record<SubscriptionPlan, PlanConfig> = {
     maxProjects: 10,
     maxBrandKits: 3,
     watermark: false,
-    monthlyPrice: 12,
-    yearlyPrice: 9,
+    monthlyPrice: 9,
+    yearlyPrice: 86,
   },
   pro: {
     plan: "pro",
-    monthlyCredits: 5000,
+    monthlyCredits: 50000,
     dailyCredits: 0,
     maxConcurrentJobs: 4,
     maxResolution: "hd",
@@ -95,8 +95,8 @@ export const PLAN_CONFIGS: Record<SubscriptionPlan, PlanConfig> = {
     maxProjects: 50,
     maxBrandKits: 10,
     watermark: false,
-    monthlyPrice: 39,
-    yearlyPrice: 29,
+    monthlyPrice: 29,
+    yearlyPrice: 278,
   },
   ultra: {
     plan: "ultra",
@@ -113,7 +113,7 @@ export const PLAN_CONFIGS: Record<SubscriptionPlan, PlanConfig> = {
   },
   business: {
     plan: "business",
-    monthlyCredits: 50000,
+    monthlyCredits: 500000,
     dailyCredits: 0,
     maxConcurrentJobs: 12,
     maxResolution: "ultra",
@@ -121,8 +121,8 @@ export const PLAN_CONFIGS: Record<SubscriptionPlan, PlanConfig> = {
     maxProjects: -1, // unlimited
     maxBrandKits: 100,
     watermark: false,
-    monthlyPrice: 249,
-    yearlyPrice: 199,
+    monthlyPrice: 99,
+    yearlyPrice: 950,
   },
 };
 

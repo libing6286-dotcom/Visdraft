@@ -11,6 +11,7 @@ interface PricingToggleProps {
 const options: { key: BillingPeriod; label: string }[] = [
   { key: "monthly", label: "月付" },
   { key: "yearly", label: "年付" },
+  { key: "lifetime", label: "Lifetime" },
 ];
 
 export function PricingToggle({ value, onChange }: PricingToggleProps) {

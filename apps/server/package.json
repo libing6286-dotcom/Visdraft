@@ -18,6 +18,7 @@
     "@langchain/openai": "^1.4.7",
     "@supabase/supabase-js": "^2.57.0",
     "@visdraft/shared": "workspace:*",
+    "@waffo/pancake-ts": "^0.25.0",
     "deepagents": "^1.8.4",
     "fastify": "^5.2.1",
     "google-auth-library": "^10.6.2",

@@ -18,13 +18,7 @@ interface CreditInsufficientDialogProps {
   onClaimDaily?: () => Promise<void>;
 }
 
-function openLemonCheckout(url: string) {
-  if (window.LemonSqueezy?.Url?.Open) {
-    window.LemonSqueezy.Url.Open(url);
-  } else {
-    window.open(url, "_blank");
-  }
-}
+function openCheckout(url: string) { window.location.href = url; }
 
 export function CreditInsufficientDialog({
   open,
@@ -55,7 +49,7 @@ export function CreditInsufficientDialog({
       // Default to Pro monthly as the recommended upgrade path
       const { checkoutUrl } = await createCheckout(token, "pro", "monthly");
       onClose();
-      openLemonCheckout(checkoutUrl);
+      openCheckout(checkoutUrl);
     } catch {
       // Fallback to pricing page on error
       window.location.href = "/pricing";

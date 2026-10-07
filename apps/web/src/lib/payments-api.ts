@@ -10,7 +10,8 @@ export type SubscriptionStatus = {
   plan: SubscriptionPlan;
   billingPeriod: BillingPeriod | null;
   status: string | null;
-  lemonSqueezySubscriptionId: string | null;
+  provider: string | null;
+  providerSubscriptionId: string | null;
   currentPeriodEnd: string | null;
   canceledAt: string | null;
   customerPortalUrl: string | null;
@@ -45,38 +46,15 @@ export async function createCheckout(
   accessToken: string,
   plan: string,
   billingPeriod: string,
+  provider?: string,
 ): Promise<{ checkoutUrl: string }> {
   const response = await fetch(`${getServerBaseUrl()}/api/payments/checkout`, {
     method: "POST",
     headers: authJsonHeaders(accessToken),
-    body: JSON.stringify({ plan, billingPeriod }),
+    body: JSON.stringify({ plan, billingPeriod, ...(provider ? { provider } : {}) }),
   });
   if (!response.ok) return handleErrorResponse(response);
   return (await response.json()) as { checkoutUrl: string };
-}
-
-export async function createPayPalOrder(
-  accessToken: string,
-  plan: string,
-  billingPeriod: string,
-): Promise<{ orderId: string; approveUrl: string }> {
-  const response = await fetch(`${getServerBaseUrl()}/api/payments/paypal/create-order`, {
-    method: "POST",
-    headers: authJsonHeaders(accessToken),
-    body: JSON.stringify({ plan, billingPeriod }),
-  });
-  if (!response.ok) return handleErrorResponse(response);
-  return (await response.json()) as { orderId: string; approveUrl: string };
-}
-
-export async function capturePayPalOrder(accessToken: string, orderId: string): Promise<{ success: boolean; credits?: number }> {
-  const response = await fetch(`${getServerBaseUrl()}/api/payments/paypal/capture-order`, {
-    method: "POST",
-    headers: authJsonHeaders(accessToken),
-    body: JSON.stringify({ orderId }),
-  });
-  if (!response.ok) return handleErrorResponse(response);
-  return (await response.json()) as { success: boolean; credits?: number };
 }
 
 export async function getSubscription(
@@ -104,7 +82,7 @@ export async function changePlan(
   accessToken: string,
   plan: string,
   billingPeriod: string,
-): Promise<void> {
+): Promise<{ checkoutUrl?: string }> {
   const response = await fetch(
     `${getServerBaseUrl()}/api/payments/change-plan`,
     {
@@ -114,4 +92,5 @@ export async function changePlan(
     },
   );
   if (!response.ok) return handleErrorResponse(response);
+  return response.json();
 }

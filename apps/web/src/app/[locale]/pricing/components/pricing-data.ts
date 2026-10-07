@@ -2,7 +2,7 @@
 // Visdraft Pricing Data
 // ---------------------------------------------------------------------------
 
-export type BillingPeriod = "monthly" | "yearly";
+export type BillingPeriod = "monthly" | "yearly" | "lifetime";
 
 export interface PricingTier {
   id: string;
@@ -10,8 +10,10 @@ export interface PricingTier {
   nameEn: string;
   description: string;
   monthlyPrice: number;
-  yearlyPrice: number; // per month
+  yearlyPrice: number; // annual total
+  lifetimePrice: number;
   credits: number;
+  lifetimeCredits: number;
   creditLabel: string;
   badge?: string;
   highlighted?: boolean;
@@ -47,7 +49,9 @@ export const pricingTiers: PricingTier[] = [
     description: "体验 AI 创作的魔力",
     monthlyPrice: 0,
     yearlyPrice: 0,
+    lifetimePrice: 0,
     credits: 1500,
+    lifetimeCredits: 0,
     creditLabel: "50 积分/天",
     features: [
       "3 款基础图片模型",
@@ -64,10 +68,12 @@ export const pricingTiers: PricingTier[] = [
     name: "Starter",
     nameEn: "Starter",
     description: "个人创作者的起点",
-    monthlyPrice: 12,
-    yearlyPrice: 9,
-    credits: 1200,
-    creditLabel: "1,200 积分/月",
+    monthlyPrice: 9,
+    yearlyPrice: 86,
+    lifetimePrice: 149,
+    credits: 5000,
+    lifetimeCredits: 100000,
+    creditLabel: "5,000 credits/month",
     features: [
       "全部图片模型",
       "2 款基础视频模型",
@@ -84,10 +90,12 @@ export const pricingTiers: PricingTier[] = [
     name: "Pro",
     nameEn: "Pro",
     description: "专业设计师的首选",
-    monthlyPrice: 39,
-    yearlyPrice: 29,
-    credits: 5000,
-    creditLabel: "5,000 积分/月",
+    monthlyPrice: 29,
+    yearlyPrice: 278,
+    lifetimePrice: 499,
+    credits: 50000,
+    lifetimeCredits: 1000000,
+    creditLabel: "50,000 credits/month",
     badge: "最受欢迎",
     highlighted: true,
     features: [
@@ -103,14 +111,16 @@ export const pricingTiers: PricingTier[] = [
     ctaVariant: "accent",
   },
   {
-    id: "ultra",
-    name: "Ultra",
-    nameEn: "Ultra",
+    id: "business",
+    name: "Enterprise",
+    nameEn: "Enterprise",
     description: "团队与高产出工作室",
     monthlyPrice: 99,
-    yearlyPrice: 79,
-    credits: 15000,
-    creditLabel: "15,000 积分/月",
+    yearlyPrice: 950,
+    lifetimePrice: 1999,
+    credits: 500000,
+    lifetimeCredits: 10000000,
+    creditLabel: "500,000 credits/month",
     badge: "最划算",
     features: [
       "一切 Pro 功能",
@@ -122,30 +132,8 @@ export const pricingTiers: PricingTier[] = [
       "API 接入 (Beta)",
       "优先邮件支持",
     ],
-    cta: "选择 Ultra",
+    cta: "Choose Enterprise",
     ctaVariant: "default",
-  },
-  {
-    id: "business",
-    name: "Business",
-    nameEn: "Business",
-    description: "规模化创意生产",
-    monthlyPrice: 249,
-    yearlyPrice: 199,
-    credits: 50000,
-    creditLabel: "50,000 积分/月",
-    features: [
-      "一切 Ultra 功能",
-      "12 个并发任务",
-      "无限项目",
-      "100 个品牌套件",
-      "10+ 团队席位",
-      "完整 API 接入",
-      "专属客户经理",
-      "SLA 保障",
-    ],
-    cta: "联系销售",
-    ctaVariant: "outline",
   },
 ];
 

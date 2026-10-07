@@ -60,16 +60,9 @@ import {
   createJobService,
   type JobService,
 } from "./features/jobs/job-service.js";
-import { createLemonSqueezyClient } from "./features/payments/lemon-squeezy-client.js";
-import {
-  createPaymentService,
-  buildVariantMap,
-  type PaymentService,
-} from "./features/payments/payment-service.js";
 import { registerPaymentRoutes } from "./http/payments.js";
-import { registerPayPalRoutes } from "./http/payments.js";
-import { createPayPalClient } from "./features/payments/paypal-client.js";
-import { registerPaymentWebhookRoute } from "./http/payments-webhook.js";
+import { registerUnifiedPaymentWebhookRoute } from "./http/payment-webhook-unified.js";
+import { createConfiguredPaymentManager } from "./features/payments/configured-providers.js";
 import { registerCreditRoutes } from "./http/credits.js";
 import { registerFontsRoutes } from "./http/fonts.js";
 import { registerJobRoutes } from "./http/jobs.js";
@@ -112,7 +105,6 @@ export type BuildAppOptions = {
   creditService?: CreditService;
   env?: Partial<ServerEnv>;
   jobService?: JobService;
-  paymentService?: PaymentService;
   tierGuard?: TierGuard;
   uploadService?: UploadService;
   mockEventDelayMs?: number;
@@ -196,20 +188,6 @@ export function buildApp(options: BuildAppOptions = {}): FastifyInstance {
   const tierGuard =
     options.tierGuard ?? createTierGuard({ getAdminClient });
 
-  // Payment service — only created when Lemon Squeezy is configured
-  let paymentService: PaymentService | undefined = options.paymentService;
-  if (!paymentService && env.lemonSqueezyApiKey && env.lemonSqueezyStoreId) {
-    const lsClient = createLemonSqueezyClient({
-      apiKey: env.lemonSqueezyApiKey,
-      storeId: env.lemonSqueezyStoreId,
-    });
-    paymentService = createPaymentService({
-      lemonSqueezy: lsClient,
-      getAdminClient,
-      variantMap: buildVariantMap(env),
-      webOrigin: env.webOrigin,
-    });
-  }
 
   const connectionManager = options.connectionManager ?? new ConnectionManager();
   const eventBuffer = new CanvasEventBuffer();
@@ -320,27 +298,13 @@ export function buildApp(options: BuildAppOptions = {}): FastifyInstance {
   void registerSkillRoutes(app, { auth, createUserClient, viewerService });
   void registerMarketplaceRoutes(app, { auth, createUserClient, viewerService });
 
-  // Payment routes — only registered when Lemon Squeezy is configured
-  if (paymentService || (env.paypalClientId && env.paypalClientSecret)) {
-    void registerPaymentRoutes(app, { auth, viewerService, ...(paymentService ? { paymentService } : {}) });
+  void registerUnifiedPaymentWebhookRoute(app, { env, getAdminClient });
 
-    if (paymentService && env.lemonSqueezyWebhookSecret) {
-      // Webhook route is registered in an encapsulated plugin so the custom
-      // content-type parser (needed for raw body access) does not leak to
-      // other routes.
-      void app.register(async (webhookScope) => {
-        await registerPaymentWebhookRoute(webhookScope, {
-          getAdminClient,
-          paymentService: paymentService!,
-          webhookSecret: env.lemonSqueezyWebhookSecret!,
-        });
-      });
-    }
-  }
-  if (env.paypalClientId && env.paypalClientSecret) {
-    void registerPayPalRoutes(app, { auth, paypal: createPayPalClient({ clientId: env.paypalClientId, clientSecret: env.paypalClientSecret, ...(env.paypalEnvironment ? { environment: env.paypalEnvironment } : {}) }), viewerService, getAdminClient, currency: env.paypalCurrency ?? "USD", webOrigin: env.webOrigin });
-  }
+  // Payment routes are enabled when at least one unified provider is configured.
+  if ((env.paypalClientId && env.paypalClientSecret) || env.stripeSecretKey || env.creemApiKey || (env.waffoMerchantId && env.waffoPrivateKey)) {
+    void registerPaymentRoutes(app, { auth, viewerService, paymentManager: createConfiguredPaymentManager(env), getAdminClient, webOrigin: env.webOrigin });
 
+  }
   return app;
 }
 
